@@ -6,7 +6,7 @@
     <meta name="description" content="Track and manage your arcade facilitator program points and badges.">
     <meta name="keywords" content="Arcade Facilitator, Points Counter, Badges, Cloud Skills Boost">
     <title>Points Counter</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -20,6 +20,7 @@
             
             <div class="hidden md:flex space-x-4">
                 <a href="./" class="text-white hover:text-blue-500">Home</a>
+                <a href="https://www.sufiyankhan.tech/" class="text-white hover:text-blue-500">About</a>
                 <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" class="text-white hover:text-blue-500" target="_blank" rel="noopener noreferrer">Join Our Community</a>
             </div>
             <button id="menuToggle" class="md:hidden text-white" aria-label="Toggle Menu">
@@ -28,11 +29,11 @@
                 </svg>
             </button>
         </div>
-        <div id="mobileMenu" class="md:hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex flex-col items-center justify-center space-y-4 hidden">
-
+        <div id="mobileMenu" class="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-90 flex flex-col items-center justify-center space-y-4 hidden z-50">
             <a href="./" class="text-white text-xl hover:text-blue-500">Home</a>
-            <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" class="text-white text-xl hover:text-blue-500" target="_blank" rel="noopener noreferrer">Join Our Community</a>
-            <button id="closeMenu" class="text-white text-3xl" aria-label="Close Menu">&times;</button>
+            <a href="https://www.sufiyankhan.tech/" class="text-white text-xl hover:text-blue-500">About</a>
+            <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" class="text-white text-xl hover:text-blue-500">Join Our Community</a>
+            <button id="closeMenu" class="text-white text-3xl focus:outline-none">&times;</button>
         </div>
     </nav>
     

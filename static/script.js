@@ -5,21 +5,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Toggle mobile menu visibility
     menuToggle.addEventListener('click', function () {
-        console.log('Toggle clicked');
-        mobileMenu.classList.toggle('hidden');
+        mobileMenu.classList.toggle('show');
     });
 
     // Close mobile menu
     closeMenu.addEventListener('click', function () {
-        console.log('Close button clicked');
-        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('show');
     });
 
     // Hide mobile menu if clicked outside
     document.addEventListener('click', function (event) {
         if (!mobileMenu.contains(event.target) && !menuToggle.contains(event.target)) {
-            console.log('Clicked outside');
-            mobileMenu.classList.add('hidden');
+            mobileMenu.classList.remove('show');
         }
     });
 });
