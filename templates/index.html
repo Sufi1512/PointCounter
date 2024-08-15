@@ -83,7 +83,7 @@
                 <h2 class="text-2xl font-semibold mb-4">Cloud Digital Leader ({{ data.badge_counts.cloud_digital_leader_count }})</h2>
                 <div class="flex flex-wrap justify-center gap-4">
                     {% for badge in data.cloud_digital_leader %}
-                        <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 w-64 shadow-md hover:shadow-lg transition-shadow">
+                        <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 w-48 shadow-md hover:shadow-lg transition-shadow">
                             <img src="{{ badge.image }}" alt="{{ badge.title }}" class="w-full h-auto rounded-md mb-2">
                             <h3 class="text-lg font-semibold mb-1">{{ badge.title }}</h3>
                             <p class="text-gray-400">{{ badge.date if badge.date else 'Date not available' }}</p>
@@ -109,7 +109,7 @@
             {% endif %}
 
             <section class="mb-8">
-                <h2 class="text-2xl font-semibold mb-4">Total Badges ({{ data.badge_counts.total_badges }})</h2>
+
                 <h2 class="text-2xl font-semibold mb-4">Total Points ({{ data.points.total_points }})</h2>
                 <ul class="list-disc pl-5 text-gray-400">
                     <li class="mb-2">Normal Skill Badges Points: {{ data.points.normal_skill_badges_points }}</li>
