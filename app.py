@@ -14,7 +14,7 @@ def fetch_data(url):
 
         # Extract user name
         name_element = soup.find('h1', class_='ql-display-small')
-        user_name = name_element.get_text(strip=True) if name_element else 'Unknown User'
+        user_name = name_element.get_text(strip=True) if name_element else 'Arcade User'
 
         # Initialize categories
         categories = {
@@ -64,7 +64,7 @@ def fetch_data(url):
 
 def get_default_data():
     return {
-        'user_name': 'Unknown User',
+        'user_name': 'Arcade User',
         'game_trivia': [],
         'level_games': [],
         'skill_badges': [],
