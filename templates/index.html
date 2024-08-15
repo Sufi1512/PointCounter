@@ -12,7 +12,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../static/styles.css">
 </head>
-<body class="bg-black text-white font-roboto">
+<body class="bg-black text-white font-roboto flex flex-col min-h-screen">
     <!-- Navbar -->
     <nav class="bg-gray-900 p-4">
         <div class="container mx-auto flex justify-between items-center">
@@ -29,13 +29,15 @@
             </button>
         </div>
         <div id="mobileMenu" class="md:hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex flex-col items-center justify-center space-y-4 hidden">
+
             <a href="./" class="text-white text-xl hover:text-blue-500">Home</a>
             <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" class="text-white text-xl hover:text-blue-500" target="_blank" rel="noopener noreferrer">Join Our Community</a>
             <button id="closeMenu" class="text-white text-3xl" aria-label="Close Menu">&times;</button>
         </div>
     </nav>
     
-    <div class="container mx-auto p-4">
+    <!-- Main Content -->
+    <div class="container mx-auto p-4 flex-grow">
         <h1 class="text-3xl font-bold text-center mb-6">Points Counter of {{ data.user_name if data.user_name else '' }}</h1>
 
         <!-- Form for entering URL -->
@@ -123,15 +125,15 @@
         {% endif %}
     </div>
 
+    <!-- Footer -->
     <footer class="text-center py-4 bg-gray-800 text-white mt-8">
-        <p>Built by Sufiyan Khan <a href="https://linkedin.com/in/sufiyankhan15" target="_blank" title="LinkedIn"><i class="fab fa-linkedin fa-lg"></i></a></p>
+        <p>Built by Sufiyan Khan 
+            <a href="https://linkedin.com/in/sufiyankhan15" target="_blank" class="text-blue-500 hover:text-blue-600">LinkedIn</a> |
+            <a href="https://github.com/sufi1512" target="_blank" class="text-blue-500 hover:text-blue-600">GitHub</a>
+        </p>
     </footer>
-
-    <!-- Topper -->
-    <button id="topButton" class="fixed bottom-4 right-4 bg-blue-500 text-white p-2 rounded-full shadow-lg hidden hover:bg-blue-600">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../static/script.js"></script>
 </body>
 </html>
