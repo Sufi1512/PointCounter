@@ -54,7 +54,7 @@ def fetch_data(url):
             'game_trivia_count': len(game_trivia),
             'level_games_count': len(level_games),
             'skill_badges_count': len(skill_badges),
-            'cloud_digital_leader_count': len(cloud_digital_leader)-1,
+            'cloud_digital_leader_count': len(cloud_digital_leader),
             'total_badges': len(game_trivia) + len(level_games) + len(skill_badges) + len(cloud_digital_leader)
         },
         'points': points

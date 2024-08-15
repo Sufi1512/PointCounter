@@ -9,7 +9,6 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="topper.css">
 </head>
 <body class="bg-black text-white font-roboto">
     <!-- Navbar -->
@@ -102,6 +101,13 @@
             <li class="mb-2">Cloud Digital Leader Points: {{ data.points.cloud_digital_leader_points }}</li>
         </ul>
         
+        <!-- New section for badges after July 23, 2024 -->
+        <h2 class="text-2xl font-semibold mt-8 mb-4">Badges Earned After July 23, 2024</h2>
+        {% if data.points.no_badges_after_cutoff %}
+            <p class="text-gray-400">No badges were earned after July 23, 2024.</p>
+        {% else %}
+            <p class="text-gray-400">Number of badges earned after July 23, 2024: {{ data.points.badges_after_cutoff }}</p>
+        {% endif %}
     </div>
 
     <footer class="text-center py-4 bg-gray-800 text-white mt-8">
@@ -115,8 +121,5 @@
         </div>
         <button id="closeTopper">&times;</button>
     </div>
-
-    <script src="topper.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>
