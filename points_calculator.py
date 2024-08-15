@@ -39,11 +39,34 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
                 normal_skill_badges_points += 0.5
                 normal_badges_count += 1
 
-    # Calculate total points
+    # Calculate milestone bonus points
+    milestone = "No Milestone Achieved"
+    milestone_bonus = 0
+
+    if len(level_games) >= 6 and len(game_trivia) >= 8 and len(skill_badges) >= 42:
+        # Ultimate Milestone
+        milestone = "Ultimate Milestone"
+        milestone_bonus = 25
+    elif len(level_games) >= 5 and len(game_trivia) >= 6 and len(skill_badges) >= 28:
+        # Milestone 3
+        milestone = "Milestone 3"
+        milestone_bonus = 15
+    elif len(level_games) >= 3 and len(game_trivia) >= 4 and len(skill_badges) >= 18:
+        # Milestone 2
+        milestone = "Milestone 2"
+        milestone_bonus = 9
+    elif len(level_games) >= 2 and len(game_trivia) >= 2 and len(skill_badges) >= 8:
+        # Milestone 1
+        milestone = "Milestone 1"
+        milestone_bonus = 2
+
+    # Calculate total points including milestone bonus
     if cloud_digital_leader < 5:
         cloud_digital_leader = 0
 
-    total_points = game_trivia_points + level_games_points + int(special_skill_badges_points) + int(normal_skill_badges_points) + cloud_digital_leader
+    total_points = (game_trivia_points + level_games_points +
+                    int(special_skill_badges_points) + int(normal_skill_badges_points) +
+                    cloud_digital_leader + milestone_bonus)
     
     return {
         'game_trivia_points': game_trivia_points,
@@ -53,5 +76,7 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
         'special_badges_count': special_badges_count,
         'normal_badges_count': normal_badges_count,
         'cloud_digital_leader_points': cloud_digital_leader,
+        'milestone': milestone,
+        'milestone_bonus': milestone_bonus,
         'total_points': total_points
     }
