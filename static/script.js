@@ -1,37 +1,24 @@
-// Toggle mobile menu visibility
-document.getElementById('menuToggle').addEventListener('click', () => {
-    document.getElementById('mobileMenu').classList.toggle('hidden');
+// script.js
+
+document.addEventListener('DOMContentLoaded', function () {
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeMenu = document.getElementById('closeMenu');
+
+    // Toggle mobile menu visibility
+    menuToggle.addEventListener('click', function () {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    // Close mobile menu
+    closeMenu.addEventListener('click', function () {
+        mobileMenu.classList.add('hidden');
+    });
+
+    // Hide mobile menu if clicked outside
+    document.addEventListener('click', function (event) {
+        if (!mobileMenu.contains(event.target) && !menuToggle.contains(event.target)) {
+            mobileMenu.classList.add('hidden');
+        }
+    });
 });
-
-document.getElementById('closeMenu').addEventListener('click', () => {
-    document.getElementById('mobileMenu').classList.add('hidden');
-});
-
-// URL validation and error handling
-document.getElementById('profile_url').addEventListener('input', function () {
-    const query = this.value.toLowerCase();
-    if (query === '') {
-        clearError();
-    } else if (validateURL(query)) {
-        clearError();
-    } else {
-        showError('Invalid URL format. Please enter a valid Cloud Skills Boost URL.');
-    }
-});
-
-function validateURL(url) {
-    const regex = /^https:\/\/www\.cloudskillsboost\.google\/public_profiles\/[a-f0-9-]+$/;
-    return regex.test(url);
-}
-
-function showError(message) {
-    const errorDiv = document.getElementById('error');
-    errorDiv.textContent = message;
-    errorDiv.classList.remove('hidden');
-}
-
-function clearError() {
-    const errorDiv = document.getElementById('error');
-    errorDiv.textContent = '';
-    errorDiv.classList.add('hidden');
-}
