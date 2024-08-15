@@ -133,3 +133,99 @@ footer {
 .highlight:hover:after {
     transform: scaleX(1);
 }
+body {
+    font-family: 'Roboto', sans-serif;
+    background-image: url('path-to-your-galaxy-background.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    color: white;
+}
+
+table th {
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+table td {
+    color: #DDDDDD;
+}
+
+.marquee-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+    max-width: 800px;
+
+    
+}
+
+.marquee {
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    background: #333; /* Optional: To ensure the text is readable */
+    padding: 10px; /* Add padding if needed */
+    border-radius: 5px; /* Add rounded corners if needed */
+    max-width: 700px; /* Limit the width */
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Optional: Add shadow for better visibility */
+}
+
+.marquee span {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 10s linear infinite;
+    font-weight: bold;
+    font-size: 18px;
+    white-space: nowrap; /* Ensure the text doesn't overflow */
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(00%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+#userInfo {
+    word-wrap: break-word; /* Ensure long URLs break and wrap within the container */
+    max-width: 100%;
+}
+
+.top-image {
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.top-image:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+@media (max-width: 768px) {
+    /* Ensure proper display on mobile */
+    .marquee {
+        font-size: 16px;
+    }
+}
+/* Center the table horizontally within its container */
+#userTable {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Ensure table content is centered */
+#userTable td,
+#userTable th {
+    text-align: center;
+}
+
+/* Ensure the table is centered within its container */
+.table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Adjust this as needed */
+}
