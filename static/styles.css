@@ -1,0 +1,33 @@
+/* Optional custom styles */
+
+/* Ensures the form elements are visually consistent with Tailwind styles */
+form input[type="text"] {
+    border-color: #ddd;
+}
+
+form button {
+    border-color: #333;
+}
+
+/* Custom utility for container padding */
+.container {
+    padding: 20px;
+}
+
+/* Custom styles for the badge container */
+.badge-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Custom spacing for list items */
+ul li {
+    margin-bottom: 0.5rem;
+}
+
+/* Adjustments for hover effects */
+.badge:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
