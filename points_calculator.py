@@ -33,14 +33,14 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
     game_trivia_before_cutoff = False
     level_games_before_cutoff = False
 
-    # Check game trivia badges
+    # Check if any game trivia badge was earned before the cutoff date
     for badge in game_trivia:
         earned_date = parse_date(badge.get('date'))
         if earned_date and earned_date <= CUTOFF_DATE:
             game_trivia_before_cutoff = True
             break
 
-    # Check level games badges
+    # Check if any level games badge was earned before the cutoff date
     for badge in level_games:
         earned_date = parse_date(badge.get('date'))
         if earned_date and earned_date <= CUTOFF_DATE:
