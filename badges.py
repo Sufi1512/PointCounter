@@ -87,7 +87,7 @@ SKILL_BADGES_LIST = [
         "Build a Website on Google Cloud",
         "Set Up an App Dev Environment on Google Cloud",
         "App Building with AppSheet",
-        "Set Up a Google Cloud Network"
+        "Set Up a Google Cloud Network",
         "Analyze Speech and Language with Google APIs",
         "Analyze Images with the Cloud Vision API",
         "Analyze BigQuery Data in Connected Sheets",
