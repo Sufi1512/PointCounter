@@ -209,6 +209,7 @@ SKILL_BADGES_LIST = [
     "Build Google Cloud Infrastructure for Azure Professionals",
     "Build Google Cloud Infrastructure for AWS Professionals",
     "Build Real World AI Applications with Gemini and Imagen",
+    "Build a Data Mesh with Dataplex",
 
 ]
 
