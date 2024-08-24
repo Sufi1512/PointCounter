@@ -210,6 +210,10 @@ SKILL_BADGES_LIST = [
     "Build Google Cloud Infrastructure for AWS Professionals",
     "Build Real World AI Applications with Gemini and Imagen",
     "Build a Data Mesh with Dataplex",
+    "Implement Cloud Security Fundamentals on Google Cloud" ,
+    "Prepare Data for ML APIs on Google Cloud ",
+    "Set Up an App Dev Environment on Google Cloud",
+    "Create and Manage AlloyDB Instances"
 
 ]
 
