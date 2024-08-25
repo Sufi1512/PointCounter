@@ -21,7 +21,8 @@ def fetch_data(url):
             'game_trivia': [],
             'level_games': [],
             'skill_badges': [],
-            'cloud_digital_leader': []
+            'cloud_digital_leader': [],
+            'flash_games': []
         }
 
         badges = soup.find_all('div', class_='profile-badge')
@@ -37,16 +38,18 @@ def fetch_data(url):
             # Categorize based on title
             if "the arcade trivia" in normalized_title:
                 categories['game_trivia'].append({'title': title, 'image': image_src, 'date': earned_date})
-            elif any(keyword in normalized_title for keyword in ["level", "the arcade base camp", "the arcade certification zone"]):
+            elif any(keyword in normalized_title for keyword in ["level", "the arcade base camp",]):
                 categories['level_games'].append({'title': title, 'image': image_src, 'date': earned_date})
             elif normalized_title in [badge.lower().strip() for badge in SKILL_BADGES_LIST]:
                 categories['skill_badges'].append({'title': title, 'image': image_src, 'date': earned_date})
             elif normalized_title in [badge.lower().strip() for badge in CLOUD_DIGITAL_LEADER_BADGES]:
                 categories['cloud_digital_leader'].append({'title': title, 'image': image_src, 'date': earned_date})
+            elif any(keyword in normalized_title for keyword in ["the arcade-athon", "the arcade certification zone"]):
+                categories['flash_games'].append({'title': title, 'image': image_src, 'date': earned_date})
 
         # Calculate points
         points = calculate_points(categories['skill_badges'], categories['game_trivia'], 
-                                  categories['level_games'], len(categories['cloud_digital_leader'])-1)
+                                  categories['level_games'], len(categories['cloud_digital_leader'])-1, categories['flash_games'])
 
         # Count badges
         badge_counts = {f"{key}_count": len(value) for key, value in categories.items()}
@@ -67,6 +70,7 @@ def get_default_data():
         'user_name': 'Arcade User',
         'game_trivia': [],
         'level_games': [],
+        'flash_games': [],
         'skill_badges': [],
         'cloud_digital_leader': [],
         'badge_counts': {
@@ -74,13 +78,16 @@ def get_default_data():
             'level_games_count': 0,
             'skill_badges_count': 0,
             'cloud_digital_leader_count': 0,
+            'flash_games_count': 0,
             'total_badges': 0
         },
         'points': {
             'total_points': 0,
             'game_trivia_points': 0,
+            'flash_games_points': 0,
             'level_games_points': 0,
             'skill_badges_points': 0,
+
             'cloud_digital_leader_points': 0
         }
     }

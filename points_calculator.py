@@ -16,7 +16,7 @@ def parse_date(date_str):
         # Return None if parsing fails
         return None
 
-def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leader):
+def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leader, flash_games):
     # Initialize points counters
     game_trivia_points = len(game_trivia)
     level_games_points = len(level_games)
@@ -24,8 +24,16 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
     normal_skill_badges_points = 0
     special_badges_count = 0
     normal_badges_count = 0
+    flash_games_points = 0
 
     # Calculate skill badge points
+    for badge in flash_games:
+            title = badge.get('title').lower()
+            if 'the arcade certification zone' in title:
+                flash_games_points += 1
+            elif 'the arcade-athon' in title:
+                flash_games_points += 2
+    
     for badge in skill_badges:
         # Convert earned date string to datetime object
         earned_date = parse_date(badge.get('date'))
@@ -66,16 +74,19 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
 
     total_points = (game_trivia_points + level_games_points +
                     int(special_skill_badges_points) + int(normal_skill_badges_points) +
-                    cloud_digital_leader + milestone_bonus)
+                    cloud_digital_leader + milestone_bonus+flash_games_points)
     
     return {
         'game_trivia_points': game_trivia_points,
         'level_games_points': level_games_points,
+        'flash_games_points': flash_games_points,
         'special_skill_badges_points': special_skill_badges_points,
         'normal_skill_badges_points': int(normal_skill_badges_points), # Convert to integer for consistency
         'special_badges_count': special_badges_count,
+        
         'normal_badges_count': normal_badges_count,
         'cloud_digital_leader_points': cloud_digital_leader,
+        'flash_games_count': len(flash_games),
         'milestone': milestone,
         'milestone_bonus': milestone_bonus,
         'total_points': total_points

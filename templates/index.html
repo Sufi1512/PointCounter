@@ -38,6 +38,7 @@
     </nav>
     
     <!-- Main Content -->
+     
     <div class="container mx-auto p-4 flex-grow">
         <h1 class="text-3xl font-bold text-center mb-6">Points Counter for {{ data.user_name if data.user_name else '' }}</h1>
 
@@ -51,6 +52,7 @@
 
         <!-- Display Badges Sections Only if Data Exists -->
         {% if data.game_trivia or data.level_games or data.cloud_digital_leader or data.skill_badges %}
+        <p class="text-center text-lg mb-8">Scroll down to see your points.</p>
             {% if data.game_trivia %}
             <section class="mb-8">
                 <h2 class="text-2xl font-semibold mb-4">Trivia Game ({{ data.badge_counts.game_trivia_count }})</h2>
@@ -71,6 +73,20 @@
                 <h2 class="text-2xl font-semibold mb-4">Arcade Games ({{ data.badge_counts.level_games_count }})</h2>
                 <div class="flex flex-wrap justify-center gap-4">
                     {% for badge in data.level_games %}
+                        <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 w-64 shadow-md hover:shadow-lg transition-shadow">
+                            <img src="{{ badge.image }}" alt="{{ badge.title }}" class="w-full h-auto rounded-md mb-2">
+                            <h3 class="text-lg font-semibold mb-1">{{ badge.title }}</h3>
+                            <p class="text-gray-400">{{ badge.date if badge.date else 'Date not available' }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+            {% if data.flash_games %}
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold mb-4">Flash Games ({{ data.badge_counts.flash_games_count }})</h2>
+                <div class="flex flex-wrap justify-center gap-4">
+                    {% for badge in data.flash_games %}
                         <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 w-64 shadow-md hover:shadow-lg transition-shadow">
                             <img src="{{ badge.image }}" alt="{{ badge.title }}" class="w-full h-auto rounded-md mb-2">
                             <h3 class="text-lg font-semibold mb-1">{{ badge.title }}</h3>
@@ -117,6 +133,7 @@
                     <li class="mb-2">Normal Skill Badges Points: {{ data.points.normal_skill_badges_points }}</li>
                     <li class="mb-2">Monsoon Skill Badges Points: {{ data.points.special_skill_badges_points }}</li>
                     <li class="mb-2">Arcade Games Points: {{ data.points.level_games_points }}</li>
+                    <li class="mb-2">Flash Games Points: {{ data.points.flash_games_points }}</li>
                     <li class="mb-2">Trivia Game Points: {{ data.points.game_trivia_points }}</li>
                     <li class="mb-2">Bonus Points: {{ data.points.milestone_bonus }}</li>
                     <li class="mb-2">Milestone Earned: {{ data.points.milestone }}</li>
