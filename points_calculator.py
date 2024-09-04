@@ -57,7 +57,7 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
             {"milestone": "Milestone 1 By Criteria 1", "bonus": 2, "level_games": 2, "game_trivia": 2, "skill_badges": 8},
         ],
         "Criteria 2": [
-            {"milestone": "Ultimate Milestone By Criteria 2", "bonus": 25, "level_games": 4, "game_trivia": 4, "skill_badges": 44},
+            {"milestone": "Ultimate Milestone By Criteria 2", "bonus": 30, "level_games": 4, "game_trivia": 4, "skill_badges": 44},
             {"milestone": "Milestone 3 By Criteria 2", "bonus": 19, "level_games": 3, "game_trivia": 3, "skill_badges": 30},
             {"milestone": "Milestone 2 By Criteria 2", "bonus": 11, "level_games": 2, "game_trivia": 2, "skill_badges": 20},
             {"milestone": "Milestone 1 By Criteria 2", "bonus": 3, "level_games": 1, "game_trivia": 1, "skill_badges": 10},
