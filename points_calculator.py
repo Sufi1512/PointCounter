@@ -1,6 +1,7 @@
 from datetime import datetime
 
-# Define date range for special points calculation
+# Define date ranges for filtering badges
+DATE_RANGE = (datetime(2024, 7, 22).date(), datetime(2024, 12, 31).date())
 SPECIAL_DATE_RANGE = (datetime(2024, 7, 22).date(), datetime(2024, 7, 31).date())
 
 def parse_date(date_str):
@@ -8,15 +9,34 @@ def parse_date(date_str):
         return None
     
     try:
-        # Remove the "Earned " prefix and the "EDT" suffix
-        date_str = date_str.replace('Earned ', '').replace(' EDT', '')
+        # Remove the "Earned " prefix and potential suffixes like " EDT" or " EST"
+        date_str = date_str.replace('Earned ', '').replace(' EDT', '').replace(' EST', '')
         # Parse the date string to a datetime object
         return datetime.strptime(date_str, '%b %d, %Y').date()
     except ValueError:
-        # Return None if parsing fails
+        print(f"Failed to parse date: {date_str}")
         return None
 
+def filter_badges_by_date(badges, date_range):
+    """
+    Filters badges that were earned within the specified date range.
+    """
+    start_date, end_date = date_range
+    filtered_badges = []
+    for badge in badges:
+        earned_date = parse_date(badge.get('date'))
+        print(f"Badge: {badge.get('title')}, Date: {earned_date}")  # Debugging line
+        if earned_date and start_date <= earned_date <= end_date:
+            filtered_badges.append(badge)
+    return filtered_badges
+
 def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leader, flash_games):
+    # Filter badges to include only those earned between 22-Jul-2024 and 31-Dec-2024
+    skill_badges = filter_badges_by_date(skill_badges, DATE_RANGE)
+    game_trivia = filter_badges_by_date(game_trivia, DATE_RANGE)
+    level_games = filter_badges_by_date(level_games, DATE_RANGE)
+    flash_games = filter_badges_by_date(flash_games, DATE_RANGE)
+
     # Initialize points counters
     game_trivia_points = len(game_trivia)
     level_games_points = len(level_games)
@@ -36,15 +56,12 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
     
     # Calculate skill badge points
     for badge in skill_badges:
-        # Convert earned date string to datetime object
         earned_date = parse_date(badge.get('date'))
         if earned_date:
             if SPECIAL_DATE_RANGE[0] <= earned_date <= SPECIAL_DATE_RANGE[1]:
-                # Special point rule for skill badges within the date range
                 special_skill_badges_points += 1
                 special_badges_count += 1
             else:
-                # Default rule: 1 point for every 2 skill badges
                 normal_skill_badges_points += 0.5
                 normal_badges_count += 1
 
@@ -104,3 +121,23 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
         'milestone_bonus': milestone_bonus,
         'total_points': total_points
     }
+
+# Example usage
+skill_badges = [
+    {'title': 'Skill Badge 1', 'date': 'Earned Jul 23, 2024 EDT'},
+    {'title': 'Skill Badge 2', 'date': 'Earned Aug 5, 2024 EDT'},
+    {'title': 'Skill Badge 3', 'date': 'Earned Jun 15, 2023 EST'}
+]
+game_trivia = [
+    {'title': 'Trivia 1', 'date': 'Earned Aug 10, 2024 EDT'}
+]
+level_games = [
+    {'title': 'Level Game 1', 'date': 'Earned Nov 10, 2024 EDT'}
+]
+cloud_digital_leader = 3
+flash_games = [
+    {'title': 'The Arcade Certification Zone'}
+]
+
+points = calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leader, flash_games)
+print(points)
