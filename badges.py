@@ -213,8 +213,9 @@ SKILL_BADGES_LIST = [
     "Implement Cloud Security Fundamentals on Google Cloud" ,
     "Prepare Data for ML APIs on Google Cloud ",
     "Set Up an App Dev Environment on Google Cloud",
-    "Create and Manage AlloyDB Instances"
-    "Monitor and Log with Google Cloud Observability"
+    "Create and Manage AlloyDB Instances",
+    "Monitor and Log with Google Cloud Observability",
+    "Generative AI Fundamentals - Locales",
 
 ]
 
