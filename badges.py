@@ -216,6 +216,7 @@ SKILL_BADGES_LIST = [
     "Create and Manage AlloyDB Instances",
     "Monitor and Log with Google Cloud Observability",
     "Generative AI Fundamentals - Locales",
+    "Explore Generative AI with the Vertex AI Gemini API",
 
 ]
 
