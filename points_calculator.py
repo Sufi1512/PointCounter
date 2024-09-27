@@ -105,7 +105,7 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
 
     total_points = (game_trivia_points + level_games_points +
                     int(special_skill_badges_points) + int(normal_skill_badges_points) +
-                    cloud_digital_leader + milestone_bonus + flash_games_points)
+                    cloud_digital_leader  + flash_games_points)
     
     return {
         'game_trivia_points': game_trivia_points,
@@ -117,9 +117,7 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
         'normal_badges_count': normal_badges_count,
         'cloud_digital_leader_points': cloud_digital_leader,
         'flash_games_count': len(flash_games),
-        'milestone': milestone,
-        'milestone_bonus': milestone_bonus,
-        'total_points': total_points
+        'total_points': total_points,
     }
 
 # Example usage
