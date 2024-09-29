@@ -114,26 +114,48 @@
 
         <!-- Swag Eligibility Card -->
         <div class="mb-8 w-full max-w-2xl">
-            <section class="bg-gradient-to-r from-yellow-400 to-red-400 rounded-lg p-4 shadow-lg">
-                <h2 class="text-2xl font-semibold mb-4 text-center">Swag Eligibility</h2>
-                <p class="text-lg text-center">Total Points: <strong class="text-xl">{{ data.points.total_points }}</strong></p>
+            <section class="bg-gradient-to-r from-yellow-400 to-red-400 rounded-lg p-6 shadow-lg">
+                <h2 class="text-3xl font-semibold mb-4 text-center">Swag Eligibility</h2>
+                <p class="text-lg text-center">Total Points: <strong class="text-2xl">{{ data.points.total_points }}</strong></p>
                 <p class="mt-2 text-lg text-center">Based on your total points, you are eligible for:</p>
-                <ul class="list-disc pl-5 text-gray-800 text-lg">
+        
+                <!-- Progress Bar Journey -->
+                <div class="relative mt-4 mb-6">
+                    <!-- Background Bar -->
+                    <div class="w-full bg-gray-300 h-4 rounded-full overflow-hidden">
+                        <!-- Dynamic Progress Bar -->
+                        <div class="bg-blue-600 h-full rounded-full transition-all duration-500"
+                             style="width: {{ (data.points.total_points / 65) * 100 }}%"></div>
+                    </div>
+                    
+                    <!-- Milestone Labels -->
+                    <div class="absolute top-5 inset-x-0 flex justify-between text-sm font-semibold">
+                        <span class="text-gray-600">0</span>
+                        <span class="{% if data.points.total_points >= 15 %}text-blue-600{% else %}text-gray-600{% endif %}">15 (Standard)</span>
+                        <span class="{% if data.points.total_points >= 30 %}text-blue-600{% else %}text-gray-600{% endif %}">30 (Advanced)</span>
+                        <span class="{% if data.points.total_points >= 45 %}text-blue-600{% else %}text-gray-600{% endif %}">45 (Premium)</span>
+                        <span class="{% if data.points.total_points >= 65 %}text-blue-600{% else %}text-gray-600{% endif %}">65 (Premium+)</span>
+                    </div>
+                </div>
+        
+                <!-- Display Eligibility Milestone -->
+                <ul class="list-disc pl-5 pt-5 text-gray-800 text-lg">
                     {% if data.points.total_points >= 65 %}
-                        <li>Premium+ Milestone</li>
+                <p class="text-lg text-center">Total Points: <strong class="text-2xl">{{ data.points.total_points }}</strong></p>
+                        <li class="text-center text-2xl">Premium+ Milestone</li>
                     {% elif data.points.total_points >= 45 %}
-                        <li>Premium Milestone</li>
+                        <li class="text-center text-2xl">Premium Milestone</li>
                     {% elif data.points.total_points >= 30 %}
-                        <li>Advanced Milestone</li>
+                        <li class="text-center text-2xl">Advanced Milestone</li>
                     {% elif data.points.total_points >= 15 %}
-                        <li>Standard Milestone</li>
-                    {% elif data.points.total_points >= 0 %}
-                        <li>No Milestone Achieved</li>
+                        <li class="text-center text-2xl">Standard Milestone</li>
+                    {% else %}
+                        <li class="text-center text-2xl">No Milestone Achieved</li>
                     {% endif %}
                 </ul>
-                
             </section>
         </div>
+        
 
         <!-- User Badges Section -->
         
