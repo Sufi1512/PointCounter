@@ -41,6 +41,10 @@ def fetch_data(url):
         # Extract user name
         name_element = soup.find('h1', class_='ql-display-small')
         user_name = name_element.get_text(strip=True) if name_element else 'Arcade User'
+        
+        # Extract avatar URL
+        avatar_element = soup.find('ql-avatar', class_='profile-avatar')
+        avatar_url = avatar_element['src'] if avatar_element and 'src' in avatar_element.attrs else url_for('static', filename='default_avatar.png')
 
         # Initialize categories
         categories = {
@@ -57,7 +61,7 @@ def fetch_data(url):
             title = badge.find('span', class_='ql-title-medium').get_text(strip=True)
             image_src = badge.find('img')['src']
             earned_date = badge.find('span', class_='ql-body-medium').get_text(strip=True)
-            
+
             # Normalize title
             normalized_title = title.lower().strip()
 
@@ -65,13 +69,13 @@ def fetch_data(url):
             badge_info = {'title': title, 'image': image_src, 'date': earned_date}
             if "the arcade trivia" in normalized_title:
                 categories['game_trivia'].append(badge_info)
-            elif any(keyword in normalized_title for keyword in ["level", "the arcade base camp",]):
+            elif any(keyword in normalized_title for keyword in ["level", "the arcade base camp"]):
                 categories['level_games'].append(badge_info)
             elif normalized_title in [badge.lower().strip() for badge in SKILL_BADGES_LIST]:
                 categories['skill_badges'].append(badge_info)
             elif normalized_title in [badge.lower().strip() for badge in CLOUD_DIGITAL_LEADER_BADGES]:
                 categories['cloud_digital_leader'].append(badge_info)
-            elif any(keyword in normalized_title for keyword in ["the arcade-athon", "the arcade certification zone","arcade explorers"]):
+            elif any(keyword in normalized_title for keyword in ["the arcade-athon", "the arcade certification zone", "arcade explorers"]):
                 categories['flash_games'].append(badge_info)
 
         # Filter badges by date
@@ -79,10 +83,10 @@ def fetch_data(url):
         categories['game_trivia'] = filter_badges_by_date(categories['game_trivia'], DATE_RANGE)
         categories['level_games'] = filter_badges_by_date(categories['level_games'], DATE_RANGE)
         categories['flash_games'] = filter_badges_by_date(categories['flash_games'], DATE_RANGE)
-        
+
         # Calculate points
         points = calculate_points(categories['skill_badges'], categories['game_trivia'], 
-                                  categories['level_games'], len(categories['cloud_digital_leader'])-1, categories['flash_games'])
+                                  categories['level_games'], len(categories['cloud_digital_leader']) - 1, categories['flash_games'])
 
         # Count badges
         badge_counts = {f"{key}_count": len(value) for key, value in categories.items()}
@@ -90,6 +94,7 @@ def fetch_data(url):
 
         return {
             'user_name': user_name,
+            'avatar_url': avatar_url,  # Updated to fetch the avatar URL
             **categories,
             'badge_counts': badge_counts,
             'points': points
@@ -97,6 +102,7 @@ def fetch_data(url):
     except requests.RequestException as e:
         print(f"Error fetching data: {e}")
         return get_default_data()
+
 
 def get_default_data():
     return {

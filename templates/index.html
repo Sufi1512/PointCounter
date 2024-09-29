@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,12 +13,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../static/styles.css">
 </head>
-<body class="bg-black text-white font-roboto flex flex-col min-h-screen m-0">
+
+<body class="bg-gray-900 text-white font-roboto flex flex-col min-h-screen m-0">
     <!-- Navbar -->
-    <nav class="bg-gray-900 p-1">
+    <nav class="bg-gray-800 p-1 shadow">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="https://rsvp.withgoogle.com/events/arcade-facilitator/enrol" class="text-2xl font-bold text-white"  target="_blank">Arcade Facilitator Program</a>
-            
+            <a href="https://rsvp.withgoogle.com/events/arcade-facilitator/enrol" class="text-xl font-bold text-white" target="_blank">Arcade Facilitator Program</a>
             <div class="hidden md:flex space-x-4">
                 <a href="./" class="text-white hover:text-blue-500">Home</a>
                 <a href="https://www.sufiyankhan.tech/" class="text-white hover:text-blue-500" target="_blank">About</a>
@@ -36,23 +37,110 @@
             <button id="closeMenu" class="text-white text-3xl">&times;</button>
         </div>
     </nav>
-    
+
     <!-- Main Content -->
-     
-    <div class="container mx-auto p-4 flex-grow">
-        <h1 class="text-3xl font-bold text-center mb-6">Points Counter for {{ data.user_name if data.user_name else '' }}</h1>
-
+    <div class="container mx-auto p-4 flex-grow flex flex-col items-center">
         <!-- Form for entering URL -->
-        <form action="/" method="POST" class="mb-8 max-w-md mx-auto">
-            <label for="profile_url" class="block text-lg font-medium mb-2">Enter Profile URL:</label>
-            <input type="text" id="profile_url" name="profile_url" placeholder="https://www.cloudskillsboost.google/public_profiles" required class="w-full p-2 border border-gray-700 rounded-lg bg-gray-900 text-white">
-            <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600">Submit</button>
-            <div id="error" class="text-red-500 mt-2 hidden"></div>
-        </form>
+        <div class="w-full max-w-2xl mb-8">
+            <form action="/" method="POST" class="bg-gray-800 rounded-lg p-4 shadow-lg">
+                <label for="profile_url" class="block text-lg font-medium mb-2">Enter Profile URL:</label>
+                <input type="text" id="profile_url" name="profile_url" placeholder="https://www.cloudskillsboost.google/public_profiles" required class="w-full p-2 border border-gray-700 rounded-lg bg-gray-900 text-white">
+                <button type="submit" class="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg shadow hover:bg-green-600">Submit</button>
+                <div id="error" class="text-red-500 mt-2 hidden"></div>
+            </form>
+        </div>
 
+        <!-- User Card -->
+        <div class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg w-full max-w-2xl h-64 shadow-lg mx-auto flex items-center justify-center mb-8">
+            <div class="text-center flex flex-col items-center justify-center">
+                <img src="{{ data.avatar_url }}" alt="User Avatar" class="rounded-full w-28 h-28 mb-2"> 
+                <h2 class="text-white text-lg font-bold">Welcome, {{ data.user_name }}</h2>
+            </div>
+        </div>
+        
+
+        <!-- Points Summary Section -->
+        <div class="mb-10 w-full max-w-2xl">
+            {% if data.game_trivia or data.level_games or data.cloud_digital_leader or data.skill_badges %}
+            <section class="bg-gray-800 rounded-lg p-4 shadow-lg">
+                <h2 class="text-xl font-semibold mb-4 text-center">Points Summary</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-gray-800 border border-gray-700">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b border-gray-600 text-left">Category</th>
+                                <th class="py-2 px-4 border-b border-gray-600 text-right">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-2 px-4 border-b border-gray-600">Normal Skill Badges Points</td>
+                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.normal_skill_badges_points }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b border-gray-600">Monsoon Skill Badges Points</td>
+                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.special_skill_badges_points }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b border-gray-600">Arcade Games Points</td>
+                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.level_games_points }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b border-gray-600">Flash Games Points</td>
+                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.flash_games_points }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b border-gray-600">Trivia Game Points</td>
+                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.game_trivia_points }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b border-gray-600">Cloud Digital Leader Points</td>
+                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.cloud_digital_leader_points }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b border-gray-600">Bonus Points</td>
+                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.milestone_bonus }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b border-gray-600">Milestone Earned</td>
+                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.milestone }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            {% endif %}
+        </div>
+
+        <!-- Swag Eligibility Card -->
+        <div class="mb-8 w-full max-w-2xl">
+            <section class="bg-gradient-to-r from-yellow-400 to-red-400 rounded-lg p-4 shadow-lg">
+                <h2 class="text-2xl font-semibold mb-4 text-center">Swag Eligibility</h2>
+                <p class="text-lg text-center">Total Points: <strong class="text-xl">{{ data.points.total_points }}</strong></p>
+                <p class="mt-2 text-lg text-center">Based on your total points, you are eligible for:</p>
+                <ul class="list-disc pl-5 text-gray-800 text-lg">
+                    {% if data.points.total_points >= 65 %}
+                        <li>Premium+ Milestone</li>
+                    {% elif data.points.total_points >= 45 %}
+                        <li>Premium Milestone</li>
+                    {% elif data.points.total_points >= 30 %}
+                        <li>Advanced Milestone</li>
+                    {% elif data.points.total_points >= 15 %}
+                        <li>Standard Milestone</li>
+                    {% elif data.points.total_points >= 0 %}
+                        <li>No Milestone Achieved</li>
+                    {% endif %}
+                </ul>
+                
+            </section>
+        </div>
+
+        <!-- User Badges Section -->
+        
         <!-- Display Badges Sections Only if Data Exists -->
         {% if data.game_trivia or data.level_games or data.cloud_digital_leader or data.skill_badges %}
-        <p class="text-center text-lg mb-8">Scroll down to see your points.</p>
+        <p class="text-center text-3xl font-bold mb-8">Your Badges.</p>
+
             {% if data.game_trivia %}
             <section class="mb-8">
                 <h2 class="text-2xl font-semibold mb-4">Trivia Game ({{ data.badge_counts.game_trivia_count }})</h2>
@@ -126,46 +214,47 @@
                 </div>
             </section>
             {% endif %}
-
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold mb-4">Total Points ({{ data.points.total_points }})</h2>
-                <ul class="list-disc pl-5 text-gray-400">
-                    <li class="mb-2">Normal Skill Badges Points: {{ data.points.normal_skill_badges_points }}</li>
-                    <li class="mb-2">Monsoon Skill Badges Points: {{ data.points.special_skill_badges_points }}</li>
-                    <li class="mb-2">Arcade Games Points: {{ data.points.level_games_points }}</li>
-                    <li class="mb-2">Flash Games Points: {{ data.points.flash_games_points }}</li>
-                    <li class="mb-2">Trivia Game Points: {{ data.points.game_trivia_points }}</li>
-                    <li class="mb-2">Cloud Digital Leader Points: {{ data.points.cloud_digital_leader_points }}</li>
-                </ul>
-            </section>
-            {% else %}
-            <p class="text-center text-lg">No data available. Please enter a valid profile URL to fetch your badges and points.</p>
-            <p class="text-center mt-4">Find below how points are calculated:</p>
-            <!-- Image container -->
-            <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4 mt-4">
-                <!-- First Image -->
-                <img src="{{ url_for('static', filename='p2.png') }}" alt="Point System Image 1" 
-                     class="w-full md:w-1/4 aspect-video object-cover rounded-lg border-2 border-gray-300 shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out">
-            
-                <!-- Second Image -->
-                <img src="{{ url_for('static', filename='pointsytem.png') }}" alt="Point System Image 2" 
-                     class="w-full md:w-1/2 aspect-video object-cover rounded-lg border-2 border-gray-300 shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out">
-            </div>
-            
         {% endif %}
-        
-        
     </div>
 
     <!-- Footer -->
-    <footer class="text-center py-4 bg-gray-800 text-white mt-8">
-        <p>Built by Sufiyan Khan 
-            <a href="https://linkedin.com/in/sufiyankhan15" target="_blank" class="text-blue-500 hover:text-blue-600">LinkedIn</a> |
-            <a href="https://github.com/sufi1512" target="_blank" class="text-blue-500 hover:text-blue-600">GitHub</a>
-        </p>
+    <footer class="bg-gray-900 p-4 mt-4">
+        <div class="container mx-auto text-center">
+            <p class="text-gray-400">
+                Built by Sufiyan Khan | Connect with me on 
+                <a href="https://www.linkedin.com/in/sufiyankhan15" class="text-blue-500" target="_blank">LinkedIn</a> and 
+                <a href="https://github.com/sufi1512" class="text-blue-500" target="_blank">GitHub</a>.
+            </p>
+        </div>
     </footer>
     
+    <script>
+        // Function to update visitor count
+        function updateVisitorCount() {
+            let count = localStorage.getItem('visitorCount') ? parseInt(localStorage.getItem('visitorCount')) : 0;
+            count++;
+            localStorage.setItem('visitorCount', count);
+            document.getElementById('visitorCount').innerText = count;
+        }
+    
+        // Call the function on page load
+        window.onload = updateVisitorCount;
+    </script>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../static/script.js"></script>
+    <script>
+        // Menu toggle functionality
+        $('#menuToggle').on('click', function () {
+            $('#mobileMenu').toggleClass('hidden');
+        });
+
+        $('#closeMenu').on('click', function () {
+            $('#mobileMenu').addClass('hidden');
+        });
+    </script>
+    
 </body>
+
 </html>

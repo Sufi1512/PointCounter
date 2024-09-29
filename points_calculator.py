@@ -1,8 +1,9 @@
 from datetime import datetime
 
-# Define date ranges for filtering badges
-DATE_RANGE = (datetime(2024, 7, 22).date(), datetime(2024, 12, 31).date())
-SPECIAL_DATE_RANGE = (datetime(2024, 7, 22).date(), datetime(2024, 7, 31).date())
+# Define date ranges
+FACILITATOR_DATE_RANGE = (datetime(2024, 7, 22).date(), datetime(2024, 9, 27).date())  # Facilitator program bonus points range
+DATE_RANGE = (datetime(2024, 7, 22).date(), datetime(2024, 12, 31).date())  # General badge earning range
+SPECIAL_DATE_RANGE = (datetime(2024, 7, 22).date(), datetime(2024, 7, 31).date())  # Special bonus period
 
 def parse_date(date_str):
     if date_str is None:
@@ -25,7 +26,6 @@ def filter_badges_by_date(badges, date_range):
     filtered_badges = []
     for badge in badges:
         earned_date = parse_date(badge.get('date'))
-        print(f"Badge: {badge.get('title')}, Date: {earned_date}")  # Debugging line
         if earned_date and start_date <= earned_date <= end_date:
             filtered_badges.append(badge)
     return filtered_badges
@@ -37,14 +37,19 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
     level_games = filter_badges_by_date(level_games, DATE_RANGE)
     flash_games = filter_badges_by_date(flash_games, DATE_RANGE)
 
+    # Filter badges within facilitator bonus range
+    facilitator_skill_badges = filter_badges_by_date(skill_badges, FACILITATOR_DATE_RANGE)
+    facilitator_game_trivia = filter_badges_by_date(game_trivia, FACILITATOR_DATE_RANGE)
+    facilitator_level_games = filter_badges_by_date(level_games, FACILITATOR_DATE_RANGE)
+
     # Initialize points counters
     game_trivia_points = len(game_trivia)
     level_games_points = len(level_games)
+    flash_games_points = 0
     special_skill_badges_points = 0
     normal_skill_badges_points = 0
     special_badges_count = 0
     normal_badges_count = 0
-    flash_games_points = 0
 
     # Calculate flash games points
     for badge in flash_games:
@@ -53,16 +58,16 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
             flash_games_points += 1
         elif 'the arcade-athon' or 'arcade explorers' in title:
             flash_games_points += 2
-    
+
     # Calculate skill badge points
     for badge in skill_badges:
         earned_date = parse_date(badge.get('date'))
         if earned_date:
             if SPECIAL_DATE_RANGE[0] <= earned_date <= SPECIAL_DATE_RANGE[1]:
-                special_skill_badges_points += 1
+                special_skill_badges_points += 1  # Special bonus for skill badges earned in this period
                 special_badges_count += 1
             else:
-                normal_skill_badges_points += 0.5
+                normal_skill_badges_points += 0.5  # Normal skill badge points
                 normal_badges_count += 1
 
     # Define cases as dictionaries with criteria and corresponding milestone details
@@ -89,7 +94,8 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
     criteria_milestones = []
     for criteria, milestones in cases.items():
         for m in milestones:
-            if len(level_games) >= m["level_games"] and len(game_trivia) >= m["game_trivia"] and len(skill_badges) >= m["skill_badges"]:
+            if len(facilitator_level_games) >= m["level_games"] and len(facilitator_game_trivia) >= m["game_trivia"] and len(facilitator_skill_badges) >= m["skill_badges"]:
+                # Only badges within the facilitator date range are counted for milestone bonus
                 criteria_milestones.append({"criteria": criteria, "milestone": m["milestone"], "bonus": m["bonus"]})
                 break  # Stop checking further milestones in this criteria as they are ordered from highest to lowest
 
@@ -105,37 +111,19 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
 
     total_points = (game_trivia_points + level_games_points +
                     int(special_skill_badges_points) + int(normal_skill_badges_points) +
-                    cloud_digital_leader  + flash_games_points)
+                    cloud_digital_leader + flash_games_points + milestone_bonus)
     
     return {
         'game_trivia_points': game_trivia_points,
         'level_games_points': level_games_points,
         'flash_games_points': flash_games_points,
         'special_skill_badges_points': special_skill_badges_points,
-        'normal_skill_badges_points': int(normal_skill_badges_points), # Convert to integer for consistency
+        'normal_skill_badges_points': int(normal_skill_badges_points),  # Convert to integer for consistency
         'special_badges_count': special_badges_count,
         'normal_badges_count': normal_badges_count,
         'cloud_digital_leader_points': cloud_digital_leader,
         'flash_games_count': len(flash_games),
+        'milestone': milestone,
+        'milestone_bonus': milestone_bonus,
         'total_points': total_points,
     }
-
-# Example usage
-skill_badges = [
-    {'title': 'Skill Badge 1', 'date': 'Earned Jul 23, 2024 EDT'},
-    {'title': 'Skill Badge 2', 'date': 'Earned Aug 5, 2024 EDT'},
-    {'title': 'Skill Badge 3', 'date': 'Earned Jun 15, 2023 EST'}
-]
-game_trivia = [
-    {'title': 'Trivia 1', 'date': 'Earned Aug 10, 2024 EDT'}
-]
-level_games = [
-    {'title': 'Level Game 1', 'date': 'Earned Nov 10, 2024 EDT'}
-]
-cloud_digital_leader = 3
-flash_games = [
-    {'title': 'The Arcade Certification Zone'}
-]
-
-points = calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leader, flash_games)
-print(points)
