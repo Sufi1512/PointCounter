@@ -62,5 +62,6 @@ CLOUD_DIGITAL_LEADER_BADGES = [
     "Modernize Infrastructure and Applications with Google Cloud",
     "Innovating with Google Cloud Artificial Intelligence",
     "Exploring Data Transformation with Google Cloud",
-    "Digital Transformation with Google Cloud"
+    "Digital Transformation with Google Cloud",
+    "Get Started with Sensitive Data Protection",
 ]
