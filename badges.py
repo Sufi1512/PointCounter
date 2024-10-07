@@ -53,7 +53,8 @@ SKILL_BADGES_LIST = [
                                                            'Develop with Apps Script and AppSheet', 'Build LookML Objects in Looker', 'Secure BigLake Data', 
                                                            'Monitor Environments with Google Cloud Managed Service for Prometheus', 'Manage Data Models in Looker',
                                                              'App Engine: 3 Ways', 'Develop your Google Cloud Network',
-                                                    'Develop GenAI Apps with Gemini and Streamlit']
+                                                    'Develop GenAI Apps with Gemini and Streamlit',
+                                                    'Get Started with Sensitive Data Protection',]
 
 # Cloud Digital Leader badges
 CLOUD_DIGITAL_LEADER_BADGES = [
@@ -63,5 +64,5 @@ CLOUD_DIGITAL_LEADER_BADGES = [
     "Innovating with Google Cloud Artificial Intelligence",
     "Exploring Data Transformation with Google Cloud",
     "Digital Transformation with Google Cloud",
-    "Get Started with Sensitive Data Protection",
+    
 ]
