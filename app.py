@@ -75,7 +75,7 @@ def fetch_data(url):
                 categories['skill_badges'].append(badge_info)
             elif normalized_title in [badge.lower().strip() for badge in CLOUD_DIGITAL_LEADER_BADGES]:
                 categories['cloud_digital_leader'].append(badge_info)
-            elif any(keyword in normalized_title for keyword in ["the arcade-athon", "the arcade certification zone", "arcade explorers","trick-or-skills"]):
+            elif any(keyword in normalized_title for keyword in ["the arcade-athon", "the arcade certification zone", "arcade explorers","trick-or-skills","diwali in the arcade"]):
                 categories['flash_games'].append(badge_info)
 
         # Filter badges by date
