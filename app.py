@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import requests
 from bs4 import BeautifulSoup
 from points_calculator import calculate_points
-from badges import SKILL_BADGES_LIST, CLOUD_DIGITAL_LEADER_BADGES
+from badges import SKILL_BADGES_LIST, CLOUD_DIGITAL_LEADER_BADGES, Arcade_Classroom
 from datetime import datetime
 
 app = Flask(__name__)
@@ -52,7 +52,8 @@ def fetch_data(url):
             'level_games': [],
             'skill_badges': [],
             'cloud_digital_leader': [],
-            'flash_games': []
+            'flash_games': [],
+            'arcade_Classroom': [],
         }
 
         badges = soup.find_all('div', class_='profile-badge')
@@ -75,6 +76,9 @@ def fetch_data(url):
                 categories['skill_badges'].append(badge_info)
             elif normalized_title in [badge.lower().strip() for badge in CLOUD_DIGITAL_LEADER_BADGES]:
                 categories['cloud_digital_leader'].append(badge_info)
+            elif normalized_title in [badge.lower().strip() for badge in Arcade_Classroom]:
+                categories['arcade_Classroom'].append(badge_info)
+            
             elif any(keyword in normalized_title for keyword in ["the arcade-athon", "the arcade certification zone", "arcade explorers","trick-or-skills","diwali in the arcade"]):
                 categories['flash_games'].append(badge_info)
 
@@ -86,7 +90,7 @@ def fetch_data(url):
 
         # Calculate points
         points = calculate_points(categories['skill_badges'], categories['game_trivia'], 
-                                  categories['level_games'], len(categories['cloud_digital_leader']) - 1, categories['flash_games'])
+                                  categories['level_games'], len(categories['cloud_digital_leader']) - 1, categories['flash_games'], len(categories['arcade_Classroom'])/2)
 
         # Count badges
         badge_counts = {f"{key}_count": len(value) for key, value in categories.items()}
@@ -112,11 +116,13 @@ def get_default_data():
         'flash_games': [],
         'skill_badges': [],
         'cloud_digital_leader': [],
+        'arcade_Classroom': [],
         'badge_counts': {
             'game_trivia_count': 0,
             'level_games_count': 0,
             'skill_badges_count': 0,
             'cloud_digital_leader_count': 0,
+            'arcade_Classroom_count': 0,
             'flash_games_count': 0,
             'total_badges': 0
         },
@@ -126,7 +132,8 @@ def get_default_data():
             'flash_games_points': 0,
             'level_games_points': 0,
             'skill_badges_points': 0,
-            'cloud_digital_leader_points': 0
+            'cloud_digital_leader_points': 0,
+            'arcade_Classroom_points': 0,
         }
     }
 

@@ -66,3 +66,14 @@ CLOUD_DIGITAL_LEADER_BADGES = [
     "Digital Transformation with Google Cloud",
     
 ]
+# Arcade Classroom badges
+Arcade_Classroom =[
+    "Webhook Fundamentals",
+    "Advanced Webhook Concepts",
+    "Basic Performance Measurement",
+    "Advanced Performance Measurement",
+    "CCAI Frontend Integrations",
+    "CCAI Architecture",
+    "Conversation Design Fundamentals",
+    "Advanced Conversation Design",
+]

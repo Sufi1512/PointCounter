@@ -61,7 +61,7 @@
 
         <!-- Points Summary Section -->
         <div class="mb-10 w-full max-w-2xl">
-            {% if data.game_trivia or data.level_games or data.cloud_digital_leader or data.skill_badges %}
+            {% if data.game_trivia or data.level_games or data.cloud_digital_leader or data.skill_badges or data.arcade_classroom %}
             <section class="bg-gray-800 rounded-lg p-4 shadow-lg">
                 <h2 class="text-xl font-semibold mb-4 text-center">Points Summary</h2>
                 <div class="overflow-x-auto">
@@ -96,6 +96,10 @@
                             <tr>
                                 <td class="py-2 px-4 border-b border-gray-600">Cloud Digital Leader Points</td>
                                 <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.cloud_digital_leader_points }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b border-gray-600">Arcade Classroom Points</td>
+                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.arcade_classroom_points }}</td>
                             </tr>
                             <tr>
                                 <td class="py-2 px-4 border-b border-gray-600">Bonus Points</td>
@@ -160,7 +164,7 @@
         <!-- User Badges Section -->
         
         <!-- Display Badges Sections Only if Data Exists -->
-        {% if data.game_trivia or data.level_games or data.cloud_digital_leader or data.skill_badges %}
+        {% if data.game_trivia or data.level_games or data.cloud_digital_leader or data.skill_badges or data.arcade_classroom %}
         <p class="text-center text-3xl font-bold mb-8">Your Badges.</p>
 
             {% if data.game_trivia %}
@@ -221,6 +225,22 @@
                 </div>
             </section>
             {% endif %}
+            {% if data.arcade_Classroom %}
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold mb-4">Arcade Classroom ({{ data.badge_counts.arcade_Classroom_count }})</h2>
+                <div class="flex flex-wrap justify-center gap-4">
+                    {% for badge in data.arcade_Classroom %}
+                        <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 w-48 shadow-md hover:shadow-lg transition-shadow">
+                            <img src="{{ badge.image }}" alt="{{ badge.title }}" class="w-full h-auto rounded-md mb-2">
+                            <h3 class="text-lg font-semibold mb-1">{{ badge.title }}</h3>
+                            <p class="text-gray-400">{{ badge.date if badge.date else 'Date not available' }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+           
 
             {% if data.skill_badges %}
             <section class="mb-8">

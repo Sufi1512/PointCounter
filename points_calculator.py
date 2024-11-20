@@ -30,7 +30,7 @@ def filter_badges_by_date(badges, date_range):
             filtered_badges.append(badge)
     return filtered_badges
 
-def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leader, flash_games):
+def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leader, flash_games, arcade_classroom):
     # Filter badges to include only those earned between 22-Jul-2024 and 31-Dec-2024
     skill_badges = filter_badges_by_date(skill_badges, DATE_RANGE)
     game_trivia = filter_badges_by_date(game_trivia, DATE_RANGE)
@@ -111,7 +111,8 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
 
     total_points = (game_trivia_points + level_games_points +
                     int(special_skill_badges_points) + int(normal_skill_badges_points) +
-                    cloud_digital_leader + flash_games_points + milestone_bonus)
+                    cloud_digital_leader + flash_games_points + int(milestone_bonus+arcade_classroom))
+    
     
     return {
         'game_trivia_points': game_trivia_points,
@@ -122,6 +123,7 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
         'special_badges_count': special_badges_count,
         'normal_badges_count': normal_badges_count,
         'cloud_digital_leader_points': cloud_digital_leader,
+        'arcade_classroom_points': arcade_classroom,
         'flash_games_count': len(flash_games),
         'milestone': milestone,
         'milestone_bonus': milestone_bonus,
