@@ -144,8 +144,11 @@
         
                 <!-- Display Eligibility Milestone -->
                 <ul class="list-disc pl-5 pt-5 text-gray-800 text-lg">
-                    {% if data.points.total_points >= 65 %}
-                <p class="text-lg text-center">Total Points: <strong class="text-2xl">{{ data.points.total_points }}</strong></p>
+                    {% if data.points.total_points >= 75 %}
+                        <p class="text-lg text-center">Total Points: <strong class="text-2xl">{{ data.points.total_points }}</strong></p>
+                        <li class="text-center text-2xl">Champions Milestone</li>
+                    {% elif data.points.total_points >= 65 %}
+                        <p class="text-lg text-center">Total Points: <strong class="text-2xl">{{ data.points.total_points }}</strong></p>
                         <li class="text-center text-2xl">Premium+ Milestone</li>
                     {% elif data.points.total_points >= 45 %}
                         <li class="text-center text-2xl">Premium Milestone</li>
@@ -157,6 +160,7 @@
                         <li class="text-center text-2xl">No Milestone Achieved</li>
                     {% endif %}
                 </ul>
+                
             </section>
         </div>
         
