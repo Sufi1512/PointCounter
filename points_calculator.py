@@ -56,7 +56,7 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
         title = badge.get('title').lower()
         if 'the arcade certification zone' in title:
             flash_games_points += 1
-        elif 'the arcade-athon' or 'arcade explorers' or 'trick-or-skills' or 'diwali in the arcade' in title:
+        elif 'the arcade-athon' or 'arcade explorers' or 'trick-or-skills' or 'diwali in the arcade' or 'arcade snowdown'in title:
             flash_games_points += 2
 
     # Calculate skill badge points

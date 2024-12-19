@@ -79,7 +79,7 @@ def fetch_data(url):
             elif normalized_title in [badge.lower().strip() for badge in Arcade_Classroom]:
                 categories['arcade_Classroom'].append(badge_info)
             
-            elif any(keyword in normalized_title for keyword in ["the arcade-athon", "the arcade certification zone", "arcade explorers","trick-or-skills","diwali in the arcade"]):
+            elif any(keyword in normalized_title for keyword in ["the arcade-athon", "the arcade certification zone", "arcade explorers","trick-or-skills","diwali in the arcade","arcade snowdown"]):
                 categories['flash_games'].append(badge_info)
 
         # Filter badges by date
