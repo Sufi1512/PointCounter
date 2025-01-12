@@ -50,6 +50,16 @@
             </form>
         </div>
 
+        <!-- Cohort Update Message -->
+        {% if not cohort_active %}
+        <div class="w-full max-w-2xl mb-8 text-center">
+            <div class="bg-yellow-500 text-white rounded-lg p-4 shadow-lg">
+                <p class="text-xl font-semibold">Arcade Cohort 2025 will be updated soon!</p>
+                <p class="mt-2">Please check back later for the latest updates.</p>
+            </div>
+        </div>
+        {% endif %}
+
         <!-- User Card -->
         <div class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg w-full max-w-2xl h-64 shadow-lg mx-auto flex items-center justify-center mb-8">
             <div class="text-center flex flex-col items-center justify-center">

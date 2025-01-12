@@ -139,13 +139,18 @@ def get_default_data():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    cohort_active = False  # Set this to False to indicate the cohort is not active
     if request.method == 'POST':
         profile_url = request.form.get('profile_url')
-        data = fetch_data(profile_url) if profile_url else get_default_data()
+        if cohort_active:
+            data = fetch_data(
+                profile_url) if profile_url else get_default_data()
+        else:
+            data = get_default_data()
     else:
         data = get_default_data()
-    
-    return render_template('index.html', data=data)
+
+    return render_template('index.html', data=data, cohort_active=cohort_active)
 
 @app.route('/about', methods=['GET', 'POST'])
 def about():
