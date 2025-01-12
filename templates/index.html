@@ -1,263 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <!-- Previous head content remains the same -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Track and manage your arcade facilitator program points and badges.">
     <meta name="keywords" content="Arcade Facilitator, Points Counter, Badges, Cloud Skills Boost">
-    <title>Points Counter</title>
+    <title>Arcade Facilitator Dashboard</title>
     <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../static/styles.css">
+
+    <style>
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #60A5FA;
+            transition: width 0.3s ease-in-out;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-transition {
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-900 text-white font-roboto flex flex-col min-h-screen m-0">
-    <!-- Navbar -->
-    <nav class="bg-gray-800 p-1 shadow">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="https://rsvp.withgoogle.com/events/arcade-facilitator/enrol" class="text-xl font-bold text-white" target="_blank">Arcade Facilitator Program</a>
-            <div class="hidden md:flex space-x-4">
-                <a href="./" class="text-white hover:text-blue-500">Home</a>
-                <a href="https://www.sufiyankhan.tech/" class="text-white hover:text-blue-500" target="_blank">About</a>
-                <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" class="text-white hover:text-blue-500" target="_blank" rel="noopener noreferrer">Join Our Community</a>
+<body class="bg-gray-900 text-white font-roboto flex flex-col min-h-screen">
+    <!-- Improved Navbar -->
+    <nav class="bg-gray-800 shadow-lg border-b border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo and Brand -->
+                <div class="flex items-center">
+                    <a href="https://rsvp.withgoogle.com/events/arcade-facilitator/enrol" 
+                       class="flex items-center text-xl font-bold text-white hover:text-blue-400 transition-colors duration-300" 
+                       target="_blank">
+                        <i class="fas fa-gamepad mr-2"></i>
+                        Arcade Facilitator
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex md:items-center md:space-x-8">
+                    <a href="./" 
+                       class="nav-link text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-300">
+                        Home
+                    </a>
+                    <a href="https://www.sufiyankhan.tech/" 
+                       class="nav-link text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-300" 
+                       target="_blank">
+                        About
+                    </a>
+                    <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" 
+                       class="nav-link text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-300" 
+                       target="_blank">
+                        Community
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="menuToggle" 
+                            class="text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 p-2 rounded-md">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
             </div>
-            <button id="menuToggle" class="md:hidden text-white" aria-label="Toggle Menu">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-            </button>
         </div>
-        <div id="mobileMenu" class="md:hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex flex-col items-center justify-center space-y-4 hidden">
-            <a href="./" class="text-white text-xl hover:text-blue-500">Home</a>
-            <a href="https://www.sufiyankhan.tech/" class="text-white text-xl hover:text-blue-500" target="_blank">About</a>
-            <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" class="text-white text-xl hover:text-blue-500" target="_blank">Join Our Community</a>
-            <button id="closeMenu" class="text-white text-3xl">&times;</button>
+
+        <!-- Mobile menu -->
+        <div id="mobileMenu" 
+             class="hidden md:hidden fixed inset-0 z-50 bg-gray-800 bg-opacity-95 mobile-menu-transition">
+            <div class="fixed inset-0 flex items-center justify-center">
+                <div class="flex flex-col items-center space-y-8">
+                    <a href="./" 
+                       class="text-white text-xl hover:text-blue-400 transition-colors duration-300">
+                        Home
+                    </a>
+                    <a href="https://www.sufiyankhan.tech/" 
+                       class="text-white text-xl hover:text-blue-400 transition-colors duration-300" 
+                       target="_blank">
+                        About
+                    </a>
+                    <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" 
+                       class="text-white text-xl hover:text-blue-400 transition-colors duration-300" 
+                       target="_blank">
+                        Community
+                    </a>
+                    <button id="closeMenu" 
+                            class="mt-8 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 p-2 rounded-md">
+                        <span class="sr-only">Close menu</span>
+                        <i class="fas fa-times text-3xl"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </nav>
-
-    <!-- Main Content -->
-    <div class="container mx-auto p-4 flex-grow flex flex-col items-center">
-        <!-- Form for entering URL -->
-        <div class="w-full max-w-2xl mb-8">
-            <form action="/" method="POST" class="bg-gray-800 rounded-lg p-4 shadow-lg">
-                <label for="profile_url" class="block text-lg font-medium mb-2">Enter Profile URL:</label>
-                <input type="text" id="profile_url" name="profile_url" placeholder="https://www.cloudskillsboost.google/public_profiles" required class="w-full p-2 border border-gray-700 rounded-lg bg-gray-900 text-white">
-                <button type="submit" class="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg shadow hover:bg-green-600">Submit</button>
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <!-- URL Input Form -->
+        <section class="max-w-2xl mx-auto mb-8">
+            <form action="/" method="POST" class="bg-gray-800 rounded-lg p-6 shadow-xl">
+                <label for="profile_url" class="block text-lg font-medium mb-3">Enter Your Profile URL:</label>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="url" id="profile_url" name="profile_url" 
+                           placeholder="https://www.cloudskillsboost.google/public_profiles/your-profile" 
+                           required 
+                           class="flex-grow p-3 border border-gray-700 rounded-lg bg-gray-900 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-colors">
+                        Submit
+                    </button>
+                </div>
                 <div id="error" class="text-red-500 mt-2 hidden"></div>
             </form>
-        </div>
+        </section>
 
-        <!-- Cohort Update Message -->
+        <!-- Cohort Update Alert -->
         {% if cohort_active %}
-        <div class="w-full max-w-2xl mb-8 text-center">
-            <div class="bg-yellow-500 text-white rounded-lg p-4 shadow-lg">
-                <p class="text-xl font-semibold">Arcade Cohort 2025 will be updated soon!</p>
-                <p class="mt-2">Please check back later for the latest updates.</p>
+        <div class="max-w-2xl mx-auto mb-8">
+            <div class="bg-yellow-600 text-white rounded-lg p-4 shadow-lg">
+                <p class="text-xl font-semibold text-center">Arcade Cohort 2025 Updates Coming Soon!</p>
+                <p class="mt-2 text-center">Stay tuned for the latest information.</p>
             </div>
         </div>
         {% endif %}
 
-        <!-- User Card -->
-        <div class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg w-full max-w-2xl h-64 shadow-lg mx-auto flex items-center justify-center mb-8">
-            <div class="text-center flex flex-col items-center justify-center">
-                <img src="{{ data.avatar_url }}" alt="User Avatar" class="rounded-full w-28 h-28 mb-2"> 
-                <h2 class="text-white text-lg font-bold">Welcome, {{ data.user_name }}</h2>
-            </div>
-        </div>
-        
-
-        <!-- Points Summary Section -->
-        <div class="mb-10 w-full max-w-2xl">
-            {% if data.game_trivia or data.level_games or data.cloud_digital_leader or data.skill_badges or data.arcade_classroom %}
-            <section class="bg-gray-800 rounded-lg p-4 shadow-lg">
-                <h2 class="text-xl font-semibold mb-4 text-center">Points Summary</h2>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full bg-gray-800 border border-gray-700">
-                        <thead>
-                            <tr>
-                                <th class="py-2 px-4 border-b border-gray-600 text-left">Category</th>
-                                <th class="py-2 px-4 border-b border-gray-600 text-right">Points</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="py-2 px-4 border-b border-gray-600">Skill Badges Points</td>
-                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.normal_skill_badges_points }}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 px-4 border-b border-gray-600">Arcade Games Points</td>
-                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.level_games_points }}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 px-4 border-b border-gray-600">Trivia Game Points</td>
-                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.game_trivia_points }}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 px-4 border-b border-gray-600">Total Points</td>
-                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.total_points }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <!-- User Profile Card -->
+        <section class="max-w-2xl mx-auto mb-8">
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-8 shadow-2xl">
+                <div class="flex flex-col items-center">
+                    <img src="{{ data.avatar_url }}" alt="Profile Picture" 
+                         class="w-32 h-32 rounded-full border-4 border-white shadow-lg mb-4">
+                    <h1 class="text-2xl font-bold text-white">{{ data.user_name }}</h1>
                 </div>
-            </section>
-            {% endif %}
-        </div>
+            </div>
+        </section>
 
-        <!-- Swag Eligibility Card -->
-        <div class="mb-8 w-full max-w-2xl">
-            <section class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg p-6 shadow-2xl">
-                <!-- Additional Information -->
-                <p class="mt-4 text-center text-xl text-white font-serif">
-                    Prize counter will open in July and no swags milestone has been announced yet. You can use the platform to count your arcade points.
-                </p>
-                <p class="mt-4 text-center text-xl text-white font-serif">
-                    Important: Please use a new Google account for this Cohort 2025 Google Cloud Arcade Program and ensure your points are accurate.
-                </p>
-            </section>
-        </div>
-        
-        
-        
-
-        <!-- User Badges Section -->
-        
-        <!-- Display Badges Sections Only if Data Exists -->
+        <!-- Points Summary -->
         {% if data.game_trivia or data.level_games or data.cloud_digital_leader or data.skill_badges or data.arcade_classroom %}
-        <p class="text-center text-3xl font-bold mb-8">Your Badges.</p>
-
-            {% if data.game_trivia %}
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold mb-4">Trivia Game ({{ data.badge_counts.game_trivia_count }})</h2>
-                <div class="flex flex-wrap justify-center gap-4">
-                    {% for badge in data.game_trivia %}
-                        <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 w-64 shadow-md hover:shadow-lg transition-shadow">
-                            <img src="{{ badge.image }}" alt="{{ badge.title }}" class="w-full h-auto rounded-md mb-2">
-                            <h3 class="text-lg font-semibold mb-1">{{ badge.title }}</h3>
-                            <p class="text-gray-400">{{ badge.date if badge.date else 'Date not available' }}</p>
-                        </div>
-                    {% endfor %}
+        <section class="max-w-2xl mx-auto mb-8">
+            <div class="bg-gray-800 rounded-lg p-6 shadow-xl">
+                <h2 class="text-2xl font-bold mb-6 text-center">Points Summary</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <p class="text-gray-300">Skill Badges</p>
+                        <p class="text-2xl font-bold">{{ data.points.normal_skill_badges_points }}</p>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <p class="text-gray-300">Arcade Games</p>
+                        <p class="text-2xl font-bold">{{ data.points.level_games_points }}</p>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <p class="text-gray-300">Trivia Games</p>
+                        <p class="text-2xl font-bold">{{ data.points.game_trivia_points }}</p>
+                    </div>
+                    <div class="bg-blue-600 rounded-lg p-4">
+                        <p class="text-gray-100">Total Points</p>
+                        <p class="text-3xl font-bold">{{ data.points.total_points }}</p>
+                    </div>
                 </div>
-            </section>
-            {% endif %}
-
-            {% if data.level_games %}
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold mb-4">Arcade Games ({{ data.badge_counts.level_games_count }})</h2>
-                <div class="flex flex-wrap justify-center gap-4">
-                    {% for badge in data.level_games %}
-                        <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 w-64 shadow-md hover:shadow-lg transition-shadow">
-                            <img src="{{ badge.image }}" alt="{{ badge.title }}" class="w-full h-auto rounded-md mb-2">
-                            <h3 class="text-lg font-semibold mb-1">{{ badge.title }}</h3>
-                            <p class="text-gray-400">{{ badge.date if badge.date else 'Date not available' }}</p>
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
-            {% endif %}
-            {% if data.flash_games %}
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold mb-4">Flash Games ({{ data.badge_counts.flash_games_count }})</h2>
-                <div class="flex flex-wrap justify-center gap-4">
-                    {% for badge in data.flash_games %}
-                        <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 w-64 shadow-md hover:shadow-lg transition-shadow">
-                            <img src="{{ badge.image }}" alt="{{ badge.title }}" class="w-full h-auto rounded-md mb-2">
-                            <h3 class="text-lg font-semibold mb-1">{{ badge.title }}</h3>
-                            <p class="text-gray-400">{{ badge.date if badge.date else 'Date not available' }}</p>
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
-            {% endif %}
-
-            {% if data.cloud_digital_leader %}
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold mb-4">Cloud Digital Leader ({{ data.badge_counts.cloud_digital_leader_count }})</h2>
-                <div class="flex flex-wrap justify-center gap-4">
-                    {% for badge in data.cloud_digital_leader %}
-                        <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 w-48 shadow-md hover:shadow-lg transition-shadow">
-                            <img src="{{ badge.image }}" alt="{{ badge.title }}" class="w-full h-auto rounded-md mb-2">
-                            <h3 class="text-lg font-semibold mb-1">{{ badge.title }}</h3>
-                            <p class="text-gray-400">{{ badge.date if badge.date else 'Date not available' }}</p>
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
-            {% endif %}
-            {% if data.arcade_Classroom %}
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold mb-4">Arcade Classroom ({{ data.badge_counts.arcade_Classroom_count }})</h2>
-                <div class="flex flex-wrap justify-center gap-4">
-                    {% for badge in data.arcade_Classroom %}
-                        <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 w-48 shadow-md hover:shadow-lg transition-shadow">
-                            <img src="{{ badge.image }}" alt="{{ badge.title }}" class="w-full h-auto rounded-md mb-2">
-                            <h3 class="text-lg font-semibold mb-1">{{ badge.title }}</h3>
-                            <p class="text-gray-400">{{ badge.date if badge.date else 'Date not available' }}</p>
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
-            {% endif %}
-
-           
-
-            {% if data.skill_badges %}
-            <section class="mb-8">
-                <h2 class="text-2xl font-semibold mb-4">Skill Badges ({{ data.badge_counts.skill_badges_count }})</h2>
-                <div class="flex flex-wrap justify-center gap-4">
-                    {% for badge in data.skill_badges %}
-                        <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 w-64 shadow-md hover:shadow-lg transition-shadow">
-                            <img src="{{ badge.image }}" alt="{{ badge.title }}" class="w-full h-auto rounded-md mb-2">
-                            <h3 class="text-lg font-semibold mb-1">{{ badge.title }}</h3>
-                            <p class="text-gray-400">{{ badge.date if badge.date else 'Date not available' }}</p>
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
-            {% endif %}
+            </div>
+        </section>
         {% endif %}
-    </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 p-4 mt-4">
-        <div class="container mx-auto text-center">
-            <p class="text-gray-400">
-                Built by Sufiyan Khan | Connect with me on 
-                <a href="https://www.linkedin.com/in/sufiyankhan15" class="text-blue-500" target="_blank">LinkedIn</a> and 
-                <a href="https://github.com/sufi1512" class="text-blue-500" target="_blank">GitHub</a>.
-            </p>
+        <!-- Swag Eligibility -->
+        <section class="max-w-2xl mx-auto mb-8">
+            <div class="bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg p-6 shadow-2xl">
+                <h2 class="text-2xl font-bold mb-4 text-center">Program Information</h2>
+                <div class="space-y-4 text-center">
+                    <p class="text-lg">Prize counter opens in July 2025. Swag milestones will be announced soon.</p>
+                    <p class="text-lg font-medium">Important: Please use a new Google account for Cohort 2025.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Badges Section -->
+        {% if data.game_trivia or data.level_games or data.cloud_digital_leader or data.skill_badges or data.arcade_classroom %}
+        <section class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-8">Your Earned Badges</h2>
+            
+            {% for category in [
+                ('Trivia Game', data.game_trivia, data.badge_counts.game_trivia_count),
+                ('Arcade Games', data.level_games, data.badge_counts.level_games_count),
+                ('Flash Games', data.flash_games, data.badge_counts.flash_games_count),
+                ('Cloud Digital Leader', data.cloud_digital_leader, data.badge_counts.cloud_digital_leader_count),
+                ('Skill Badges', data.skill_badges, data.badge_counts.skill_badges_count)
+            ] %}
+            {% if category[1] %}
+            <div class="mb-12">
+                <h3 class="text-2xl font-semibold mb-6">{{ category[0] }} ({{ category[2] }})</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {% for badge in category[1] %}
+                    <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 transform hover:scale-105 transition-transform duration-200">
+                        <img src="{{ badge.image }}" alt="{{ badge.title }}" class="w-full h-auto rounded-lg mb-3">
+                        <h4 class="text-lg font-semibold mb-2">{{ badge.title }}</h4>
+                        <p class="text-gray-400">{{ badge.date if badge.date else 'Date not available' }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </section>
+        {% else %}
+        <div class="text-center py-12">
+            <p class="text-2xl font-semibold mb-4">No badges earned yet</p>
+            <a href="https://go.cloudskillsboost.google/arcade" 
+               class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+               target="_blank">Start Earning Badges</a>
         </div>
-    </footer>
-    
-    <script>
-        // Function to update visitor count
-        function updateVisitorCount() {
-            let count = localStorage.getItem('visitorCount') ? parseInt(localStorage.getItem('visitorCount')) : 0;
-            count++;
-            localStorage.setItem('visitorCount', count);
-            document.getElementById('visitorCount').innerText = count;
-        }
-    
-        // Call the function on page load
-        window.onload = updateVisitorCount;
-    </script>
-    </div>
+        {% endif %}
+    </main>
+    <!-- Rest of the body content remains the same -->
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../static/script.js"></script>
     <script>
-        // Menu toggle functionality
-        $('#menuToggle').on('click', function () {
-            $('#mobileMenu').toggleClass('hidden');
+        // Improved mobile menu functionality
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuToggle = document.getElementById('menuToggle');
+        const closeMenu = document.getElementById('closeMenu');
+        
+        function toggleMenu() {
+            if (mobileMenu.classList.contains('hidden')) {
+                // Open menu
+                mobileMenu.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            } else {
+                // Close menu
+                mobileMenu.classList.add('hidden');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        closeMenu.addEventListener('click', toggleMenu);
+
+        // Close menu when clicking outside
+        mobileMenu.addEventListener('click', function(e) {
+            if (e.target === mobileMenu) {
+                toggleMenu();
+            }
         });
 
-        $('#closeMenu').on('click', function () {
-            $('#mobileMenu').addClass('hidden');
+        // Close menu when pressing Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+                toggleMenu();
+            }
+        });
+
+        // Prevent menu from staying hidden on window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768) { // md breakpoint
+                mobileMenu.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
         });
     </script>
-    
 </body>
-
 </html>
