@@ -51,7 +51,7 @@
         </div>
 
         <!-- Cohort Update Message -->
-        {% if not cohort_active %}
+        {% if cohort_active %}
         <div class="w-full max-w-2xl mb-8 text-center">
             <div class="bg-yellow-500 text-white rounded-lg p-4 shadow-lg">
                 <p class="text-xl font-semibold">Arcade Cohort 2025 will be updated soon!</p>
@@ -84,40 +84,20 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="py-2 px-4 border-b border-gray-600">Normal Skill Badges Points</td>
+                                <td class="py-2 px-4 border-b border-gray-600">Skill Badges Points</td>
                                 <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.normal_skill_badges_points }}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 px-4 border-b border-gray-600">Monsoon Skill Badges Points</td>
-                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.special_skill_badges_points }}</td>
                             </tr>
                             <tr>
                                 <td class="py-2 px-4 border-b border-gray-600">Arcade Games Points</td>
                                 <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.level_games_points }}</td>
                             </tr>
                             <tr>
-                                <td class="py-2 px-4 border-b border-gray-600">Flash Games Points</td>
-                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.flash_games_points }}</td>
-                            </tr>
-                            <tr>
                                 <td class="py-2 px-4 border-b border-gray-600">Trivia Game Points</td>
                                 <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.game_trivia_points }}</td>
                             </tr>
                             <tr>
-                                <td class="py-2 px-4 border-b border-gray-600">Cloud Digital Leader Points</td>
-                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.cloud_digital_leader_points }}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 px-4 border-b border-gray-600">Arcade Classroom Points</td>
-                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.arcade_classroom_points }}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 px-4 border-b border-gray-600">Bonus Points</td>
-                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.milestone_bonus }}</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 px-4 border-b border-gray-600">Milestone Earned</td>
-                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.milestone }}</td>
+                                <td class="py-2 px-4 border-b border-gray-600">Total Points</td>
+                                <td class="py-2 px-4 border-b border-gray-600 text-right">{{ data.points.total_points }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -128,53 +108,18 @@
 
         <!-- Swag Eligibility Card -->
         <div class="mb-8 w-full max-w-2xl">
-            <section class="bg-gradient-to-r from-yellow-400 to-red-400 rounded-lg p-6 shadow-lg">
-                <h2 class="text-3xl font-semibold mb-4 text-center">Swag Eligibility</h2>
-                <p class="text-lg text-center">Total Points: <strong class="text-2xl">{{ data.points.total_points }}</strong></p>
-                <p class="mt-2 text-lg text-center">Based on your total points, you are eligible for:</p>
-        
-                <!-- Progress Bar Journey -->
-                <div class="relative mt-4 mb-6">
-                    <!-- Background Bar -->
-                    <div class="w-full bg-gray-300 h-4 rounded-full overflow-hidden">
-                        <!-- Dynamic Progress Bar -->
-                        <div class="bg-blue-600 h-full rounded-full transition-all duration-500"
-                             style="width: {{ (data.points.total_points / 75) * 100 }}%"></div>
-                    </div>
-                    
-                    <!-- Milestone Labels -->
-                    <div class="absolute top-5 inset-x-0 flex justify-between text-sm font-semibold">
-                        <span class="text-gray-600">0</span>
-                        <span class="{% if data.points.total_points >= 15 %}text-blue-600{% else %}text-gray-600{% endif %}">15 (Standard)</span>
-                        <span class="{% if data.points.total_points >= 30 %}text-blue-600{% else %}text-gray-600{% endif %}">30 (Advanced)</span>
-                        <span class="{% if data.points.total_points >= 45 %}text-blue-600{% else %}text-gray-600{% endif %}">45 (Premium)</span>
-                        <span class="{% if data.points.total_points >= 65 %}text-blue-600{% else %}text-gray-600{% endif %}">65 (Premium+)</span>
-                        <span class="{% if data.points.total_points >= 75 %}text-blue-600{% else %}text-gray-600{% endif %}">75 (Champions)</span>
-                    </div>
-                    
-                </div>
-        
-                <!-- Display Eligibility Milestone -->
-                <ul class="list-disc pl-5 pt-5 text-gray-800 text-lg">
-                    {% if data.points.total_points >= 75 %}
-                        <p class="text-lg text-center">Total Points: <strong class="text-2xl">{{ data.points.total_points }}</strong></p>
-                        <li class="text-center text-2xl">Champions Milestone</li>
-                    {% elif data.points.total_points >= 65 %}
-                        <p class="text-lg text-center">Total Points: <strong class="text-2xl">{{ data.points.total_points }}</strong></p>
-                        <li class="text-center text-2xl">Premium+ Milestone</li>
-                    {% elif data.points.total_points >= 45 %}
-                        <li class="text-center text-2xl">Premium Milestone</li>
-                    {% elif data.points.total_points >= 30 %}
-                        <li class="text-center text-2xl">Advanced Milestone</li>
-                    {% elif data.points.total_points >= 15 %}
-                        <li class="text-center text-2xl">Standard Milestone</li>
-                    {% else %}
-                        <li class="text-center text-2xl">No Milestone Achieved</li>
-                    {% endif %}
-                </ul>
-                
+            <section class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg p-6 shadow-2xl">
+                <!-- Additional Information -->
+                <p class="mt-4 text-center text-xl text-white font-serif">
+                    Prize counter will open in July and no swags milestone has been announced yet. You can use the platform to count your arcade points.
+                </p>
+                <p class="mt-4 text-center text-xl text-white font-serif">
+                    Important: Please use a new Google account for this Cohort 2025 Google Cloud Arcade Program and ensure your points are accurate.
+                </p>
             </section>
         </div>
+        
+        
         
 
         <!-- User Badges Section -->

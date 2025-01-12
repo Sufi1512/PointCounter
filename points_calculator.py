@@ -110,22 +110,24 @@ def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leade
         cloud_digital_leader = 0
 
     total_points = (game_trivia_points + level_games_points +
-                    int(special_skill_badges_points) + int(normal_skill_badges_points) +
-                    cloud_digital_leader + flash_games_points + int(milestone_bonus+arcade_classroom))
+                    #int(special_skill_badges_points)
+                      + int(normal_skill_badges_points) 
+                    #cloud_digital_leader + flash_games_points + int(milestone_bonus+arcade_classroom)
+                    )
     
     
     return {
         'game_trivia_points': game_trivia_points,
         'level_games_points': level_games_points,
-        'flash_games_points': flash_games_points,
-        'special_skill_badges_points': special_skill_badges_points,
+        # 'flash_games_points': flash_games_points,
+        # 'special_skill_badges_points': special_skill_badges_points,
         'normal_skill_badges_points': int(normal_skill_badges_points),  # Convert to integer for consistency
-        'special_badges_count': special_badges_count,
+        # 'special_badges_count': special_badges_count,
         'normal_badges_count': normal_badges_count,
-        'cloud_digital_leader_points': cloud_digital_leader,
-        'arcade_classroom_points': arcade_classroom,
-        'flash_games_count': len(flash_games),
-        'milestone': milestone,
-        'milestone_bonus': milestone_bonus,
+        # 'cloud_digital_leader_points': cloud_digital_leader,
+        # 'arcade_classroom_points': arcade_classroom,
+        # 'flash_games_count': len(flash_games),
+        # 'milestone': milestone,
+        # 'milestone_bonus': milestone_bonus,
         'total_points': total_points,
     }
