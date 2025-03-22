@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en" id="theme" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ data.user_name }}'s Dashboard - Google Cloud Arcade</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            /* Light Mode Colors */
+            --bg-color-light: #f4f7fa;
+            --card-bg-light: #ffffff;
+            --text-color-light: #2d3748;
+            --secondary-text-light: #718096;
+            --accent-color: #3B82F6;
+            --accent-gradient: linear-gradient(135deg, #3B82F6, #9333EA);
+            --shadow-light: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --navbar-bg-light: rgba(255, 255, 255, 0.9);
+            --swag-bg-light: #e2e8f0;
+            --hover-shadow-light: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        .dark {
+            /* Dark Mode Colors */
+            --bg-color: #1A2526;
+            --card-bg: #2A3A3B;
+            --text-color: #ffffff;
+            --secondary-text: #a0aec0;
+            --accent-color: #3B82F6;
+            --accent-gradient: linear-gradient(135deg, #3B82F6, #9333EA);
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            --navbar-bg: rgba(42, 58, 59, 0.8);
+            --swag-bg: #3A4A4B;
+            --hover-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+        body {
+            background: var(--bg-color, var(--bg-color-light));
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color, var(--text-color-light));
+            min-height: 100vh;
+            position: relative;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        .navbar {
+            background: var(--navbar-bg, var(--navbar-bg-light));
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: var(--shadow, var(--shadow-light));
+        }
+        .card {
+            background: var(--card-bg, var(--card-bg-light));
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow, var(--shadow-light));
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow, var(--hover-shadow-light));
+        }
+        .badge-card {
+            background: var(--swag-bg, var(--swag-bg-light));
+            border-radius: 15px;
+            padding: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .badge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow, var(--hover-shadow-light));
+        }
+        .badge-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        .swag-tier {
+            background: var(--swag-bg, var(--swag-bg-light));
+            border-radius: 15px;
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .swag-tier:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow, var(--hover-shadow-light));
+        }
+        .swag-tier h4 {
+            color: #FFD700;
+        }
+        .back-button {
+            background: var(--accent-gradient);
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            color: white;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+        .back-button:hover {
+            background: linear-gradient(135deg, #2563EB, #7E22CE);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.6);
+        }
+        .back-button i {
+            margin-right: 0.5rem;
+        }
+        .mobile-menu {
+            background: var(--card-bg, var(--card-bg-light));
+            transition: transform 0.3s ease-in-out;
+        }
+        .mobile-menu-hidden {
+            transform: translateX(100%);
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 15;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .overlay-active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .theme-toggle {
+            position: relative;
+            width: 48px;
+            height: 24px;
+            background: var(--accent-gradient);
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .theme-toggle input {
+            display: none;
+        }
+        .theme-toggle .slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .theme-toggle input:checked + .slider {
+            transform: translateX(24px);
+        }
+        @media (max-width: 640px) {
+            .card {
+                padding: 1rem;
+            }
+            .badge-image {
+                width: 50px;
+                height: 50px;
+            }
+            .back-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            h2 {
+                font-size: 1.25rem;
+            }
+            h3 {
+                font-size: 1.125rem;
+            }
+            p, .text-base {
+                font-size: 0.875rem;
+            }
+            .text-2xl {
+                font-size: 1.25rem;
+            }
+            .text-3xl {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar flex justify-between items-center">
+        <a href="/" class="text-xl sm:text-2xl font-bold flex items-center">
+            <i class="fas fa-gamepad mr-2 text-[#3B82F6]"></i>
+            Google Cloud Arcade
+        </a>
+        <div class="flex items-center space-x-4">
+            <!-- Theme Toggle -->
+            <label class="theme-toggle">
+                <input type="checkbox" id="theme-toggle-checkbox">
+                <span class="slider">
+                    <i class="fas fa-sun text-yellow-500 dark:hidden"></i>
+                    <i class="fas fa-moon text-gray-700 hidden dark:block"></i>
+                </span>
+            </label>
+            <!-- Hamburger Icon for Mobile -->
+            <button id="menu-toggle" class="sm:hidden text-[var(--text-color)] hover:text-[var(--accent-color)] focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+            <!-- Desktop Menu -->
+            <div class="hidden sm:flex space-x-6">
+                <a href="https://www.sufiyankhan.tech/" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)]">About</a>
+                <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)]">Community</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Overlay for Blur Effect -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="sm:hidden mobile-menu mobile-menu-hidden fixed top-0 right-0 w-64 h-full z-20 p-4">
+        <button id="menu-close" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)] mb-4">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+        <div class="flex flex-col space-y-4">
+            <a href="https://www.sufiyankhan.tech/" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)] transition-colors">About</a>
+            <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)] transition-colors">Community</a>
+        </div>
+    </div>
+
+    <main class="container mx-auto px-4 sm:px-6 py-6 space-y-12">
+        <!-- Back Button -->
+        <div class="mb-4">
+            <a href="{{ url_for('index') }}" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </a>
+        </div>
+
+        <!-- Profile Card -->
+        <section class="card flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
+            <img src="{{ data.avatar_url }}" alt="Profile Picture" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-[#3B82F6] shadow-lg">
+            <div class="text-center sm:text-left">
+                <h1 class="text-2xl sm:text-3xl font-bold">{{ data.user_name }}</h1>
+                <p class="text-[var(--secondary-text)]">Arcade Points: {{ data.points.total_points }} | Total Badges: {{ data.badge_counts.total_badges }}</p>
+                <p class="text-[var(--secondary-text)]">Milestone: {{ data.points.milestone }} (Bonus: {{ data.points.milestone_bonus }})</p>
+            </div>
+        </section>
+
+        <!-- Cohort Alert -->
+        {% if cohort_active %}
+        <section class="card bg-yellow-600 text-center">
+            <p class="text-lg sm:text-xl font-semibold">Arcade Cohort 2025 Updates Coming Soon!</p>
+            <p class="mt-2 text-sm sm:text-base">Stay tuned for the latest information.</p>
+        </section>
+        {% endif %}
+
+        <!-- Points Summary -->
+        <section class="card">
+            <h2 class="text-xl sm:text-2xl font-bold mb-6">Points Summary</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div class="text-center">
+                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">Game Trivia Points</p>
+                    <p class="text-lg sm:text-2xl font-bold">{{ data.points.game_trivia_points }}</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">Level Games Points</p>
+                    <p class="text-lg sm:text-2xl font-bold">{{ data.points.level_games_points }}</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">Flash Games Points</p>
+                    <p class="text-lg sm:text-2xl font-bold">{{ data.points.flash_games_points }}</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">Special Skill Badges</p>
+                    <p class="text-lg sm:text-2xl font-bold">{{ data.points.special_skill_badges_points }}</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">Normal Skill Badges</p>
+                    <p class="text-lg sm:text-2xl font-bold">{{ data.points.normal_skill_badges_points }}</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">Cloud Digital Leader</p>
+                    <p class="text-lg sm:text-2xl font-bold">{{ data.points.cloud_digital_leader_points }}</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">Arcade Classroom</p>
+                    <p class="text-lg sm:text-2xl font-bold">{{ data.points.arcade_classroom_points }}</p>
+                </div>
+                <div class="text-center bg-[#3B82F6] rounded-lg p-4">
+                    <p class="text-white text-sm sm:text-base">Total Points</p>
+                    <p class="text-xl sm:text-3xl font-bold">{{ data.points.total_points }}</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Badge Counts -->
+        <section class="card">
+            <h2 class="text-xl sm:text-2xl font-bold mb-6">Badges</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                <div class="text-center">
+                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">Game Badge</p>
+                    <p class="text-lg sm:text-2xl font-bold">{{ data.badge_counts.level_games_count }}</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">Trivia Badge</p>
+                    <p class="text-lg sm:text-2xl font-bold">{{ data.badge_counts.game_trivia_count }}</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">Skill Badge</p>
+                    <p class="text-lg sm:text-2xl font-bold">{{ data.badge_counts.skill_badges_count }}</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Swag Eligibility -->
+        <section class="card">
+            <h2 class="text-xl sm:text-2xl font-bold mb-6">Swag Eligibility</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div class="swag-tier {% if data.points.total_points >= 15 %}bg-green-600{% endif %}">
+                    <h4 class="text-base sm:text-lg font-semibold">Standard</h4>
+                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">15 Points</p>
+                    <p class="text-xs sm:text-sm text-[var(--secondary-text)] mt-2">{% if data.points.total_points >= 15 %}Eligible!{% else %}Coming Soon!{% endif %}</p>
+                </div>
+                <div class="swag-tier {% if data.points.total_points >= 30 %}bg-green-600{% endif %}">
+                    <h4 class="text-base sm:text-lg font-semibold">Advanced</h4>
+                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">30 Points</p>
+                    <p class="text-xs sm:text-sm text-[var(--secondary-text)] mt-2">{% if data.points.total_points >= 30 %}Eligible!{% else %}Coming Soon!{% endif %}</p>
+                </div>
+                <div class="swag-tier {% if data.points.total_points >= 45 %}bg-green-600{% endif %}">
+                    <h4 class="text-base sm:text-lg font-semibold">Premium</h4>
+                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">45 Points</p>
+                    <p class="text-xs sm:text-sm text-[var(--secondary-text)] mt-2">{% if data.points.total_points >= 45 %}Eligible!{% else %}Coming Soon!{% endif %}</p>
+                </div>
+                <div class="swag-tier {% if data.points.total_points >= 65 %}bg-green-600{% endif %}">
+                    <h4 class="text-base sm:text-lg font-semibold">Premium Plus</h4>
+                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">65 Points</p>
+                    <p class="text-xs sm:text-sm text-[var(--secondary-text)] mt-2">{% if data.points.total_points >= 65 %}Eligible!{% else %}Coming Soon!{% endif %}</p>
+                </div>
+            </div>
+            <p class="text-xs sm:text-sm text-[var(--secondary-text)] mt-4 text-center">Expected prize tiers shown here.</p>
+        </section>
+
+        <!-- Analytics Graph -->
+        {% if data.game_trivia or data.level_games or data.skill_badges or data.flash_games or data.cloud_digital_leader or data.arcade_classroom %}
+        <section class="card">
+            <h2 class="text-xl sm:text-2xl font-bold mb-6">Badges Over Time</h2>
+            <canvas id="badgesChart" class="max-w-full"></canvas>
+        </section>
+        {% endif %}
+
+        <!-- Badge Categories -->
+        <section class="card">
+            <h2 class="text-xl sm:text-2xl font-bold mb-6">Badge Categories</h2>
+
+            <!-- Trivia Game Badges -->
+            {% if data.game_trivia %}
+            <div class="mb-8">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">Trivia Game Badges</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    {% for badge in data.game_trivia %}
+                    <div class="badge-card flex items-center space-x-4">
+                        <img src="{{ badge.image }}" alt="{{ badge.title }}" class="badge-image">
+                        <div>
+                            <p class="font-semibold text-sm sm:text-base">{{ badge.title }}</p>
+                            <p class="text-xs sm:text-sm text-[var(--secondary-text)]">{{ badge.date if badge.date else 'Date not available' }}</p>
+                            <p class="text-xs sm:text-sm text-[#3B82F6]">Points: {{ badge.points }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Level Games Badges -->
+            {% if data.level_games %}
+            <div class="mb-8">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">Level Games Badges</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    {% for badge in data.level_games %}
+                    <div class="badge-card flex items-center space-x-4">
+                        <img src="{{ badge.image }}" alt="{{ badge.title }}" class="badge-image">
+                        <div>
+                            <p class="font-semibold text-sm sm:text-base">{{ badge.title }}</p>
+                            <p class="text-xs sm:text-sm text-[var(--secondary-text)]">{{ badge.date if badge.date else 'Date not available' }}</p>
+                            <p class="text-xs sm:text-sm text-[#3B82F6]">Points: {{ badge.points }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Skill Badges -->
+            {% if data.skill_badges %}
+            <div class="mb-8">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">Skill Badges</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    {% for badge in data.skill_badges %}
+                    <div class="badge-card flex items-center space-x-4">
+                        <img src="{{ badge.image }}" alt="{{ badge.title }}" class="badge-image">
+                        <div>
+                            <p class="font-semibold text-sm sm:text-base">{{ badge.title }}</p>
+                            <p class="text-xs sm:text-sm text-[var(--secondary-text)]">{{ badge.date if badge.date else 'Date not available' }}</p>
+                            <p class="text-xs sm:text-sm text-[#3B82F6]">Points: {{ badge.points }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Flash Games Badges -->
+            {% if data.flash_games %}
+            <div class="mb-8">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">Flash Games Badges</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    {% for badge in data.flash_games %}
+                    <div class="badge-card flex items-center space-x-4">
+                        <img src="{{ badge.image }}" alt="{{ badge.title }}" class="badge-image">
+                        <div>
+                            <p class="font-semibold text-sm sm:text-base">{{ badge.title }}</p>
+                            <p class="text-xs sm:text-sm text-[var(--secondary-text)]">{{ badge.date if badge.date else 'Date not available' }}</p>
+                            <p class="text-xs sm:text-sm text-[#3B82F6]">Points: {{ badge.points }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Cloud Digital Leader Badges -->
+            {% if data.cloud_digital_leader %}
+            <div class="mb-8">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">Cloud Digital Leader Badges</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    {% for badge in data.cloud_digital_leader %}
+                    <div class="badge-card flex items-center space-x-4">
+                        <img src="{{ badge.image }}" alt="{{ badge.title }}" class="badge-image">
+                        <div>
+                            <p class="font-semibold text-sm sm:text-base">{{ badge.title }}</p>
+                            <p class="text-xs sm:text-sm text-[var(--secondary-text)]">{{ badge.date if badge.date else 'Date not available' }}</p>
+                            <p class="text-xs sm:text-sm text-[#3B82F6]">Points: {{ badge.points }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Arcade Classroom Badges -->
+            {% if data.arcade_classroom %}
+            <div class="mb-8">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">Arcade Classroom Badges</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    {% for badge in data.arcade_classroom %}
+                    <div class="badge-card flex items-center space-x-4">
+                        <img src="{{ badge.image }}" alt="{{ badge.title }}" class="badge-image">
+                        <div>
+                            <p class="font-semibold text-sm sm:text-base">{{ badge.title }}</p>
+                            <p class="text-xs sm:text-sm text-[var(--secondary-text)]">{{ badge.date if badge.date else 'Date not available' }}</p>
+                            <p class="text-xs sm:text-sm text-[#3B82F6]">Points: {{ badge.points }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer class="py-6 text-center text-[var(--secondary-text)]">
+        <p class="text-sm">Built by Sufiyan Khan | 
+           <a href="https://www.linkedin.com/in/sufiyankhan15" target="_blank" class="text-[#3B82F6] hover:text-[#2563EB]">LinkedIn</a> | 
+           <a href="https://github.com/sufi1512" target="_blank" class="text-[#3B82F6] hover:text-[#2563EB]">GitHub</a>
+        </p>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu and Theme Toggle -->
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const overlay = document.getElementById('overlay');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.remove('mobile-menu-hidden');
+            overlay.classList.add('overlay-active');
+        });
+
+        menuClose.addEventListener('click', () => {
+            mobileMenu.classList.add('mobile-menu-hidden');
+            overlay.classList.remove('overlay-active');
+        });
+
+        overlay.addEventListener('click', () => {
+            mobileMenu.classList.add('mobile-menu-hidden');
+            overlay.classList.remove('overlay-active');
+        });
+
+        // Theme Toggle
+        const themeToggleCheckbox = document.getElementById('theme-toggle-checkbox');
+        const htmlElement = document.documentElement;
+
+        // Load theme from localStorage
+        if (localStorage.getItem('theme') === 'light') {
+            htmlElement.classList.remove('dark');
+            themeToggleCheckbox.checked = false;
+        } else {
+            htmlElement.classList.add('dark');
+            themeToggleCheckbox.checked = true;
+        }
+
+        themeToggleCheckbox.addEventListener('change', () => {
+            if (themeToggleCheckbox.checked) {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
+
+    <!-- Chart.js Script for Badges Over Time -->
+    {% if data.game_trivia or data.level_games or data.skill_badges or data.flash_games or data.cloud_digital_leader or data.arcade_classroom %}
+    <script>
+        const allBadges = [
+            ...{{ data.game_trivia | tojson }},
+            ...{{ data.level_games | tojson }},
+            ...{{ data.skill_badges | tojson }},
+            ...{{ data.flash_games | tojson }},
+            ...{{ data.cloud_digital_leader | tojson }},
+            ...{{ data.arcade_classroom | tojson }}
+        ];
+        const dates = allBadges.map(b => {
+            try {
+                return new Date(b.date.replace('Earned ', ''));
+            } catch (e) {
+                return null;
+            }
+        }).filter(date => date !== null);
+        const dateCounts = {};
+        dates.forEach(date => {
+            const dateStr = date.toISOString().split('T')[0];
+            dateCounts[dateStr] = (dateCounts[dateStr] || 0) + 1;
+        });
+
+        const chartData = {
+            labels: Object.keys(dateCounts).sort(),
+            datasets: [{
+                label: 'Badges Earned',
+                data: Object.values(dateCounts),
+                borderColor: '#3B82F6',
+                backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                fill: true,
+                tension: 0.4
+            }]
+        };
+
+        const ctx = document.getElementById('badgesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: chartData,
+            options: {
+                responsive: true,
+                scales: {
+                    x: { title: { display: true, text: 'Date', color: 'var(--text-color)' }, ticks: { color: 'var(--text-color)' } },
+                    y: { title: { display: true, text: 'Number of Badges', color: 'var(--text-color)' }, ticks: { color: 'var(--text-color)' }, beginAtZero: true }
+                },
+                plugins: { legend: { labels: { color: 'var(--text-color)' } } }
+            }
+        });
+    </script>
+    {% endif %}
+</body>
+</html>

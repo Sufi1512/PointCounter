@@ -1,268 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Previous head content remains the same -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Track and manage your arcade facilitator program points and badges.">
-    <meta name="keywords" content="Arcade Facilitator, Points Counter, Badges, Cloud Skills Boost">
-    <title>Arcade Facilitator Dashboard</title>
-    <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Google Cloud Arcade Facilitator '25</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/styles.css">
-
     <style>
-        .nav-link {
-            position: relative;
+        body {
+            background: #1A2526;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            min-height: 100vh;
         }
-        
-        .nav-link::after {
+        .navbar {
+            background: rgba(42, 58, 59, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .hero {
+            background: linear-gradient(135deg, #3B82F6, #9333EA);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
             content: '';
             position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
+            top: 0;
             left: 0;
-            background-color: #60A5FA;
-            transition: width 0.3s ease-in-out;
-        }
-        
-        .nav-link:hover::after {
             width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+            opacity: 0.5;
         }
-
-        .mobile-menu-transition {
-            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            animation: fadeInDown 1s ease-out;
         }
-        @keyframes marquee {
-        0% {
-            transform: translateX(100%);
+        .hero h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            animation: fadeInUp 1s ease-out 0.3s;
+            animation-fill-mode: backwards;
         }
-        100% {
-            transform: translateX(-100%);
+        .card {
+            background: #2A3A3B;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-    }
-
-    .animate-marquee {
-        animation: marquee 10s linear infinite;
-        white-space: nowrap;
-    }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+        .btn-submit {
+            background: linear-gradient(to right, #3B82F6, #9333EA);
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-submit:hover {
+            background: linear-gradient(to right, #2563EB, #7E22CE);
+            transform: scale(1.05);
+        }
+        .timeline {
+            background: #3A4A4B;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            animation: fadeIn 1s ease-out;
+        }
+        .timeline p {
+            transition: color 0.3s ease;
+        }
+        .timeline p:hover {
+            color: #3B82F6;
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
-
-<body class="bg-gray-900 text-white font-roboto flex flex-col min-h-screen">
-    <!-- Improved Navbar -->
-    <nav class="bg-gray-800 shadow-lg border-b border-gray-700">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <!-- Logo and Brand -->
-                <div class="flex items-center">
-                    <a href="https://rsvp.withgoogle.com/events/arcade-facilitator/enrol" 
-                       class="flex items-center text-xl font-bold text-white hover:text-blue-400 transition-colors duration-300" 
-                       target="_blank">
-                        <i class="fas fa-gamepad mr-2"></i>
-                        Arcade Facilitator
-                    </a>
-                </div>
-
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex md:items-center md:space-x-8">
-                    <a href="./" 
-                       class="nav-link text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-300">
-                        Home
-                    </a>
-                    <a href="https://www.sufiyankhan.tech/" 
-                       class="nav-link text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-300" 
-                       target="_blank">
-                        About
-                    </a>
-                    <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" 
-                       class="nav-link text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors duration-300" 
-                       target="_blank">
-                        Community
-                    </a>
-                </div>
-
-                <!-- Mobile menu button -->
-                <div class="md:hidden flex items-center">
-                    <button id="menuToggle" 
-                            class="text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 p-2 rounded-md">
-                        <span class="sr-only">Open main menu</span>
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile menu -->
-        <div id="mobileMenu" 
-             class="hidden md:hidden fixed inset-0 z-50 bg-gray-400 bg-opacity-10 mobile-menu-transition">
-            <div class="fixed inset-0 flex items-center justify-center">
-                <div class="flex flex-col items-center space-y-8">
-                    <a href="./" 
-                       class="text-white text-xl hover:text-blue-400 transition-colors duration-300">
-                        Home
-                    </a>
-                    <a href="https://www.sufiyankhan.tech/" 
-                       class="text-white text-xl hover:text-blue-400 transition-colors duration-300" 
-                       target="_blank">
-                        About
-                    </a>
-                    <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" 
-                       class="text-white text-xl hover:text-blue-400 transition-colors duration-300" 
-                       target="_blank">
-                        Community
-                    </a>
-                    <button id="closeMenu" 
-                            class="mt-8 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 p-2 rounded-md">
-                        <span class="sr-only">Close menu</span>
-                        <i class="fas fa-times text-3xl"></i>
-                    </button>
-                </div>
-            </div>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar flex justify-between items-center">
+        <a href="/" class="text-2xl font-bold flex items-center">
+            <i class="fas fa-gamepad mr-2 text-blue-400"></i>
+            Google Cloud Arcade
+        </a>
+        <div class="space-x-6">
+            <a href="https://www.sufiyankhan.tech/" target="_blank" class="text-gray-300 hover:text-white transition-colors">About</a>
+            <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" target="_blank" class="text-gray-300 hover:text-white transition-colors">Community</a>
         </div>
     </nav>
-    <main class="flex-grow container mx-auto px-4 py-8">
-        <!-- URL Input Form -->
-        <section class="max-w-2xl mx-auto mb-8">
-            <form action="/" method="POST" class="bg-gray-800 rounded-lg p-6 shadow-xl">
-                <label for="profile_url" class="block text-lg font-medium mb-3">Enter Your Profile URL:</label>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <input type="url" id="profile_url" name="profile_url" 
-                           placeholder="https://www.cloudskillsboost.google/public_profiles/your-profile" 
-                           required 
-                           class="flex-grow p-3 border border-gray-700 rounded-lg bg-gray-900 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-colors">
-                        Submit
-                    </button>
-                </div>
-                <div id="error" class="text-red-500 mt-2 hidden"></div>
-            </form>
-        
-            <div class="w-full overflow-hidden mt-4">
-                <p class="text-2xl font-bold text-green-600 animate-marquee inline-block">
-                    Last updated: 12-Jan-2025
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <h1>Google Cloud Arcade</h1>
+        <h2>Facilitator '25 (Cohort 1)</h2>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 space-y-12">
+        <section class="card">
+            <p class="text-lg leading-relaxed">
+                The Arcade Facilitator Program is an always-on, no-cost gaming campaign where technical practitioners of all levels can learn new cloud skills like computing, application development, big data & AI/ML and earn digital badges & points to use towards claiming swag prizes and Google Cloud goodies.
+            </p>
+            <p class="text-sm text-gray-400 mt-4 italic">
+                Enrolments will open soon. The below mentioned timeline is currently TENTATIVE and is subject to changes.
+            </p>
+            <div class="timeline">
+                <p class="flex items-center">
+                    <i class="fas fa-calendar-day mr-2 text-blue-400"></i>
+                    April 1, 2025 at 5:00 PM - June 2, 2025 at 11:59 PM GMT+5:30
+                </p>
+                <p class="flex items-center mt-2">
+                    <i class="fas fa-calendar-day mr-2 text-blue-400"></i>
+                    Registration opens on April 1, 2025 at 5:00 PM GMT+5:30
                 </p>
             </div>
-        
-        </section>
-        
-
-        <!-- Cohort Update Alert -->
-        {% if cohort_active %}
-        <div class="max-w-2xl mx-auto mb-8">
-            <div class="bg-yellow-600 text-white rounded-lg p-4 shadow-lg">
-                <p class="text-xl font-semibold text-center">Arcade Cohort 2025 Updates Coming Soon!</p>
-                <p class="mt-2 text-center">Stay tuned for the latest information.</p>
-            </div>
-        </div>
-        {% endif %}
-
-        <!-- User Profile Card -->
-        <section class="max-w-2xl mx-auto mb-8">
-            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-8 shadow-2xl">
-                <div class="flex flex-col items-center">
-                    <div class="w-32 h-32 relative rounded-full border-4 border-white shadow-lg mb-4 overflow-hidden">
-                        <img src="{{ data.avatar_url }}" alt="Profile Picture" class="w-full h-full object-cover" onerror="this.style.display='none'; document.getElementById('alt-text').style.display='flex';">
-                        <span id="alt-text" class="absolute inset-0 flex items-center justify-center text-center text-white bg-black bg-opacity-50" style="display: none;">Profile Picture</span>
-                    </div>
-                    <h1 class="text-2xl font-bold text-white">{{ data.user_name }}</h1>
-                </div>
-            </div>
-        </section>
-        
-
         </section>
 
-        <!-- Points Summary -->
-        {% if data.game_trivia or data.level_games or data.cloud_digital_leader or data.skill_badges or data.arcade_classroom %}
-        <section class="max-w-2xl mx-auto mb-8">
-            <div class="bg-gray-800 rounded-lg p-6 shadow-xl">
-                <h2 class="text-2xl font-bold mb-6 text-center">Points Summary</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-gray-700 rounded-lg p-4">
-                        <p class="text-gray-300">Skill Badges</p>
-                        <p class="text-2xl font-bold">{{ data.points.normal_skill_badges_points }}</p>
-                    </div>
-                    <div class="bg-gray-700 rounded-lg p-4">
-                        <p class="text-gray-300">Arcade Games</p>
-                        <p class="text-2xl font-bold">{{ data.points.level_games_points }}</p>
-                    </div>
-                    <div class="bg-gray-700 rounded-lg p-4">
-                        <p class="text-gray-300">Trivia Games</p>
-                        <p class="text-2xl font-bold">{{ data.points.game_trivia_points }}</p>
-                    </div>
-                    <div class="bg-blue-600 rounded-lg p-4">
-                        <p class="text-gray-100">Total Points</p>
-                        <p class="text-3xl font-bold">{{ data.points.total_points }}</p>
-                    </div>
-                </div>
-            </div>
+        <section class="card">
+            <h2 class="text-2xl font-bold mb-4 flex items-center">
+                <i class="fas fa-tachometer-alt mr-2 text-purple-400"></i>
+                Track Your Progress
+            </h2>
+            <form action="{{ url_for('dashboard') }}" method="POST" class="flex flex-col gap-4">
+                <input type="url" name="profile_url" placeholder="Enter your Cloud Skills Boost Profile URL" 
+                       class="p-3 border border-gray-600 rounded-lg bg-gray-800 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all duration-300" 
+                       required>
+                <button type="submit" class="btn-submit">View Dashboard</button>
+            </form>
+            <p class="text-sm text-gray-400 mt-4">e.g., https://www.cloudskillsboost.google/public_profiles/your-profile</p>
         </section>
-        {% endif %}
-
-        <!-- Swag Eligibility -->
-        <section class="max-w-2xl mx-auto mb-8">
-            <div class="bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg p-6 shadow-2xl">
-                <h2 class="text-2xl font-bold mb-4 text-center">Program Information</h2>
-                <div class="space-y-4 text-center">
-                    <p class="text-lg">Prize counter opens in July 2025. Swag milestones will be announced soon.</p>
-                    <p class="text-lg font-medium">Important: Please use a new Google account for Cohort 2025.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Badges Section -->
-        {% if data.game_trivia or data.level_games or data.cloud_digital_leader or data.skill_badges or data.arcade_classroom %}
-        <section class="max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-8">Your Earned Badges</h2>
-            
-            {% for category in [
-                ('Trivia Game', data.game_trivia, data.badge_counts.game_trivia_count),
-                ('Arcade Games', data.level_games, data.badge_counts.level_games_count),
-                ('Flash Games', data.flash_games, data.badge_counts.flash_games_count),
-                ('Cloud Digital Leader', data.cloud_digital_leader, data.badge_counts.cloud_digital_leader_count),
-                ('Skill Badges', data.skill_badges, data.badge_counts.skill_badges_count)
-            ] %}
-            {% if category[1] %}
-            <div class="mb-12">
-                <h3 class="text-2xl font-semibold mb-6">{{ category[0] }} ({{ category[2] }})</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {% for badge in category[1] %}
-                    <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 transform hover:scale-105 transition-transform duration-200">
-                        <img src="{{ badge.image }}" alt="{{ badge.title }}" class="w-full h-auto rounded-lg mb-3">
-                        <h4 class="text-lg font-semibold mb-2">{{ badge.title }}</h4>
-                        <p class="text-gray-400">{{ badge.date if badge.date else 'Date not available' }}</p>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            {% endif %}
-            {% endfor %}
-        </section>
-        {% else %}
-        <div class="text-center py-12">
-            <p class="text-2xl font-semibold mb-4">No badges earned yet</p>
-            <a href="https://go.cloudskillsboost.google/arcade" 
-               class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-               target="_blank">Start Earning Badges</a>
-        </div>
-        {% endif %}
     </main>
-    <!-- Rest of the body content remains the same -->
-    <footer class="bg-gray-800 py-6">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-gray-400">
-                Built by Sufiyan Khan | 
-                <a href="https://www.linkedin.com/in/sufiyankhan15" class="text-blue-400 hover:text-blue-300 transition-colors" target="_blank">LinkedIn</a> | 
-                <a href="https://github.com/sufi1512" class="text-blue-400 hover:text-blue-300 transition-colors" target="_blank">GitHub</a>
-            </p>
-        </div>
+
+    <footer class="py-6 text-center text-gray-400">
+        <p>Built by Sufiyan Khan | 
+           <a href="https://www.linkedin.com/in/sufiyankhan15" target="_blank" class="text-blue-400 hover:text-blue-300">LinkedIn</a> | 
+           <a href="https://github.com/sufi1512" target="_blank" class="text-blue-400 hover:text-blue-300">GitHub</a>
+        </p>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../static/script.js"></script>
-    
 </body>
 </html>
