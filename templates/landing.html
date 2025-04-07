@@ -300,38 +300,42 @@ light));
         </section>
     </main>
 
-    <!-- Construction Modal -->
-    <div id="construction-modal" class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center">
-        <!-- Modal Content -->
-        <div class="bg-[var(--card-bg)] rounded-3xl shadow-2xl max-w-md w-full p-8 transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
-            <!-- Progress Bar -->
-            <div class="h-1.5 w-full bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 rounded-t-3xl animate-[gradient-x_3s_linear_infinite]"></div>
+<!-- Construction Modal -->
+<!-- Construction Modal -->
+<div id="construction-modal" class="fixed inset-0 z-50 hidden bg-gray-800 flex items-center justify-center">
+    <!-- Modal Content -->
+    <div class="bg-[var(--card-bg)] rounded-3xl shadow-2xl max-w-md w-full p-8 transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+        <!-- Progress Bar -->
+        <div class="h-1.5 w-full bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 rounded-t-3xl animate-[gradient-x_3s_linear_infinite]"></div>
+        
+        <!-- Content Area -->
+        <div class="p-6">
+            <!-- Icons -->
+            <div class="flex justify-center items-center gap-6 mb-6">
+                <i class="fas fa-tools text-4xl text-yellow-500 animate-[wiggle_1s_ease-in-out_infinite]"></i>
+                <i class="fas fa-cog text-4xl text-blue-500 animate-[spin_3s_linear_infinite]"></i>
+                <i class="fas fa-wrench text-4xl text-purple-500 animate-[wiggle_1s_ease-in-out_infinite_250ms]"></i>
+            </div>
             
-            <!-- Content Area -->
-            <div class="p-8">
-                <!-- Icons -->
-                <div class="flex justify-center items-center gap-6 mb-8">
-                    <i class="fas fa-tools text-4xl text-yellow-500 animate-[wiggle_1s_ease-in-out_infinite]"></i>
-                    <i class="fas fa-cog text-4xl text-blue-500 animate-[spin_3s_linear_infinite]"></i>
-                    <i class="fas fa-wrench text-4xl text-purple-500 animate-[wiggle_1s_ease-in-out_infinite_250ms]"></i>
-                </div>
-                
-                <h3 class="text-2xl font-bold mb-6 text-gradient bg-gradient-to-r from-blue-400 to-purple-500 font-['Poppins']">Under Development</h3>
-                
-                <div class="space-y-4 mb-8">
-                    <p class="text-lg font-semibold text-[var(--text-color)] font-['Poppins']">
-                        We're putting the final pieces together! 🔨
-                    </p>
-                    <p class="text-[var(--secondary-text)] leading-relaxed text-base font-['Poppins']">
-                        The dashboard is getting a makeover to provide you with an enhanced tracking experience.
-                    </p>
-                </div>
-                
-                <!-- Button with gradient border -->
+            <h3 class="text-3xl font-bold mb-4 text-center text-[var(--text-color)] drop-shadow-md">
+                Under Development
+            </h3>
+            
+            <div class="space-y-4 text-center">
+                <p class="text-lg font-medium text-[var(--text-color)] leading-relaxed">
+                    We're putting the final pieces together! 🔨
+                </p>
+                <p class="text-base text-[var(--secondary-text)] leading-relaxed">
+                    The dashboard is getting a makeover to provide you with an enhanced tracking experience.
+                </p>
+            </div>
+            
+            <!-- Button with gradient border -->
+            <div class="mt-6 text-center">
                 <button onclick="closeConstructionModal()" class="group relative inline-flex focus:outline-none">
                     <div class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-[2px] transition-all">
                         <div class="bg-[var(--card-bg)] rounded-full px-8 py-2 transition-all group-hover:bg-opacity-90">
-                            <span class="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent font-semibold text-lg font-['Poppins']">
+                            <span class="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent font-semibold text-lg">
                                 Got it!
                             </span>
                         </div>
@@ -340,6 +344,7 @@ light));
             </div>
         </div>
     </div>
+</div>
 
     <footer class="py-6 text-center text-[var(--secondary-text)]">
         <p class="text-sm">Built by Sufiyan Khan | 
