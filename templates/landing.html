@@ -301,9 +301,9 @@ light));
     </main>
 
     <!-- Construction Modal -->
-    <div id="construction-modal" class="fixed inset-0 z-50 hidden bg-black/75 flex items-center justify-center">
+    <div id="construction-modal" class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center">
         <!-- Modal Content -->
-        <div class="bg-[var(--card-bg)] rounded-3xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+        <div class="bg-[var(--card-bg)] rounded-3xl shadow-2xl max-w-md w-full p-8 transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
             <!-- Progress Bar -->
             <div class="h-1.5 w-full bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 rounded-t-3xl animate-[gradient-x_3s_linear_infinite]"></div>
             
@@ -316,13 +316,13 @@ light));
                     <i class="fas fa-wrench text-4xl text-purple-500 animate-[wiggle_1s_ease-in-out_infinite_250ms]"></i>
                 </div>
                 
-                <h3 class="text-2xl font-bold mb-6 text-[var(--text-color)]">Under Development</h3>
+                <h3 class="text-2xl font-bold mb-6 text-gradient bg-gradient-to-r from-blue-400 to-purple-500 font-['Poppins']">Under Development</h3>
                 
                 <div class="space-y-4 mb-8">
-                    <p class="text-lg font-medium text-[var(--text-color)]">
+                    <p class="text-lg font-semibold text-[var(--text-color)] font-['Poppins']">
                         We're putting the final pieces together! 🔨
                     </p>
-                    <p class="text-[var(--secondary-text)] leading-relaxed">
+                    <p class="text-[var(--secondary-text)] leading-relaxed text-base font-['Poppins']">
                         The dashboard is getting a makeover to provide you with an enhanced tracking experience.
                     </p>
                 </div>
@@ -331,7 +331,7 @@ light));
                 <button onclick="closeConstructionModal()" class="group relative inline-flex focus:outline-none">
                     <div class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-[2px] transition-all">
                         <div class="bg-[var(--card-bg)] rounded-full px-8 py-2 transition-all group-hover:bg-opacity-90">
-                            <span class="text-[var(--text-color)] font-semibold text-lg group-hover:opacity-90">
+                            <span class="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent font-semibold text-lg font-['Poppins']">
                                 Got it!
                             </span>
                         </div>
