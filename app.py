@@ -9,16 +9,20 @@ app = Flask(__name__)
 
 # Define date ranges for filtering badges
 DATE_RANGE = (datetime(2024, 7, 22).date(), datetime(2024, 12, 31).date())
-SPECIAL_DATE_RANGE = (datetime(2024, 7, 22).date(), datetime(2024, 7, 31).date())
+SPECIAL_DATE_RANGE = (datetime(2024, 7, 22).date(),
+                      datetime(2024, 7, 31).date())
+
 
 def parse_date(date_str):
     if date_str is None:
         return None
     try:
-        date_str = date_str.replace('Earned ', '').replace(' EDT', '').replace(' EST', '')
+        date_str = date_str.replace('Earned ', '').replace(
+            ' EDT', '').replace(' EST', '')
         return datetime.strptime(date_str, '%b %d, %Y').date()
     except ValueError:
         return None
+
 
 def filter_badges_by_date(badges, date_range):
     start_date, end_date = date_range
@@ -29,6 +33,7 @@ def filter_badges_by_date(badges, date_range):
             filtered_badges.append(badge)
     return filtered_badges
 
+
 def fetch_data(url):
     try:
         response = requests.get(url, timeout=10)
@@ -37,11 +42,13 @@ def fetch_data(url):
 
         # Extract user name
         name_element = soup.find('h1', class_='ql-display-small')
-        user_name = name_element.get_text(strip=True) if name_element else 'Arcade User'
+        user_name = name_element.get_text(
+            strip=True) if name_element else 'Arcade User'
 
         # Extract avatar URL
         avatar_element = soup.find('ql-avatar', class_='profile-avatar')
-        avatar_url = avatar_element['src'] if avatar_element and 'src' in avatar_element.attrs else url_for('static', filename='default_avatar.png')
+        avatar_url = avatar_element['src'] if avatar_element and 'src' in avatar_element.attrs else url_for(
+            'static', filename='default_avatar.png')
 
         # Initialize categories
         categories = {
@@ -56,13 +63,16 @@ def fetch_data(url):
         badges = soup.find_all('div', class_='profile-badge')
 
         for badge in badges:
-            title = badge.find('span', class_='ql-title-medium').get_text(strip=True)
+            title = badge.find(
+                'span', class_='ql-title-medium').get_text(strip=True)
             image_src = badge.find('img')['src']
-            earned_date = badge.find('span', class_='ql-body-medium').get_text(strip=True)
+            earned_date = badge.find(
+                'span', class_='ql-body-medium').get_text(strip=True)
 
             # Normalize title
             normalized_title = title.lower().strip()
-            badge_info = {'title': title, 'image': image_src, 'date': earned_date}
+            badge_info = {'title': title,
+                          'image': image_src, 'date': earned_date}
 
             # Calculate points for this badge
             if "the arcade trivia" in normalized_title:
@@ -94,18 +104,24 @@ def fetch_data(url):
                 badge_info['points'] = 0
 
         # Filter badges by date
-        categories['skill_badges'] = filter_badges_by_date(categories['skill_badges'], DATE_RANGE)
-        categories['game_trivia'] = filter_badges_by_date(categories['game_trivia'], DATE_RANGE)
-        categories['level_games'] = filter_badges_by_date(categories['level_games'], DATE_RANGE)
-        categories['flash_games'] = filter_badges_by_date(categories['flash_games'], DATE_RANGE)
+        categories['skill_badges'] = filter_badges_by_date(
+            categories['skill_badges'], DATE_RANGE)
+        categories['game_trivia'] = filter_badges_by_date(
+            categories['game_trivia'], DATE_RANGE)
+        categories['level_games'] = filter_badges_by_date(
+            categories['level_games'], DATE_RANGE)
+        categories['flash_games'] = filter_badges_by_date(
+            categories['flash_games'], DATE_RANGE)
 
         # Calculate points
-        points = calculate_points(categories['skill_badges'], categories['game_trivia'], 
-                                  categories['level_games'], len(categories['cloud_digital_leader']) - 1, 
+        points = calculate_points(categories['skill_badges'], categories['game_trivia'],
+                                  categories['level_games'], len(
+                                      categories['cloud_digital_leader']) - 1,
                                   categories['flash_games'], len(categories['arcade_classroom']) / 2)
 
         # Count badges
-        badge_counts = {f"{key}_count": len(value) for key, value in categories.items()}
+        badge_counts = {f"{key}_count": len(value)
+                        for key, value in categories.items()}
         badge_counts['total_badges'] = sum(badge_counts.values())
 
         return {
@@ -118,6 +134,7 @@ def fetch_data(url):
     except requests.RequestException as e:
         print(f"Error fetching data: {e}")
         return get_default_data()
+
 
 def get_default_data():
     return {
@@ -156,27 +173,34 @@ def get_default_data():
         }
     }
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method == 'POST':
-        profile_url = request.form.get('profile_url')
-        data = fetch_data(profile_url) if profile_url else get_default_data()
-        return redirect(url_for('dashboard', profile_url=profile_url))
+    # if request.method == 'POST':
+    #     profile_url = request.form.get('profile_url')
+    #     data = fetch_data(profile_url) if profile_url else get_default_data()
+    #     return redirect(url_for('dashboard', profile_url=profile_url))
     return render_template('landing.html')
+
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    cohort_active = True
-    if request.method == 'POST':
-        profile_url = request.form.get('profile_url')
-        data = fetch_data(profile_url) if profile_url and cohort_active else get_default_data()
-        return render_template('dashboard.html', data=data, cohort_active=cohort_active)
-    elif request.method == 'GET':
-        profile_url = request.args.get('profile_url')
-        if profile_url:
-            data = fetch_data(profile_url) if cohort_active else get_default_data()
-            return render_template('dashboard.html', data=data, cohort_active=cohort_active)
-        return redirect(url_for('index'))
+    # cohort_active = True
+    # if request.method == 'POST':
+    #     profile_url = request.form.get('profile_url')
+    #     data = fetch_data(
+    #         profile_url) if profile_url and cohort_active else get_default_data()
+    #     return render_template('dashboard.html', data=data, cohort_active=cohort_active)
+    # elif request.method == 'GET':
+    #     profile_url = request.args.get('profile_url')
+    #     if profile_url:
+    #         data = fetch_data(
+    #             profile_url) if cohort_active else get_default_data()
+    #         return render_template('dashboard.html', data=data, cohort_active=cohort_active)
+    #     return redirect(url_for('index'))
+    # Redirect back to index while under construction
+    return redirect(url_for('index'))
+
 
 @app.route('/about', methods=['GET', 'POST'])
 def about():
@@ -184,6 +208,7 @@ def about():
         form_data = request.form.get('some_field')
         return render_template('about.html', form_data=form_data)
     return render_template('about.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

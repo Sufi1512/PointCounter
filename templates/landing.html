@@ -82,7 +82,7 @@
             font-weight: 600;
             animation: fadeInUp 1s ease-out 0.3s;
             animation-fill-mode: backwards;
-            color: var(--secondary-text, var(--secondary-text-light));
+light));
         }
         .card {
             background: var(--card-bg, var(--card-bg-light));
@@ -202,6 +202,19 @@
                 padding: 0.5rem 1.5rem;
             }
         }
+        @keyframes gradient-x {
+            0% { background-position: 0% 50% }
+            100% { background-position: 200% 50% }
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
     </style>
 </head>
 <body>
@@ -226,7 +239,7 @@
             </button>
             <!-- Desktop Menu -->
             <div class="hidden sm:flex space-x-6">
-                <a href="https://www.sufiyankhan.tech/" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)] transition-colors">About</a>
+                <a href="https://gcafterna.netlify.app/about" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)] transition-colors">About</a>
                 <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)] transition-colors">Community</a>
             </div>
         </div>
@@ -241,7 +254,7 @@
             <i class="fas fa-times text-2xl"></i>
         </button>
         <div class="flex flex-col space-y-4">
-            <a href="https://www.sufiyankhan.tech/" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)] transition-colors">About</a>
+            <a href="https://gcafterna.netlify.app/about" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)] transition-colors">About</a>
             <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)] transition-colors">Community</a>
         </div>
     </div>
@@ -277,7 +290,7 @@
                 <i class="fas fa-tachometer-alt mr-2 text-[#9333EA]"></i>
                 Track Your Progress
             </h2>
-            <form action="{{ url_for('dashboard') }}" method="POST" class="flex flex-col gap-4">
+            <form id="dashboard-form" onsubmit="showConstructionModal(event)" class="flex flex-col gap-4">
                 <input type="url" name="profile_url" placeholder="Enter your Cloud Skills Boost Profile URL" 
                        class="p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-800 text-[var(--text-color)] focus:ring-2 focus:ring-[#3B82F6] focus:outline-none transition-all duration-300" 
                        required>
@@ -287,10 +300,55 @@
         </section>
     </main>
 
+    <!-- Construction Modal -->
+    <div id="construction-modal" class="fixed inset-0 z-50 hidden bg-black/75 flex items-center justify-center">
+        <!-- Modal Content -->
+        <div class="bg-[var(--card-bg)] rounded-3xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+            <!-- Progress Bar -->
+            <div class="h-1.5 w-full bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 rounded-t-3xl animate-[gradient-x_3s_linear_infinite]"></div>
+            
+            <!-- Content Area -->
+            <div class="p-8">
+                <!-- Icons -->
+                <div class="flex justify-center items-center gap-6 mb-8">
+                    <i class="fas fa-tools text-4xl text-yellow-500 animate-[wiggle_1s_ease-in-out_infinite]"></i>
+                    <i class="fas fa-cog text-4xl text-blue-500 animate-[spin_3s_linear_infinite]"></i>
+                    <i class="fas fa-wrench text-4xl text-purple-500 animate-[wiggle_1s_ease-in-out_infinite_250ms]"></i>
+                </div>
+                
+                <h3 class="text-2xl font-bold mb-6 text-[var(--text-color)]">Under Development</h3>
+                
+                <div class="space-y-4 mb-8">
+                    <p class="text-lg font-medium text-[var(--text-color)]">
+                        We're putting the final pieces together! 🔨
+                    </p>
+                    <p class="text-[var(--secondary-text)] leading-relaxed">
+                        The dashboard is getting a makeover to provide you with an enhanced tracking experience.
+                    </p>
+                </div>
+                
+                <!-- Button with gradient border -->
+                <button onclick="closeConstructionModal()" class="group relative inline-flex focus:outline-none">
+                    <div class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-[2px] transition-all">
+                        <div class="bg-[var(--card-bg)] rounded-full px-8 py-2 transition-all group-hover:bg-opacity-90">
+                            <span class="text-[var(--text-color)] font-semibold text-lg group-hover:opacity-90">
+                                Got it!
+                            </span>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <footer class="py-6 text-center text-[var(--secondary-text)]">
         <p class="text-sm">Built by Sufiyan Khan | 
            <a href="https://www.linkedin.com/in/sufiyankhan15" target="_blank" class="text-[#3B82F6] hover:text-[#2563EB]">LinkedIn</a> | 
            <a href="https://github.com/sufi1512" target="_blank" class="text-[#3B82F6] hover:text-[#2563EB]">GitHub</a>
+        </p>
+        <p class="text-sm mt-2"> & Moinuddin Quazi | 
+           <a href="https://www.linkedin.com/in/md-moinuddin-quazi-7a5942244/" target="_blank" class="text-[#3B82F6] hover:text-[#2563EB]">LinkedIn</a> | 
+           <a href="https://github.com/kmoin1309" target="_blank" class="text-[#3B82F6] hover:text-[#2563EB]">GitHub</a>
         </p>
     </footer>
 
@@ -337,6 +395,48 @@
             } else {
                 htmlElement.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Enhanced Construction Modal Functions with smooth animations
+        function showConstructionModal(event) {
+            event.preventDefault();
+            const modal = document.getElementById('construction-modal');
+            const modalContent = document.getElementById('modal-content');
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            requestAnimationFrame(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            });
+        }
+
+        function closeConstructionModal() {
+            const modal = document.getElementById('construction-modal');
+            const modalContent = document.getElementById('modal-content');
+            
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 200);
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('construction-modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('construction-modal')) {
+                closeConstructionModal();
+            }
+        });
+
+        // Add escape key listener for modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !document.getElementById('construction-modal').classList.contains('hidden')) {
+                closeConstructionModal();
             }
         });
     </script>
