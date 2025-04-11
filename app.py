@@ -1,40 +1,44 @@
 from flask import Flask, render_template, request, redirect, url_for
 import requests
 from bs4 import BeautifulSoup
-from points_calculator import calculate_points
-from badges import SKILL_BADGES_LIST, CLOUD_DIGITAL_LEADER_BADGES, Arcade_Classroom
+from points_calculator import calculate_points, LAB_FREE_COURSES
+from badges import SKILL_BADGES_LIST
 from datetime import datetime
+import logging
 
 app = Flask(__name__)
 
-# Define date ranges for filtering badges
-DATE_RANGE = (datetime(2024, 7, 22).date(), datetime(2024, 12, 31).date())
-SPECIAL_DATE_RANGE = (datetime(2024, 7, 22).date(),
-                      datetime(2024, 7, 31).date())
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
 
+# Define date range for the new cohort
+DATE_RANGE = (datetime(2024, 1, 1).date(), datetime(2025, 6, 30).date())
 
 def parse_date(date_str):
     if date_str is None:
         return None
     try:
-        date_str = date_str.replace('Earned ', '').replace(
-            ' EDT', '').replace(' EST', '')
+        date_str = date_str.replace('Earned ', '').replace(' EDT', '').replace(' EST', '')
         return datetime.strptime(date_str, '%b %d, %Y').date()
     except ValueError:
+        app.logger.error(f"Failed to parse date: {date_str}")
         return None
-
 
 def filter_badges_by_date(badges, date_range):
     start_date, end_date = date_range
     filtered_badges = []
     for badge in badges:
         earned_date = parse_date(badge.get('date'))
+        app.logger.debug(f"Badge '{badge.get('title')}' earned on: {earned_date}")
         if earned_date and start_date <= earned_date <= end_date:
             filtered_badges.append(badge)
+        elif not earned_date:
+            app.logger.warning(f"Badge '{badge.get('title')}' has invalid date: {badge.get('date')}")
+        else:
+            app.logger.debug(f"Badge '{badge.get('title')}' filtered out (outside {start_date} - {end_date})")
     return filtered_badges
 
-
-def fetch_data(url):
+def fetch_data(url, is_facilitator=False):
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
@@ -42,8 +46,7 @@ def fetch_data(url):
 
         # Extract user name
         name_element = soup.find('h1', class_='ql-display-small')
-        user_name = name_element.get_text(
-            strip=True) if name_element else 'Arcade User'
+        user_name = name_element.get_text(strip=True) if name_element else 'Arcade User'
 
         # Extract avatar URL
         avatar_element = soup.find('ql-avatar', class_='profile-avatar')
@@ -55,73 +58,67 @@ def fetch_data(url):
             'game_trivia': [],
             'level_games': [],
             'skill_badges': [],
-            'cloud_digital_leader': [],
             'flash_games': [],
-            'arcade_classroom': [],
+            'lab_free_courses': [],
         }
 
         badges = soup.find_all('div', class_='profile-badge')
+        app.logger.debug(f"Total badges found: {len(badges)}")
 
         for badge in badges:
-            title = badge.find(
-                'span', class_='ql-title-medium').get_text(strip=True)
+            title = badge.find('span', class_='ql-title-medium').get_text(strip=True)
             image_src = badge.find('img')['src']
-            earned_date = badge.find(
-                'span', class_='ql-body-medium').get_text(strip=True)
+            earned_date = badge.find('span', class_='ql-body-medium').get_text(strip=True)
 
-            # Normalize title
             normalized_title = title.lower().strip()
-            badge_info = {'title': title,
-                          'image': image_src, 'date': earned_date}
+            badge_info = {'title': title, 'image': image_src, 'date': earned_date}
+            app.logger.debug(f"Processing badge: {title} (normalized: {normalized_title})")
 
-            # Calculate points for this badge
-            if "the arcade trivia" in normalized_title:
+            # Broaden trivia badge matching
+            if any(keyword in normalized_title for keyword in ["trivia", "the arcade trivia", "arcade trivia", "trivia game", "trivia challenge"]):
                 badge_info['points'] = 1
                 categories['game_trivia'].append(badge_info)
-            elif any(keyword in normalized_title for keyword in ["level", "the arcade base camp"]):
+                app.logger.debug(f"Categorized as game_trivia: {title}")
+            elif any(keyword in normalized_title for keyword in ["level", "base camp"]):  # Updated to include "base camp"
                 badge_info['points'] = 1
                 categories['level_games'].append(badge_info)
+                app.logger.debug(f"Categorized as level_games: {title}")
             elif normalized_title in [badge.lower().strip() for badge in SKILL_BADGES_LIST]:
-                earned_date_parsed = parse_date(earned_date)
-                if earned_date_parsed and SPECIAL_DATE_RANGE[0] <= earned_date_parsed <= SPECIAL_DATE_RANGE[1]:
-                    badge_info['points'] = 1  # Special bonus
-                else:
-                    badge_info['points'] = 0.5  # Normal skill badge
+                badge_info['points'] = 0.5
                 categories['skill_badges'].append(badge_info)
-            elif normalized_title in [badge.lower().strip() for badge in CLOUD_DIGITAL_LEADER_BADGES]:
+                app.logger.debug(f"Categorized as skill_badges: {title}")
+            elif normalized_title in [course.lower().strip() for course in LAB_FREE_COURSES]:
                 badge_info['points'] = 0
-                categories['cloud_digital_leader'].append(badge_info)
-            elif normalized_title in [badge.lower().strip() for badge in Arcade_Classroom]:
-                badge_info['points'] = 0
-                categories['arcade_classroom'].append(badge_info)
-            elif any(keyword in normalized_title for keyword in ["the arcade-athon", "the arcade certification zone", "arcade explorers", "trick-or-skills", "diwali in the arcade", "arcade snowdown"]):
-                if 'the arcade certification zone' in normalized_title:
-                    badge_info['points'] = 1
-                else:
-                    badge_info['points'] = 2
+                categories['lab_free_courses'].append(badge_info)
+                app.logger.debug(f"Categorized as lab_free_courses: {title}")
+            elif any(keyword in normalized_title for keyword in ["arcade techcare", "arcade explorers", "trick-or-skills", "diwali in the arcade", "arcade snowdown"]):
+                badge_info['points'] = 2
                 categories['flash_games'].append(badge_info)
+                app.logger.debug(f"Categorized as flash_games (special): {title}")
+            elif "the arcade certification zone" in normalized_title:
+                badge_info['points'] = 1
+                categories['flash_games'].append(badge_info)
+                app.logger.debug(f"Categorized as flash_games (cert zone): {title}")
             else:
-                badge_info['points'] = 0
+                app.logger.debug(f"Badge not categorized: {title}")
 
         # Filter badges by date
-        categories['skill_badges'] = filter_badges_by_date(
-            categories['skill_badges'], DATE_RANGE)
-        categories['game_trivia'] = filter_badges_by_date(
-            categories['game_trivia'], DATE_RANGE)
-        categories['level_games'] = filter_badges_by_date(
-            categories['level_games'], DATE_RANGE)
-        categories['flash_games'] = filter_badges_by_date(
-            categories['flash_games'], DATE_RANGE)
+        for category in categories:
+            app.logger.debug(f"Before filtering {category}: {categories[category]}")
+            categories[category] = filter_badges_by_date(categories[category], DATE_RANGE)
+            app.logger.debug(f"After filtering {category}: {categories[category]}")
 
         # Calculate points
-        points = calculate_points(categories['skill_badges'], categories['game_trivia'],
-                                  categories['level_games'], len(
-                                      categories['cloud_digital_leader']) - 1,
-                                  categories['flash_games'], len(categories['arcade_classroom']) / 2)
+        points = calculate_points(
+            categories['skill_badges'],
+            categories['game_trivia'],
+            categories['level_games'],
+            categories['flash_games'],
+            categories['lab_free_courses'],
+            is_facilitator=is_facilitator
+        )
 
-        # Count badges
-        badge_counts = {f"{key}_count": len(value)
-                        for key, value in categories.items()}
+        badge_counts = {f"{key}_count": len(value) for key, value in categories.items()}
         badge_counts['total_badges'] = sum(badge_counts.values())
 
         return {
@@ -129,12 +126,12 @@ def fetch_data(url):
             'avatar_url': avatar_url,
             **categories,
             'badge_counts': badge_counts,
-            'points': points
+            'points': points,
+            'is_facilitator': is_facilitator
         }
     except requests.RequestException as e:
-        print(f"Error fetching data: {e}")
+        app.logger.error(f"Error fetching data: {e}")
         return get_default_data()
-
 
 def get_default_data():
     return {
@@ -142,73 +139,60 @@ def get_default_data():
         'avatar_url': url_for('static', filename='default_avatar.png'),
         'game_trivia': [],
         'level_games': [],
-        'flash_games': [],
         'skill_badges': [],
-        'cloud_digital_leader': [],
-        'arcade_classroom': [],
+        'flash_games': [],
+        'lab_free_courses': [],
         'badge_counts': {
             'game_trivia_count': 0,
             'level_games_count': 0,
             'skill_badges_count': 0,
-            'cloud_digital_leader_count': 0,
-            'arcade_classroom_count': 0,
             'flash_games_count': 0,
+            'lab_free_courses_count': 0,
             'total_badges': 0
         },
         'points': {
-            'total_points': 0,
+            'game_points': 0,
             'game_trivia_points': 0,
-            'flash_games_points': 0,
-            'level_games_points': 0,
             'skill_badges_points': 0,
-            'cloud_digital_leader_points': 0,
-            'arcade_classroom_points': 0,
-            'special_skill_badges_points': 0,
-            'normal_skill_badges_points': 0,
-            'special_badges_count': 0,
-            'normal_badges_count': 0,
-            'flash_games_count': 0,
+            'lab_free_count': 0,
+            'special_game_count': 0,
             'milestone': "No Milestone Achieved",
             'milestone_bonus': 0,
-        }
+            'facilitator_bonus': 0,
+            'total_points': 0
+        },
+        'is_facilitator': False
     }
-
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    # if request.method == 'POST':
-    #     profile_url = request.form.get('profile_url')
-    #     data = fetch_data(profile_url) if profile_url else get_default_data()
-    #     return redirect(url_for('dashboard', profile_url=profile_url))
+    if request.method == 'POST':
+        profile_url = request.form.get('profile_url')
+        is_facilitator = request.form.get('is_facilitator') == 'yes'
+        if profile_url:
+            return redirect(url_for('dashboard', profile_url=profile_url, is_facilitator='yes' if is_facilitator else 'no'))
     return render_template('landing.html')
-
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    # cohort_active = True
-    # if request.method == 'POST':
-    #     profile_url = request.form.get('profile_url')
-    #     data = fetch_data(
-    #         profile_url) if profile_url and cohort_active else get_default_data()
-    #     return render_template('dashboard.html', data=data, cohort_active=cohort_active)
-    # elif request.method == 'GET':
-    #     profile_url = request.args.get('profile_url')
-    #     if profile_url:
-    #         data = fetch_data(
-    #             profile_url) if cohort_active else get_default_data()
-    #         return render_template('dashboard.html', data=data, cohort_active=cohort_active)
-    #     return redirect(url_for('index'))
-    # Redirect back to index while under construction
+    cohort_active = True
+    if request.method == 'POST':
+        profile_url = request.form.get('profile_url')
+        is_facilitator = request.form.get('is_facilitator') == 'yes'
+        data = fetch_data(profile_url, is_facilitator) if profile_url and cohort_active else get_default_data()
+        return render_template('dashboard.html', data=data, cohort_active=cohort_active)
+    elif request.method == 'GET':
+        profile_url = request.args.get('profile_url')
+        is_facilitator = request.args.get('is_facilitator') == 'yes'
+        if profile_url:
+            data = fetch_data(profile_url, is_facilitator) if cohort_active else get_default_data()
+            return render_template('dashboard.html', data=data, cohort_active=cohort_active)
+        return redirect(url_for('index'))
     return redirect(url_for('index'))
 
-
-@app.route('/about', methods=['GET', 'POST'])
+@app.route('/about')
 def about():
-    if request.method == 'POST':
-        form_data = request.form.get('some_field')
-        return render_template('about.html', form_data=form_data)
     return render_template('about.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)

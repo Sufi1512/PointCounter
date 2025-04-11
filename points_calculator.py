@@ -1,9 +1,31 @@
 from datetime import datetime
 
-# Define date ranges
-FACILITATOR_DATE_RANGE = (datetime(2024, 7, 22).date(), datetime(2024, 9, 27).date())
-DATE_RANGE = (datetime(2024, 7, 22).date(), datetime(2024, 12, 31).date())
-SPECIAL_DATE_RANGE = (datetime(2024, 7, 22).date(), datetime(2024, 7, 31).date())
+# Define date ranges for the new cohort
+DATE_RANGE = (datetime(2024, 1, 1).date(), datetime(2025, 6, 30).date())  # Widened for testing
+FACILITATOR_DATE_RANGE = (datetime(2024, 1, 1).date(), datetime(2025, 6, 30).date())
+SPECIAL_DATE_RANGE = (datetime(2024, 1, 1).date(), datetime(2024, 1, 15).date())
+
+# Lab-free courses list
+LAB_FREE_COURSES = [
+    'Responsible AI: Applying AI Principles with Google Cloud',
+    'Responsible AI for Digital Leaders with Google Cloud',
+    'Customer Experience with Google AI Architecture',
+    'Machine Learning Operations (MLOps) with Vertex AI: Model Evaluation',
+    'Conversational AI on Vertex AI and Dialogflow CX',
+    'Building Complex End to End Self-Service Experiences in Dialogflow CX',
+    'Google Drive',
+    'Google Docs',
+    'Google Slides',
+    'Google Meet',
+    'Google Sheets',
+    'Google Calendar',
+    'Digital Transformation with Google Cloud',
+    'Exploring Data Transformation with Google Cloud',
+    'Infrastructure and Application Modernization with Google Cloud',
+    'Scaling with Google Cloud Operations',
+    'Innovating with Google Cloud Artificial Intelligence',
+    'Trust and Security with Google Cloud'
+]
 
 def parse_date(date_str):
     if date_str is None:
@@ -24,90 +46,92 @@ def filter_badges_by_date(badges, date_range):
             filtered_badges.append(badge)
     return filtered_badges
 
-def calculate_points(skill_badges, game_trivia, level_games, cloud_digital_leader, flash_games, arcade_classroom):
+def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_free_courses, is_facilitator=False):
+    # Filter badges by cohort date range
     skill_badges = filter_badges_by_date(skill_badges, DATE_RANGE)
     game_trivia = filter_badges_by_date(game_trivia, DATE_RANGE)
     level_games = filter_badges_by_date(level_games, DATE_RANGE)
     flash_games = filter_badges_by_date(flash_games, DATE_RANGE)
+    lab_free_courses = filter_badges_by_date(lab_free_courses, DATE_RANGE)
 
-    facilitator_skill_badges = filter_badges_by_date(skill_badges, FACILITATOR_DATE_RANGE)
-    facilitator_game_trivia = filter_badges_by_date(game_trivia, FACILITATOR_DATE_RANGE)
-    facilitator_level_games = filter_badges_by_date(level_games, FACILITATOR_DATE_RANGE)
+    # Combine level_games and flash_games into a single "games" list
+    all_games = level_games + flash_games
 
-    game_trivia_points = len(game_trivia)
-    level_games_points = len(level_games)
-    flash_games_points = 0
+    # Points calculation
+    game_trivia_points = len(game_trivia)  # 1 point per trivia badge
     special_skill_badges_points = 0
     normal_skill_badges_points = 0
-    special_badges_count = 0
-    normal_badges_count = 0
+    special_skill_badges_count = 0
+    normal_skill_badges_count = 0
+    game_points = 0
+    special_game_count = 0
 
-    for badge in flash_games:
-        title = badge.get('title').lower()
-        if 'the arcade certification zone' in title:
-            flash_games_points += 1
-        elif 'the arcade-athon' or 'arcade explorers' or 'trick-or-skills' or 'diwali in the arcade' or 'arcade snowdown' in title:
-            flash_games_points += 2
-
+    # Calculate skill badge points
     for badge in skill_badges:
         earned_date = parse_date(badge.get('date'))
         if earned_date:
             if SPECIAL_DATE_RANGE[0] <= earned_date <= SPECIAL_DATE_RANGE[1]:
                 special_skill_badges_points += 1
-                special_badges_count += 1
+                special_skill_badges_count += 1
             else:
                 normal_skill_badges_points += 0.5
-                normal_badges_count += 1
+                normal_skill_badges_count += 1
 
-    cases = {
-        "Criteria 1": [
-            {"milestone": "Ultimate Milestone By Criteria 1", "bonus": 25, "level_games": 6, "game_trivia": 8, "skill_badges": 42},
-            {"milestone": "Milestone 3 By Criteria 1", "bonus": 15, "level_games": 5, "game_trivia": 6, "skill_badges": 28},
-            {"milestone": "Milestone 2 By Criteria 1", "bonus": 9, "level_games": 3, "game_trivia": 4, "skill_badges": 18},
-            {"milestone": "Milestone 1 By Criteria 1", "bonus": 2, "level_games": 2, "game_trivia": 2, "skill_badges": 8},
-        ],
-        "Criteria 2": [
-            {"milestone": "Ultimate Milestone By Criteria 2", "bonus": 30, "level_games": 4, "game_trivia": 4, "skill_badges": 44},
-            {"milestone": "Milestone 3 By Criteria 2", "bonus": 19, "level_games": 3, "game_trivia": 3, "skill_badges": 30},
-            {"milestone": "Milestone 2 By Criteria 2", "bonus": 11, "level_games": 2, "game_trivia": 2, "skill_badges": 20},
-            {"milestone": "Milestone 1 By Criteria 2", "bonus": 3, "level_games": 1, "game_trivia": 1, "skill_badges": 10},
-        ],
-    }
+    skill_badges_points = special_skill_badges_points + normal_skill_badges_points
+
+    # Calculate game points
+    for badge in all_games:
+        title = badge.get('title').lower()
+        if any(keyword in title for keyword in ["the arcade-athon", "arcade explorers", "trick-or-skills", "diwali in the arcade", "arcade snowdown","techcare"]):
+            game_points += 2
+            special_game_count += 1
+        else:
+            game_points += 1
+
+    # Milestone criteria
+    milestones = [
+        {"milestone": "Ultimate Milestone", "bonus": 25, "level_games": 10, "game_trivia": 8, "skill_badges": 44, "lab_free": 16},
+        {"milestone": "Milestone 3", "bonus": 15, "level_games": 8, "game_trivia": 7, "skill_badges": 30, "lab_free": 12},
+        {"milestone": "Milestone 2", "bonus": 8, "level_games": 6, "game_trivia": 6, "skill_badges": 20, "lab_free": 8},
+        {"milestone": "Milestone 1", "bonus": 2, "level_games": 4, "game_trivia": 4, "skill_badges": 10, "lab_free": 4},
+    ]
 
     milestone = "No Milestone Achieved"
     milestone_bonus = 0
+    facilitator_bonus = 0
 
-    criteria_milestones = []
-    for criteria, milestones in cases.items():
-        for m in milestones:
-            if len(facilitator_level_games) >= m["level_games"] and len(facilitator_game_trivia) >= m["game_trivia"] and len(facilitator_skill_badges) >= m["skill_badges"]:
-                criteria_milestones.append({"criteria": criteria, "milestone": m["milestone"], "bonus": m["bonus"]})
-                break
+    # Check milestones
+    for m in milestones:
+        if (len(all_games) >= m["level_games"] and
+            len(game_trivia) >= m["game_trivia"] and
+            len(skill_badges) >= m["skill_badges"] and
+            len(lab_free_courses) >= m["lab_free"]):
+            milestone = m["milestone"]
+            if is_facilitator:
+                facilitator_bonus = m["bonus"] * 1.5
+            else:
+                milestone_bonus = m["bonus"]
+            break
 
-    if criteria_milestones:
-        highest_milestone = max(criteria_milestones, key=lambda x: x['bonus'])
-        milestone = highest_milestone["milestone"]
-        milestone_bonus = highest_milestone["bonus"]
-
-    if cloud_digital_leader < 5:
-        cloud_digital_leader = 0
-
-    total_points = (game_trivia_points + level_games_points +
-                    int(special_skill_badges_points) + int(normal_skill_badges_points) +
-                    cloud_digital_leader + flash_games_points + int(milestone_bonus + arcade_classroom))
+    # Total points
+    total_points = game_points + game_trivia_points + skill_badges_points
+    if is_facilitator:
+        total_points += facilitator_bonus
+    else:
+        total_points += milestone_bonus
 
     return {
+        'game_points': game_points,
         'game_trivia_points': game_trivia_points,
-        'level_games_points': level_games_points,
-        'flash_games_points': flash_games_points,
+        'skill_badges_points': skill_badges_points,
         'special_skill_badges_points': special_skill_badges_points,
-        'normal_skill_badges_points': int(normal_skill_badges_points),
-        'special_badges_count': special_badges_count,
-        'normal_badges_count': normal_badges_count,
-        'cloud_digital_leader_points': cloud_digital_leader,
-        'arcade_classroom_points': arcade_classroom,
-        'flash_games_count': len(flash_games),
+        'normal_skill_badges_points': normal_skill_badges_points,
+        'special_skill_badges_count': special_skill_badges_count,
+        'normal_skill_badges_count': normal_skill_badges_count,
+        'lab_free_count': len(lab_free_courses),
+        'special_game_count': special_game_count,
         'milestone': milestone,
         'milestone_bonus': milestone_bonus,
-        'total_points': total_points,
+        'facilitator_bonus': facilitator_bonus,
+        'total_points': int(total_points),
     }

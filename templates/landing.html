@@ -3,60 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Cloud Arcade Facilitator '25</title>
+    <title>Google Cloud Arcade Facilitator '25 - Welcome</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         :root {
             /* Light Mode Colors */
-            --bg-color-light: #f4f7fa;
+            --bg-color-light: #f9fafb;
             --card-bg-light: #ffffff;
-            --text-color-light: #2d3748;
-            --secondary-text-light: #718096;
-            --accent-color: #3B82F6;
-            --accent-gradient: linear-gradient(135deg, #3B82F6, #9333EA);
-            --shadow-light: 0 10px 20px rgba(0, 0, 0, 0.1);
-            --navbar-bg-light: rgba(255, 255, 255, 0.9);
-            --timeline-bg-light: #e2e8f0;
-            --hover-shadow-light: 0 15px 30px rgba(0, 0, 0, 0.15);
+            --text-color-light: #1f2937;
+            --secondary-text-light: #6b7280;
+            --accent-primary: #4f46e5; /* Indigo */
+            --accent-secondary: #ec4899; /* Pink */
+            --accent-gradient: linear-gradient(135deg, #4f46e5, #ec4899);
+            --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --navbar-bg-light: rgba(255, 255, 255, 0.95);
+            --timeline-bg-light: #f1f5f9;
+            --hover-shadow-light: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
         .dark {
             /* Dark Mode Colors */
-            --bg-color: #1A2526;
-            --card-bg: #2A3A3B;
-            --text-color: #ffffff;
-            --secondary-text: #a0aec0;
-            --accent-color: #3B82F6;
-            --accent-gradient: linear-gradient(135deg, #3B82F6, #9333EA);
-            --shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            --navbar-bg: rgba(42, 58, 59, 0.8);
-            --timeline-bg: #3A4A4B;
-            --hover-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            --bg-color: #111827;
+            --card-bg: #1f2a44;
+            --text-color: #f3f4f6;
+            --secondary-text: #9ca3af;
+            --accent-primary: #818cf8; /* Light Indigo */
+            --accent-secondary: #f472b6; /* Light Pink */
+            --accent-gradient: linear-gradient(135deg, #818cf8, #f472b6);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --navbar-bg: rgba(31, 42, 68, 0.9);
+            --timeline-bg: #374151;
+            --hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
         }
         body {
             background: var(--bg-color, var(--bg-color-light));
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             color: var(--text-color, var(--text-color-light));
             min-height: 100vh;
-            position: relative;
             transition: background 0.3s ease, color 0.3s ease;
         }
         .navbar {
             background: var(--navbar-bg, var(--navbar-bg-light));
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             padding: 1rem 2rem;
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 20;
             box-shadow: var(--shadow, var(--shadow-light));
+        }
+        .navbar a:hover {
+            color: var(--accent-primary);
+            transition: color 0.2s ease;
         }
         .hero {
             background: var(--accent-gradient);
-            padding: 4rem 2rem;
+            padding: 6rem 2rem;
             text-align: center;
-            border-bottom-left-radius: 50px;
-            border-bottom-right-radius: 50px;
             position: relative;
             overflow: hidden;
             box-shadow: var(--shadow, var(--shadow-light));
@@ -64,64 +67,84 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
-            opacity: 0.5;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent);
+            animation: pulse 10s infinite ease-in-out;
         }
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: 3.5rem;
             font-weight: 700;
+            letter-spacing: -0.025em;
+            background: linear-gradient(90deg, #ffffff, #d1d5db);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             animation: fadeInDown 1s ease-out;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
-        .hero h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            animation: fadeInUp 1s ease-out 0.3s;
-            animation-fill-mode: backwards;
-light));
+        .hero p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 1rem auto 2rem;
+            animation: fadeInUp 1s ease-out 0.3s backwards;
         }
         .card {
             background: var(--card-bg, var(--card-bg-light));
-            border-radius: 20px;
-            padding: 1.5rem;
+            border-radius: 24px;
+            padding: 2rem;
             box-shadow: var(--shadow, var(--shadow-light));
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
             box-shadow: var(--hover-shadow, var(--hover-shadow-light));
         }
-        .btn-submit {
+        .btn-primary {
             background: var(--accent-gradient);
-            padding: 0.75rem 2rem;
+            padding: 0.75rem 2.5rem;
             border-radius: 9999px;
             color: white;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
         }
-        .btn-submit:hover {
-            background: linear-gradient(135deg, #2563EB, #7E22CE);
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.6);
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #4338ca, #db2777);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5);
         }
-        .timeline {
-            background: var(--timeline-bg, var(--timeline-bg-light));
-            padding: 1rem;
-            border-radius: 10px;
-            margin-top: 1rem;
-            animation: fadeIn 1s ease-out;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            padding: 0.75rem 2.5rem;
+            border-radius: 9999px;
+            color: var(--accent-primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
         }
-        .timeline p {
-            transition: color 0.3s ease;
+        .btn-secondary:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
         }
-        .timeline p:hover {
-            color: var(--accent-color);
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.2);
         }
         .mobile-menu {
             background: var(--card-bg, var(--card-bg-light));
@@ -136,8 +159,8 @@ light));
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
             z-index: 15;
             opacity: 0;
             pointer-events: none;
@@ -148,12 +171,12 @@ light));
             pointer-events: auto;
         }
         .theme-toggle {
-            position: relative;
-            width: 48px;
-            height: 24px;
+            width: 52px;
+            height: 28px;
             background: var(--accent-gradient);
             border-radius: 9999px;
             cursor: pointer;
+            position: relative;
             transition: background 0.3s ease;
         }
         .theme-toggle input {
@@ -163,15 +186,15 @@ light));
             position: absolute;
             top: 2px;
             left: 2px;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             background: white;
             border-radius: 50%;
             transition: transform 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         .theme-toggle input:checked + .slider {
             transform: translateX(24px);
@@ -184,36 +207,26 @@ light));
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.7; }
         }
         @media (max-width: 640px) {
-            .hero h1 {
-                font-size: 1.75rem;
+            .hero {
+                padding: 4rem 1.5rem;
             }
-            .hero h2 {
-                font-size: 1.25rem;
+            .hero h1 {
+                font-size: 2.25rem;
+            }
+            .hero p {
+                font-size: 1rem;
             }
             .card {
-                padding: 1rem;
+                padding: 1.5rem;
             }
-            .btn-submit {
-                padding: 0.5rem 1.5rem;
+            .btn-primary, .btn-secondary {
+                padding: 0.625rem 2rem;
             }
-        }
-        @keyframes gradient-x {
-            0% { background-position: 0% 50% }
-            100% { background-position: 200% 50% }
-        }
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(-10deg); }
-            50% { transform: rotate(10deg); }
-        }
-        .text-gradient {
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
         }
     </style>
 </head>
@@ -221,26 +234,23 @@ light));
     <!-- Navbar -->
     <nav class="navbar flex justify-between items-center">
         <a href="/" class="text-xl sm:text-2xl font-bold flex items-center">
-            <i class="fas fa-gamepad mr-2 text-[#3B82F6]"></i>
+            <i class="fas fa-gamepad mr-2 text-[var(--accent-primary)]"></i>
             Google Cloud Arcade
         </a>
-        <div class="flex items-center space-x-4">
-            <!-- Theme Toggle -->
+        <div class="flex items-center space-x-6">
             <label class="theme-toggle">
                 <input type="checkbox" id="theme-toggle-checkbox">
                 <span class="slider">
-                    <i class="fas fa-sun text-yellow-500 dark:hidden"></i>
-                    <i class="fas fa-moon text-gray-700 hidden dark:block"></i>
+                    <i class="fas fa-sun text-yellow-400 dark:hidden"></i>
+                    <i class="fas fa-moon text-gray-600 hidden dark:block"></i>
                 </span>
             </label>
-            <!-- Hamburger Icon for Mobile -->
-            <button id="menu-toggle" class="sm:hidden text-[var(--text-color)] hover:text-[var(--accent-color)] focus:outline-none">
+            <button id="menu-toggle" class="sm:hidden text-[var(--text-color)] hover:text-[var(--accent-primary)] focus:outline-none">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
-            <!-- Desktop Menu -->
-            <div class="hidden sm:flex space-x-6">
-                <a href="https://gcafterna.netlify.app/about" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)] transition-colors">About</a>
-                <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)] transition-colors">Community</a>
+            <div class="hidden sm:flex space-x-8">
+                <a href="https://www.sufiyankhan.tech/" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-primary)] font-medium">About</a>
+                <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-primary)] font-medium">Community</a>
             </div>
         </div>
     </nav>
@@ -249,117 +259,85 @@ light));
     <div id="overlay" class="overlay"></div>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="sm:hidden mobile-menu mobile-menu-hidden fixed top-0 right-0 w-64 h-full z-20 p-4">
-        <button id="menu-close" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)] mb-4">
+    <div id="mobile-menu" class="sm:hidden mobile-menu mobile-menu-hidden fixed top-0 right-0 w-72 h-full z-20 p-6">
+        <button id="menu-close" class="text-[var(--secondary-text)] hover:text-[var(--accent-primary)] mb-6">
             <i class="fas fa-times text-2xl"></i>
         </button>
-        <div class="flex flex-col space-y-4">
-            <a href="https://gcafterna.netlify.app/about" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)] transition-colors">About</a>
-            <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-color)] transition-colors">Community</a>
+        <div class="flex flex-col space-y-6">
+            <a href="https://www.sufiyankhan.tech/" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-primary)] font-medium text-lg">About</a>
+            <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-primary)] font-medium text-lg">Community</a>
         </div>
     </div>
 
     <!-- Hero Section -->
     <header class="hero">
-        <h1>Google Cloud Arcade</h1>
-        <h2>Facilitator '25 (Cohort 1)</h2>
+        <h1>Welcome to Google Cloud Arcade</h1>
+        <p>Join the Facilitator '25 program and master cloud skills through fun, interactive challenges.</p>
+        <div class="flex justify-center gap-4">
+            <a href="#track-progress" class="btn-primary">Get Started</a>
+            <a href="https://www.sufiyankhan.tech/" target="_blank" class="btn-secondary">Learn More</a>
+        </div>
     </header>
 
-    <main class="container mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-12">
-        <section class="card">
-            <p class="text-base sm:text-lg leading-relaxed">
-                The Arcade Facilitator Program is an always-on, no-cost gaming campaign where technical practitioners of all levels can learn new cloud skills like computing, application development, big data & AI/ML and earn digital badges & points to use towards claiming swag prizes and Google Cloud goodies.
-            </p>
-            <p class="text-xs sm:text-sm text-[var(--secondary-text)] mt-4 italic">
-                Enrolments will open soon. The below mentioned timeline is currently TENTATIVE and is subject to changes.
-            </p>
-            <div class="timeline">
-                <p class="flex items-center text-sm sm:text-base">
-                    <i class="fas fa-calendar-day mr-2 text-[#3B82F6]"></i>
-                    April 1, 2025 at 5:00 PM - June 2, 2025 at 11:59 PM GMT+5:30
-                </p>
-                <p class="flex items-center mt-2 text-sm sm:text-base">
-                    <i class="fas fa-calendar-day mr-2 text-[#3B82F6]"></i>
-                    Registration opens on April 1, 2025 at 5:00 PM GMT+5:30
-                </p>
+    <main class="container mx-auto px-4 sm:px-6 py-12 space-y-16">
+        <!-- Features Section -->
+        <section class="text-center">
+            <h2 class="text-3xl font-bold mb-10">Why Join the Arcade?</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card">
+                    <div class="feature-icon"><i class="fas fa-cloud"></i></div>
+                    <h3 class="text-xl font-semibold mt-4 mb-2">Learn Cloud Skills</h3>
+                    <p class="text-[var(--secondary-text)]">Master computing, AI/ML, and more with hands-on challenges.</p>
+                </div>
+                <div class="card">
+                    <div class="feature-icon"><i class="fas fa-trophy"></i></div>
+                    <h3 class="text-xl font-semibold mt-4 mb-2">Earn Rewards</h3>
+                    <p class="text-[var(--secondary-text)]">Collect badges and points for exclusive Google Cloud swag.</p>
+                </div>
+                <div class="card">
+                    <div class="feature-icon"><i class="fas fa-users"></i></div>
+                    <h3 class="text-xl font-semibold mt-4 mb-2">Join a Community</h3>
+                    <p class="text-[var(--secondary-text)]">Connect with peers and grow your network.</p>
+                </div>
             </div>
         </section>
 
-        <section class="card">
-            <h2 class="text-xl sm:text-2xl font-bold mb-4 flex items-center">
-                <i class="fas fa-tachometer-alt mr-2 text-[#9333EA]"></i>
+        <!-- Track Progress Section -->
+        <section id="track-progress" class="card">
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+                <i class="fas fa-tachometer-alt mr-3 text-[var(--accent-secondary)]"></i>
                 Track Your Progress
             </h2>
-            <form id="dashboard-form" onsubmit="showConstructionModal(event)" class="flex flex-col gap-4">
+            <form action="{{ url_for('dashboard') }}" method="POST" class="flex flex-col gap-5">
                 <input type="url" name="profile_url" placeholder="Enter your Cloud Skills Boost Profile URL" 
-                       class="p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-800 text-[var(--text-color)] focus:ring-2 focus:ring-[#3B82F6] focus:outline-none transition-all duration-300" 
-                       required>
-                <button type="submit" class="btn-submit">View Dashboard</button>
+                       class="p-4 border-2 border-[var(--secondary-text)] rounded-lg bg-transparent text-[var(--text-color)] focus:border-[var(--accent-primary)] focus:ring-2 focus:ring-[var(--accent-primary)] focus:ring-opacity-20 focus:outline-none transition-all duration-300" required>
+                <div>
+                    <label class="block text-sm font-medium text-[var(--secondary-text)] mb-2">
+                        Have you registered under a facilitator?
+                    </label>
+                    <select name="is_facilitator" class="w-full p-4 border-2 border-[var(--secondary-text)] rounded-lg bg-transparent text-[var(--text-color)] focus:border-[var(--accent-primary)] focus:ring-2 focus:ring-[var(--accent-primary)] focus:ring-opacity-20 focus:outline-none transition-all duration-300">
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">View Dashboard</button>
             </form>
-            <p class="text-xs sm:text-sm text-[var(--secondary-text)] mt-4">e.g., https://www.cloudskillsboost.google/public_profiles/your-profile</p>
+            <p class="text-sm text-[var(--secondary-text)] mt-4">
+                e.g., <span class="text-[var(--accent-primary)]">https://www.cloudskillsboost.google/public_profiles/your-profile</span>
+            </p>
         </section>
     </main>
 
-<!-- Construction Modal -->
-<!-- Construction Modal -->
-<div id="construction-modal" class="fixed inset-0 z-50 hidden bg-gray-800 flex items-center justify-center">
-    <!-- Modal Content -->
-    <div class="bg-[var(--card-bg)] rounded-3xl shadow-2xl max-w-md w-full p-8 transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
-        <!-- Progress Bar -->
-        <div class="h-1.5 w-full bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 rounded-t-3xl animate-[gradient-x_3s_linear_infinite]"></div>
-        
-        <!-- Content Area -->
-        <div class="p-6">
-            <!-- Icons -->
-            <div class="flex justify-center items-center gap-6 mb-6">
-                <i class="fas fa-tools text-4xl text-yellow-500 animate-[wiggle_1s_ease-in-out_infinite]"></i>
-                <i class="fas fa-cog text-4xl text-blue-500 animate-[spin_3s_linear_infinite]"></i>
-                <i class="fas fa-wrench text-4xl text-purple-500 animate-[wiggle_1s_ease-in-out_infinite_250ms]"></i>
-            </div>
-            
-            <h3 class="text-3xl font-bold mb-4 text-center text-[var(--text-color)] drop-shadow-md">
-                Under Development
-            </h3>
-            
-            <div class="space-y-4 text-center">
-                <p class="text-lg font-medium text-[var(--text-color)] leading-relaxed">
-                    We're putting the final pieces together! 🔨
-                </p>
-                <p class="text-base text-[var(--secondary-text)] leading-relaxed">
-                    The dashboard is getting a makeover to provide you with an enhanced tracking experience.
-                </p>
-            </div>
-            
-            <!-- Button with gradient border -->
-            <div class="mt-6 text-center">
-                <button onclick="closeConstructionModal()" class="group relative inline-flex focus:outline-none">
-                    <div class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-[2px] transition-all">
-                        <div class="bg-[var(--card-bg)] rounded-full px-8 py-2 transition-all group-hover:bg-opacity-90">
-                            <span class="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent font-semibold text-lg">
-                                Got it!
-                            </span>
-                        </div>
-                    </div>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <footer class="py-6 text-center text-[var(--secondary-text)]">
-        <p class="text-sm">Built by Sufiyan Khan | 
-           <a href="https://www.linkedin.com/in/sufiyankhan15" target="_blank" class="text-[#3B82F6] hover:text-[#2563EB]">LinkedIn</a> | 
-           <a href="https://github.com/sufi1512" target="_blank" class="text-[#3B82F6] hover:text-[#2563EB]">GitHub</a>
-        </p>
-        <p class="text-sm mt-2"> & Moinuddin Quazi | 
-           <a href="https://www.linkedin.com/in/md-moinuddin-quazi-7a5942244/" target="_blank" class="text-[#3B82F6] hover:text-[#2563EB]">LinkedIn</a> | 
-           <a href="https://github.com/kmoin1309" target="_blank" class="text-[#3B82F6] hover:text-[#2563EB]">GitHub</a>
+    <footer class="py-8 text-center text-[var(--secondary-text)]">
+        <p class="text-sm">
+            Built by Sufiyan Khan | 
+            <a href="https://www.linkedin.com/in/sufiyankhan15" target="_blank" class="text-[var(--accent-primary)] hover:text-[var(--accent-secondary)]">LinkedIn</a> | 
+            <a href="https://github.com/sufi1512" target="_blank" class="text-[var(--accent-primary)] hover:text-[var(--accent-secondary)]">GitHub</a>
         </p>
     </footer>
 
-    <!-- JavaScript for Mobile Menu and Theme Toggle -->
+    <!-- JavaScript -->
     <script>
-        // Mobile Menu Toggle
         const menuToggle = document.getElementById('menu-toggle');
         const menuClose = document.getElementById('menu-close');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -380,11 +358,9 @@ light));
             overlay.classList.remove('overlay-active');
         });
 
-        // Theme Toggle
         const themeToggleCheckbox = document.getElementById('theme-toggle-checkbox');
         const htmlElement = document.documentElement;
 
-        // Load theme from localStorage
         if (localStorage.getItem('theme') === 'light') {
             htmlElement.classList.remove('dark');
             themeToggleCheckbox.checked = false;
@@ -400,48 +376,6 @@ light));
             } else {
                 htmlElement.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
-            }
-        });
-
-        // Enhanced Construction Modal Functions with smooth animations
-        function showConstructionModal(event) {
-            event.preventDefault();
-            const modal = document.getElementById('construction-modal');
-            const modalContent = document.getElementById('modal-content');
-            
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-            
-            requestAnimationFrame(() => {
-                modalContent.classList.remove('scale-95', 'opacity-0');
-                modalContent.classList.add('scale-100', 'opacity-100');
-            });
-        }
-
-        function closeConstructionModal() {
-            const modal = document.getElementById('construction-modal');
-            const modalContent = document.getElementById('modal-content');
-            
-            modalContent.classList.remove('scale-100', 'opacity-100');
-            modalContent.classList.add('scale-95', 'opacity-0');
-            
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                document.body.style.overflow = '';
-            }, 200);
-        }
-
-        // Close modal when clicking outside
-        document.getElementById('construction-modal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('construction-modal')) {
-                closeConstructionModal();
-            }
-        });
-
-        // Add escape key listener for modal
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !document.getElementById('construction-modal').classList.contains('hidden')) {
-                closeConstructionModal();
             }
         });
     </script>
