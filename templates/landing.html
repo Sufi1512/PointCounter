@@ -61,18 +61,10 @@
             padding: 6rem 2rem;
             text-align: center;
             position: relative;
-            overflow: hidden;
+            overflow: visible; /* Changed from hidden to ensure text isn’t clipped */
             box-shadow: var(--shadow, var(--shadow-light));
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent);
-            animation: pulse 10s infinite ease-in-out;
+            z-index: 10;
+            min-width: 0; /* Ensure container can shrink/grow */
         }
         .hero h1 {
             font-size: 3.5rem;
@@ -83,6 +75,9 @@
             background-clip: text;
             color: transparent;
             animation: fadeInDown 1s ease-out;
+            white-space: normal; /* Allow text to wrap if needed */
+            margin: 0 auto; /* Center align */
+            max-width: 90%; /* Prevent overflow, allow flexibility */
         }
         .hero p {
             font-size: 1.25rem;
@@ -112,6 +107,9 @@
             letter-spacing: 0.05em;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+            display: inline-block;
+            text-decoration: none;
+            cursor: pointer;
         }
         .btn-primary:hover {
             background: linear-gradient(135deg, #4338ca, #db2777);
@@ -128,12 +126,18 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            cursor: pointer;
         }
         .btn-secondary:hover {
             background: var(--accent-primary);
             color: white;
             transform: scale(1.05) translateY(-2px);
             box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
+        }
+        .button-container {
+            z-index: 15;
         }
         .feature-icon {
             width: 48px;
@@ -238,14 +242,14 @@
             Google Cloud Arcade
         </a>
         <div class="flex items-center space-x-6">
-            <label class="theme-toggle">
+            <label for="theme-toggle-checkbox" class="theme-toggle">
                 <input type="checkbox" id="theme-toggle-checkbox">
                 <span class="slider">
                     <i class="fas fa-sun text-yellow-400 dark:hidden"></i>
                     <i class="fas fa-moon text-gray-600 hidden dark:block"></i>
                 </span>
             </label>
-            <button id="menu-toggle" class="sm:hidden text-[var(--text-color)] hover:text-[var(--accent-primary)] focus:outline-none">
+            <button id="menu-toggle" class="sm:hidden text-[var(--text-color)] hover:text-[var(--accent-primary)] focus:outline-none" aria-label="Open menu">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
             <div class="hidden sm:flex space-x-8">
@@ -260,7 +264,7 @@
 
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="sm:hidden mobile-menu mobile-menu-hidden fixed top-0 right-0 w-72 h-full z-20 p-6">
-        <button id="menu-close" class="text-[var(--secondary-text)] hover:text-[var(--accent-primary)] mb-6">
+        <button id="menu-close" class="text-[var(--secondary-text)] hover:text-[var(--accent-primary)] mb-6" aria-label="Close menu">
             <i class="fas fa-times text-2xl"></i>
         </button>
         <div class="flex flex-col space-y-6">
@@ -270,12 +274,26 @@
     </div>
 
     <!-- Hero Section -->
-    <header class="hero">
-        <h1>Welcome to Google Cloud Arcade</h1>
-        <p>Join the Facilitator '25 program and master cloud skills through fun, interactive challenges.</p>
-        <div class="flex justify-center gap-4">
-            <a href="#track-progress" class="btn-primary">Get Started</a>
-            <a href="https://www.sufiyankhan.tech/" target="_blank" class="btn-secondary">Learn More</a>
+    <header class="hero text-center py-12 px-4 bg-gradient-to-br from-[#4285F4] to-[#34A853] text-white">
+        <h1 class="text-4xl md:text-5xl font-bold mb-3">Welcome to Google Cloud Arcade</h1>
+        <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+            Join the Facilitator '25 program and master cloud skills through fun, interactive challenges.
+        </p>
+        <div class="button-container flex justify-center gap-4 flex-wrap">
+            <a href="https://go.cloudskillsboost.google/arcade" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="btn-primary" 
+               aria-label="Get started with Google Cloud Arcade">
+                Get Started
+            </a>
+            <a href="https://rsvp.withgoogle.com/events/arcade-facilitator/home" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="btn-secondary" 
+               aria-label="Learn more about the Facilitator program">
+                Learn More
+            </a>
         </div>
     </header>
 
@@ -377,6 +395,13 @@
                 htmlElement.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
             }
+        });
+
+        // Debug button clicks
+        document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
+            button.addEventListener('click', (e) => {
+                console.log('Button clicked:', button.textContent, 'Navigating to:', button.href);
+            });
         });
     </script>
 </body>

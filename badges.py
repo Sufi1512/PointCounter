@@ -90,7 +90,10 @@ SKILL_BADGES_LIST = [
     'Use APIs to Work with Cloud Storage',
     'Use Functions, Formulas, and Charts in Google Sheets',
     'Use Machine Learning APIs on Google Cloud',
-    'Using the Google Cloud Speech API'
+    'Using the Google Cloud Speech API',
+    'Protect Cloud Traffic with Chrome Enterprise Premium Security',
+    'Cloud Run Functions: 3 Ways',
+   
 ]
 
 # Cloud Digital Leader badges
