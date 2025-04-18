@@ -93,6 +93,7 @@ SKILL_BADGES_LIST = [
     'Using the Google Cloud Speech API',
     'Protect Cloud Traffic with Chrome Enterprise Premium Security',
     'Cloud Run Functions: 3 Ways',
+    'Explore Generative AI with the Gemini API in Vertex AI',
    
 ]
 
