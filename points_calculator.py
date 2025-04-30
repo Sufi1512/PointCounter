@@ -118,7 +118,7 @@ def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_fr
     if is_facilitator:
         total_points += facilitator_bonus
     else:
-        total_points += milestone_bonus
+        total_points += facilitator_bonus
 
     return {
         'game_points': game_points,

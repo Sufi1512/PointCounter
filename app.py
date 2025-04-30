@@ -95,7 +95,7 @@ def fetch_data(url, is_facilitator=False):
                 badge_info['points'] = 2
                 categories['flash_games'].append(badge_info)
                 app.logger.debug(f"Categorized as flash_games (special): {title}")
-            elif "the arcade certification zone" in normalized_title:
+            elif "arcade certification zone" in normalized_title:
                 badge_info['points'] = 1
                 categories['flash_games'].append(badge_info)
                 app.logger.debug(f"Categorized as flash_games (cert zone): {title}")

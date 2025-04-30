@@ -7,7 +7,60 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js">const ctx = document.getElementById('badgesChart').getContext('2d');
+
+const badgesChart = new Chart(ctx, {
+    type: 'bar', // or 'line'
+    data: {
+        labels: [...], // your date or time labels
+        datasets: [
+            {
+                label: 'Game Trivia',
+                data: [...],
+                backgroundColor: '#3B82F6', // blue-500
+                borderColor: '#2563EB',
+                borderWidth: 1
+            },
+            {
+                label: 'Level Games',
+                data: [...],
+                backgroundColor: '#10B981', // green-500
+                borderColor: '#059669',
+                borderWidth: 1
+            },
+            {
+                label: 'Skill Badges',
+                data: [...],
+                backgroundColor: '#F59E0B', // yellow-500
+                borderColor: '#D97706',
+                borderWidth: 1
+            },
+            {
+                label: 'Flash Games',
+                data: [...],
+                backgroundColor: '#EC4899', // pink-500
+                borderColor: '#DB2777',
+                borderWidth: 1
+            },
+            {
+                label: 'Lab & Free Courses',
+                data: [...],
+                backgroundColor: '#8B5CF6', // purple-500
+                borderColor: '#7C3AED',
+                borderWidth: 1
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
     <style>
         :root {
             /* Light Mode Colors */
@@ -292,7 +345,7 @@
             <div class="text-center sm:text-left">
                 <h1 class="text-2xl sm:text-3xl font-bold">{{ data.user_name }}</h1>
                 <p class="text-[var(--secondary-text)]">Arcade Points: {{ data.points.total_points }} | Total Badges: {{ data.badge_counts.total_badges }}</p>
-                <p class="text-[var(--secondary-text)]">Milestone: {{ data.points.milestone }} (Bonus: {{ data.points.milestone_bonus }})</p>
+                <p class="text-[var(--secondary-text)]">Milestone: {{ data.points.milestone }}</p>
                 <div class="mt-2">
                     <p class="text-[var(--secondary-text)]">
                         Facilitator Status: 
@@ -339,7 +392,7 @@
                     </tr>
                     <tr>
                         <td>Milestone Bonus</td>
-                        <td>{{ data.points.milestone_bonus }}</td>
+                        <td>{{ data.points.facilitator_bonus }}</td>
                     </tr>
                     <tr>
                         <td>Total Points</td>
