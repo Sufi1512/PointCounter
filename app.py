@@ -91,7 +91,7 @@ def fetch_data(url, is_facilitator=False):
                 badge_info['points'] = 0
                 categories['lab_free_courses'].append(badge_info)
                 app.logger.debug(f"Categorized as lab_free_courses: {title}")
-            elif any(keyword in normalized_title for keyword in ["arcade techcare", "arcade explorers", "trick-or-skills", "diwali in the arcade", "arcade snowdown"]):
+            elif any(keyword in normalized_title for keyword in ["arcade techcare","arcade networskills", "arcade explorers", "trick-or-skills", "diwali in the arcade", "arcade snowdown"]):
                 badge_info['points'] = 2
                 categories['flash_games'].append(badge_info)
                 app.logger.debug(f"Categorized as flash_games (special): {title}")

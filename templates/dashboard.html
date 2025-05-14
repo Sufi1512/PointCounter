@@ -431,37 +431,37 @@ const badgesChart = new Chart(ctx, {
         </section>
 
         <!-- Swag Eligibility -->
-        <section class="card">
-            <h2 class="text-xl sm:text-2xl font-bold mb-6">Swag Eligibility</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
-                <div class="swag-tier {% if data.points.total_points >= 20 %}bg-green-600{% endif %}">
-                    <h4 class="text-base sm:text-lg font-semibold">Arcade Novice</h4>
-                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">20 Points</p>
-                    <p class="text-xs sm:text-sm text-[var(--secondary-text)] mt-2">{% if data.points.total_points >= 20 %}Eligible!{% else %}Coming Soon!{% endif %}</p>
-                </div>
-                <div class="swag-tier {% if data.points.total_points >= 40 %}bg-green-600{% endif %}">
-                    <h4 class="text-base sm:text-lg font-semibold">Arcade Trooper</h4>
-                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">40 Points</p>
-                    <p class="text-xs sm:text-sm text-[var(--secondary-text)] mt-2">{% if data.points.total_points >= 40 %}Eligible!{% else %}Coming Soon!{% endif %}</p>
-                </div>
-                <div class="swag-tier {% if data.points.total_points >= 65 %}bg-green-600{% endif %}">
-                    <h4 class="text-base sm:text-lg font-semibold">Arcade Ranger</h4>
-                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">65 Points</p>
-                    <p class="text-xs sm:text-sm text-[var(--secondary-text)] mt-2">{% if data.points.total_points >= 65 %}Eligible!{% else %}Coming Soon!{% endif %}</p>
-                </div>
-                <div class="swag-tier {% if data.points.total_points >= 75 %}bg-green-600{% endif %}">
-                    <h4 class="text-base sm:text-lg font-semibold">Arcade Champion</h4>
-                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">75 Points</p>
-                    <p class="text-xs sm:text-sm text-[var(--secondary-text)] mt-2">{% if data.points.total_points >= 75 %}Eligible!{% else %}Coming Soon!{% endif %}</p>
-                </div>
-                <div class="swag-tier {% if data.points.total_points >= 85 %}bg-green-600{% endif %}">
-                    <h4 class="text-base sm:text-lg font-semibold">Arcade Legend </h4>
-                    <p class="text-[var(--secondary-text)] text-sm sm:text-base">85 Points</p>
-                    <p class="text-xs sm:text-sm text-[var(--secondary-text)] mt-2">{% if data.points.total_points >= 85 %}Eligible!{% else %}Coming Soon!{% endif %}</p>
-                </div>
-            </div>
-            <p class="text-xs sm:text-sm text-[var(--secondary-text)] mt-4 text-center">Official tier names to be revealed soon!</p>
-        </section>
+{% set total_points = data.points.total_points %}
+{% set tiers = [20, 40, 65, 75, 85] %}
+{% set names = ['Arcade Novice', 'Arcade Trooper', 'Arcade Ranger', 'Arcade Champion', 'Arcade Legend'] %}
+{% set ns = namespace(highest_tier = -1) %}
+
+{% for i in range(tiers | length) %}
+  {% if total_points >= tiers[i] %}
+    {% set ns.highest_tier = i %}
+  {% endif %}
+{% endfor %}
+
+<section class="card">
+  <h2 class="text-xl sm:text-2xl font-bold mb-6 text-center">Swag Eligibility</h2>
+  <p class="mb-4 text-center text-green-400 font-bold">Total Points: {{ total_points }}</p>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 justify-items-center">
+    {% for i in range(tiers | length) %}
+      <div class="swag-tier p-4 rounded-lg text-center w-full {% if i == ns.highest_tier %}bg-green-600 border-4 border-green-800 shadow-lg{% else %}bg-gray-800{% endif %}">
+        <h4 class="text-base sm:text-lg font-semibold text-yellow-400">{{ names[i] }}</h4>
+        <p class="text-[var(--secondary-text)] text-sm sm:text-base">{{ tiers[i] }} Points</p>
+        <p class="text-sm sm:text-base mt-2 {% if i == ns.highest_tier %}text-green-400 font-bold{% else %}text-[var(--secondary-text)]{% endif %}">
+          {% if i == ns.highest_tier %}Eligible!{% else %}Not Eligible!{% endif %}
+        </p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+
+
+
+
 
         <!-- Analytics Graph -->
         {% if data.game_trivia or data.level_games or data.skill_badges or data.flash_games or data.lab_free_courses %}

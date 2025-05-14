@@ -82,7 +82,7 @@ def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_fr
     # Calculate game points
     for badge in all_games:
         title = badge.get('title').lower()
-        if any(keyword in title for keyword in ["the arcade-athon", "arcade explorers", "trick-or-skills", "diwali in the arcade", "arcade snowdown","techcare"]):
+        if any(keyword in title for keyword in ["the arcade-athon","arcade networskills", "arcade explorers", "trick-or-skills", "diwali in the arcade", "arcade snowdown","techcare"]):
             game_points += 2
             special_game_count += 1
         else:
@@ -108,7 +108,7 @@ def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_fr
             len(lab_free_courses) >= m["lab_free"]):
             milestone = m["milestone"]
             if is_facilitator:
-                facilitator_bonus = m["bonus"] * 1.5
+                facilitator_bonus = m["bonus"]
             else:
                 milestone_bonus = m["bonus"]
             break
