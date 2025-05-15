@@ -12,7 +12,7 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
 # Define date range for the new cohort
-DATE_RANGE = (datetime(2024, 1, 1).date(), datetime(2025, 6, 30).date())
+DATE_RANGE = (datetime(2025, 1, 6).date(), datetime(2025, 6, 30).date())
 
 def parse_date(date_str):
     if date_str is None:
