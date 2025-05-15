@@ -95,6 +95,8 @@ SKILL_BADGES_LIST = [
     'Cloud Run Functions: 3 Ways',
     'Explore Generative AI with the Gemini API in Vertex AI',
     'Discover and Protect Sensitive Data Across Your Ecosystem',
+    'Build Custom Processors with Document AI',
+
    
 ]
 
