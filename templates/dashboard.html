@@ -7,60 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js">const ctx = document.getElementById('badgesChart').getContext('2d');
-
-const badgesChart = new Chart(ctx, {
-    type: 'bar', // or 'line'
-    data: {
-        labels: [...], // your date or time labels
-        datasets: [
-            {
-                label: 'Game Trivia',
-                data: [...],
-                backgroundColor: '#3B82F6', // blue-500
-                borderColor: '#2563EB',
-                borderWidth: 1
-            },
-            {
-                label: 'Level Games',
-                data: [...],
-                backgroundColor: '#10B981', // green-500
-                borderColor: '#059669',
-                borderWidth: 1
-            },
-            {
-                label: 'Skill Badges',
-                data: [...],
-                backgroundColor: '#F59E0B', // yellow-500
-                borderColor: '#D97706',
-                borderWidth: 1
-            },
-            {
-                label: 'Flash Games',
-                data: [...],
-                backgroundColor: '#EC4899', // pink-500
-                borderColor: '#DB2777',
-                borderWidth: 1
-            },
-            {
-                label: 'Lab & Free Courses',
-                data: [...],
-                backgroundColor: '#8B5CF6', // purple-500
-                borderColor: '#7C3AED',
-                borderWidth: 1
-            }
-        ]
-    },
-    options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
-</script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <style>
         :root {
             /* Light Mode Colors */
@@ -422,7 +370,6 @@ const badgesChart = new Chart(ctx, {
                     <p class="text-[var(--secondary-text)] text-sm sm:text-base">Skill Badges</p>
                     <p class="text-lg sm:text-2xl font-bold">{{ data.badge_counts.skill_badges_count }}</p>
                 </div>
-             
                 <div class="text-center">
                     <p class="text-[var(--secondary-text)] text-sm sm:text-base">Lab-Free Courses</p>
                     <p class="text-lg sm:text-2xl font-bold">{{ data.badge_counts.lab_free_courses_count }}</p>
@@ -431,7 +378,7 @@ const badgesChart = new Chart(ctx, {
         </section>
 
         <!-- Swag Eligibility -->
-{% set total_points = data.points.total_points %}
+        {% set total_points = data.points.total_points %}
 {% set tiers = [20, 40, 65, 75, 85] %}
 {% set names = ['Arcade Novice', 'Arcade Trooper', 'Arcade Ranger', 'Arcade Champion', 'Arcade Legend'] %}
 {% set ns = namespace(highest_tier = -1) %}
@@ -442,34 +389,78 @@ const badgesChart = new Chart(ctx, {
   {% endif %}
 {% endfor %}
 
-<section class="card">
-  <h2 class="text-xl sm:text-2xl font-bold mb-6 text-center">Swag Eligibility</h2>
-  <p class="mb-4 text-center text-green-400 font-bold">Total Points: {{ total_points }}</p>
+<section class="card" style="background: var(--card-bg, #ffffff); border-radius: 24px; padding: 2rem; box-shadow: var(--shadow, 0 4px 20px rgba(0, 0, 0, 0.05)); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+  <h2 class="text-xl sm:text-2xl font-bold mb-6 text-center" style="color: var(--text-color, #1f2937); animation: fadeIn 0.5s ease-out;">Swag Eligibility</h2>
+  <div class="mb-6 text-center">
+    <p class="text-lg font-bold text-green-400" style="animation: fadeIn 0.5s ease-out 0.2s; animation-fill-mode: both;">Total Points: {{ total_points }}</p>
+    <!-- Progress Bar -->
+    {% set next_tier = tiers[ns.highest_tier + 1] if ns.highest_tier < tiers|length - 1 else tiers[ns.highest_tier] %}
+    {% set progress = (total_points / next_tier * 100) | round(2) %}
+    <div class="mt-2 w-3/4 mx-auto bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden" style="animation: fadeIn 0.5s ease-out 0.4s; animation-fill-mode: both;">
+      <div class="h-full rounded-full" style="width: {{ progress }}%; background: var(--accent-gradient, linear-gradient(135deg, #4f46e5, #ec4899)); transition: width 1s ease-in-out;"></div>
+    </div>
+    <p class="text-sm text-[var(--secondary-text)] mt-1" style="animation: fadeIn 0.5s ease-out 0.6s; animation-fill-mode: both;">
+      {% if ns.highest_tier < tiers|length - 1 %}
+        {{ next_tier - total_points }} points to {{ names[ns.highest_tier + 1] }}
+      {% else %}
+        Max Tier Achieved!
+      {% endif %}
+    </p>
+  </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 justify-items-center">
     {% for i in range(tiers | length) %}
-      <div class="swag-tier p-4 rounded-lg text-center w-full {% if i == ns.highest_tier %}bg-green-600 border-4 border-green-800 shadow-lg{% else %}bg-gray-800{% endif %}">
-        <h4 class="text-base sm:text-lg font-semibold text-yellow-400">{{ names[i] }}</h4>
+      <div class="swag-tier p-4 rounded-lg text-center w-full relative group {% if i == ns.highest_tier %}bg-green-600 border-4 shadow-lg{% else %}bg-[var(--swag-bg, #f1f5f9)] dark:bg-gray-700{% endif %}" 
+           style="border-color: {% if i == ns.highest_tier %}linear-gradient(135deg, #10B981, #059669){% else %}transparent{% endif %}; animation: slideUp 0.5s ease-out {{ i * 0.1 }}s; animation-fill-mode: both; transition: transform 0.3s ease, box-shadow 0.3s ease; {% if i == ns.highest_tier %}animation: pulse 2s infinite ease-in-out;{% endif %}">
+        <h4 class="text-base sm:text-lg font-semibold text-yellow-400" style="margin-bottom: 0.5rem;">{{ names[i] }}</h4>
         <p class="text-[var(--secondary-text)] text-sm sm:text-base">{{ tiers[i] }} Points</p>
         <p class="text-sm sm:text-base mt-2 {% if i == ns.highest_tier %}text-green-400 font-bold{% else %}text-[var(--secondary-text)]{% endif %}">
-          {% if i == ns.highest_tier %}Eligible!{% else %}Not Eligible!{% endif %}
+          {% if i == ns.highest_tier %}Eligible!{% else %}Not Eligible{% endif %}
         </p>
+        <!-- Tooltip for non-eligible tiers -->
+        {% if i > ns.highest_tier %}
+        <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2" style="z-index: 10; min-width: 120px;">
+          Need {{ tiers[i] - total_points }} more points
+        </div>
+        {% endif %}
       </div>
     {% endfor %}
   </div>
 </section>
 
-
-
-
-
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  .swag-tier:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--hover-shadow, 0 8px 25px rgba(0, 0, 0, 0.1));
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .swag-tier, h2, p, .h-full {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style>
 
         <!-- Analytics Graph -->
-{% if data.game_trivia or data.level_games or data.skill_badges or data.flash_games or data.lab_free_courses %}
-<section style="background-color: #FFFFFF; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-    <h2 style="color: #1E293B; font-size: 1.5rem; font-weight: bold; margin-bottom: 1.5rem; line-height: 1.2;">Badges Over Time</h2>
-    <canvas id="badgesChart" style="max-width: 100%; background-color: #FFFFFF; border-radius: 8px; padding: 1rem;"></canvas>
-</section>
-{% endif %}
+        {% if data.game_trivia or data.level_games or data.skill_badges or data.flash_games or data.lab_free_courses %}
+        <section style="background-color: #FFFFFF; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            <h2 style="color: #1E293B; font-size: 1.5rem; font-weight: bold; margin-bottom: 1.5rem; line-height: 1.2;">Badges Over Time</h2>
+            <div style="height: 300px;">
+                <canvas id="badgesChart" style="max-width: 100%; background-color: #FFFFFF; border-radius: 8px; padding: 1rem;" aria-label="Badges over time chart"></canvas>
+            </div>
+        </section>
+        {% endif %}
 
         <!-- Badge Categories -->
         <section class="card">
@@ -512,24 +503,26 @@ const badgesChart = new Chart(ctx, {
                 </div>
             </div>
             {% endif %}
-<!-- Flash Games Badges -->
-{% if data.flash_games %}
-<div class="mb-8">
-    <h3 class="text-lg sm:text-xl font-semibold mb-4">Flash Games Badges</h3>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        {% for badge in data.flash_games %}
-        <div class="badge-card flex items-center space-x-4">
-            <img src="{{ badge.image }}" alt="{{ badge.title }}" class="badge-image">
-            <div>
-                <p class="font-semibold text-sm sm:text-base">{{ badge.title }}</p>
-                <p class="text-xs sm:text-sm text-[var(--secondary-text)]">{{ badge.date if badge.date else 'Date not available' }}</p>
-                <p class="text-xs sm:text-sm text-[var(--accent-primary)]">Points: {{ badge.points }}</p>
+
+            <!-- Flash Games Badges -->
+            {% if data.flash_games %}
+            <div class="mb-8">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">Flash Games Badges</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    {% for badge in data.flash_games %}
+                    <div class="badge-card flex items-center space-x-4">
+                        <img src="{{ badge.image }}" alt="{{ badge.title }}" class="badge-image">
+                        <div>
+                            <p class="font-semibold text-sm sm:text-base">{{ badge.title }}</p>
+                            <p class="text-xs sm:text-sm text-[var(--secondary-text)]">{{ badge.date if badge.date else 'Date not available' }}</p>
+                            <p class="text-xs sm:text-sm text-[var(--accent-primary)]">Points: {{ badge.points }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-{% endif %}
+            {% endif %}
+
             <!-- Skill Badges -->
             {% if data.skill_badges %}
             <div class="mb-8">
@@ -548,8 +541,6 @@ const badgesChart = new Chart(ctx, {
                 </div>
             </div>
             {% endif %}
-
-            
 
             <!-- Lab-Free Courses -->
             {% if data.lab_free_courses %}
@@ -627,49 +618,151 @@ const badgesChart = new Chart(ctx, {
     <!-- Chart.js Script for Badges Over Time -->
     {% if data.game_trivia or data.level_games or data.skill_badges or data.flash_games or data.lab_free_courses %}
     <script>
-        const allBadges = [
-            ...{{ data.game_trivia | tojson }},
-            ...{{ data.level_games | tojson }},
-            ...{{ data.skill_badges | tojson }},
-            ...{{ data.flash_games | tojson }},
-            ...{{ data.lab_free_courses | tojson }}
-        ];
-        const dates = allBadges.map(b => {
-            try {
-                return new Date(b.date.replace('Earned ', ''));
-            } catch (e) {
-                return null;
-            }
-        }).filter(date => date !== null);
-        const dateCounts = {};
-        dates.forEach(date => {
-            const dateStr = date.toISOString().split('T')[0];
-            dateCounts[dateStr] = (dateCounts[dateStr] || 0) + 1;
-        });
-
-        const chartData = {
-            labels: Object.keys(dateCounts).sort(),
-            datasets: [{
-                label: 'Badges Earned',
-                data: Object.values(dateCounts),
-                borderColor: 'var(--accent-primary)',
-                backgroundColor: 'rgba(79, 70, 229, 0.2)',
-                fill: true,
-                tension: 0.4
-            }]
+        // Combine all badge data
+        const badgeCategories = {
+            game_trivia: {{ data.game_trivia | tojson | safe }},
+            level_games: {{ data.level_games | tojson | safe }},
+            skill_badges: {{ data.skill_badges | tojson | safe }},
+            flash_games: {{ data.flash_games | tojson | safe }},
+            lab_free_courses: {{ data.lab_free_courses | tojson | safe }}
         };
+
+        // Get unique dates across all badges
+        const allDates = [];
+        Object.values(badgeCategories).forEach(category => {
+            category.forEach(badge => {
+                try {
+                    const date = new Date(badge.date.replace('Earned ', ''));
+                    if (!isNaN(date)) {
+                        allDates.push(date.toISOString().split('T')[0]);
+                    }
+                } catch (e) {
+                    // Skip invalid dates
+                }
+            });
+        });
+        const uniqueDates = [...new Set(allDates)].sort();
+
+        // Count badges per category per date
+        const datasets = [
+            {
+                label: 'Game Trivia',
+                data: uniqueDates.map(date => badgeCategories.game_trivia.filter(b => {
+                    try {
+                        return new Date(b.date.replace('Earned ', '')).toISOString().split('T')[0] === date;
+                    } catch (e) {
+                        return false;
+                    }
+                }).length),
+                backgroundColor: '#2DD4BF', // Teal
+                borderColor: '#26A69A',
+                borderWidth: 1
+            },
+            {
+                label: 'Level Games',
+                data: uniqueDates.map(date => badgeCategories.level_games.filter(b => {
+                    try {
+                        return new Date(b.date.replace('Earned ', '')).toISOString().split('T')[0] === date;
+                    } catch (e) {
+                        return false;
+                    }
+                }).length),
+                backgroundColor: '#F472B6', // Pink (aligned with --accent-secondary)
+                borderColor: '#DB2777',
+                borderWidth: 1
+            },
+            {
+                label: 'Skill Badges',
+                data: uniqueDates.map(date => badgeCategories.skill_badges.filter(b => {
+                    try {
+                        return new Date(b.date.replace('Earned ', '')).toISOString().split('T')[0] === date;
+                    } catch (e) {
+                        return false;
+                    }
+                }).length),
+                backgroundColor: '#818CF8', // Indigo (aligned with --accent-primary)
+                borderColor: '#6366F1',
+                borderWidth: 1
+            },
+            {
+                label: 'Flash Games',
+                data: uniqueDates.map(date => badgeCategories.flash_games.filter(b => {
+                    try {
+                        return new Date(b.date.replace('Earned ', '')).toISOString().split('T')[0] === date;
+                    } catch (e) {
+                        return false;
+                    }
+                }).length),
+                backgroundColor: '#F59E0B', // Yellow
+                borderColor: '#D97706',
+                borderWidth: 1
+            },
+            {
+                label: 'Lab & Free Courses',
+                data: uniqueDates.map(date => badgeCategories.lab_free_courses.filter(b => {
+                    try {
+                        return new Date(b.date.replace('Earned ', '')).toISOString().split('T')[0] === date;
+                    } catch (e) {
+                        return false;
+                    }
+                }).length),
+                backgroundColor: '#10B981', // Green
+                borderColor: '#059669',
+                borderWidth: 1
+            }
+        ];
 
         const ctx = document.getElementById('badgesChart').getContext('2d');
         new Chart(ctx, {
-            type: 'line',
-            data: chartData,
+            type: 'bar',
+            data: {
+                labels: uniqueDates,
+                datasets: datasets
+            },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 scales: {
-                    x: { title: { display: true, text: 'Date', color: 'var(--text-color)' }, ticks: { color: 'var(--text-color)' } },
-                    y: { title: { display: true, text: 'Number of Badges', color: 'var(--text-color)' }, ticks: { color: 'var(--text-color)' }, beginAtZero: true }
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date',
+                            color: '#1E293B'
+                        },
+                        ticks: {
+                            color: '#1E293B'
+                        },
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Badges',
+                            color: '#1E293B'
+                        },
+                        ticks: {
+                            color: '#1E293B'
+                        },
+                        grid: {
+                            color: 'rgba(100, 116, 139, 0.1)'
+                        }
+                    }
                 },
-                plugins: { legend: { labels: { color: 'var(--text-color)' } } }
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#1E293B'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#1E293B',
+                        titleColor: '#FFFFFF',
+                        bodyColor: '#FFFFFF'
+                    }
+                }
             }
         });
     </script>
