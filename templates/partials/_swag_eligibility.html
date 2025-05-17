@@ -1,0 +1,49 @@
+<!-- Swag Eligibility -->
+{% set total_points = data.points.total_points %}
+{% set tiers = [20, 40, 65, 75, 85] %}
+{% set names = ['Arcade Novice', 'Arcade Trooper', 'Arcade Ranger', 'Arcade Champion', 'Arcade Legend'] %}
+{% set ns = namespace(highest_tier = -1) %}
+
+{% for i in range(tiers | length) %}
+  {% if total_points >= tiers[i] %}
+    {% set ns.highest_tier = i %}
+  {% endif %}
+{% endfor %}
+
+<section class="card relative bg-[var(--card-bg, #ffffff)] border-2 border-transparent bg-clip-padding rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300" style="background: linear-gradient(var(--card-bg, #ffffff), var(--card-bg, #ffffff)) padding-box, var(--accent-gradient) border-box; padding: 2rem;">
+  <h2 class="text-xl sm:text-2xl font-bold mb-6 text-center" style="color: var(--text-color, #1f2937); animation: fadeIn 0.5s ease-out;">Swag Eligibility</h2>
+  <div class="mb-6 text-center">
+    <p class="text-lg font-bold text-green-400" style="animation: fadeIn 0.5s ease-out 0.2s; animation-fill-mode: both;">Total Points: {{ total_points }}</p>
+    <!-- Progress Bar -->
+    {% set next_tier = tiers[ns.highest_tier + 1] if ns.highest_tier < tiers|length - 1 else tiers[ns.highest_tier] %}
+    {% set progress = (total_points / next_tier * 100) | round(2) %}
+    <div class="mt-2 w-3/4 mx-auto bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden" style="animation: fadeIn 0.5s ease-out 0.4s; animation-fill-mode: both;">
+      <div class="h-2.5 rounded-full" style="width: {{ progress }}%; background: var(--accent-gradient, linear-gradient(135deg, #4f46e5, #ec4899)); transition: width 1s ease-in-out;"></div>
+    </div>
+    <p class="text-sm text-[var(--secondary-text)] mt-1" style="animation: fadeIn 0.5s ease-out 0.6s; animation-fill-mode: both;">
+      {% if ns.highest_tier < tiers|length - 1 %}
+        {{ next_tier - total_points }} points to {{ names[ns.highest_tier + 1] }}
+      {% else %}
+        Max Tier Achieved!
+      {% endif %}
+    </p>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 justify-items-center">
+    {% for i in range(tiers | length) %}
+      <div class="swag-tier p-4 rounded-lg text-center w-full relative group {% if i == ns.highest_tier %}bg-green-600 border-4 shadow-lg{% else %}bg-[var(--swag-bg, #f1f5f9)] dark:bg-gray-700 border-2 border-transparent{% endif %}" 
+           style="border-color: {% if i == ns.highest_tier %}linear-gradient(135deg, #10B981, #059669){% else %}var(--accent-gradient){% endif %}; background-clip: padding-box, border-box; background-origin: padding-box, border-box; animation: slideUp 0.5s ease-out {{ i * 0.1 }}s; animation-fill-mode: both; transition: transform 0.3s ease, box-shadow 0.3s ease; {% if i == ns.highest_tier %}animation: pulse 2s infinite ease-in-out;{% endif %}">
+        <h4 class="text-base sm:text-lg font-semibold text-yellow-400" style="margin-bottom: 0.5rem;">{{ names[i] }}</h4>
+        <p class="text-[var(--secondary-text)] text-sm sm:text-base">{{ tiers[i] }} Points</p>
+        <p class="text-sm sm:text-base mt-2 {% if i == ns.highest_tier %}text-green-400 font-bold{% else %}text-[var(--secondary-text)]{% endif %}">
+          {% if i == ns.highest_tier %}Eligible!{% else %}Not Eligible{% endif %}
+        </p>
+        <!-- Tooltip for non-eligible tiers -->
+        {% if i > ns.highest_tier %}
+        <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2" style="z-index: 10; min-width: 120px;">
+          Need {{ tiers[i] - total_points }} more points to unlock this milestone
+        </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</section>

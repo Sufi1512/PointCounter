@@ -40,7 +40,7 @@ def filter_badges_by_date(badges, date_range):
 
 def fetch_data(url, is_facilitator=False):
     try:
-        response = requests.get(url, timeout=10)
+        response = requests.get(url, timeout=25)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -127,7 +127,8 @@ def fetch_data(url, is_facilitator=False):
             **categories,
             'badge_counts': badge_counts,
             'points': points,
-            'is_facilitator': is_facilitator
+            'is_facilitator': is_facilitator,
+            'public_profile_url': url,
         }
     except requests.RequestException as e:
         app.logger.error(f"Error fetching data: {e}")
@@ -142,6 +143,7 @@ def get_default_data():
         'skill_badges': [],
         'flash_games': [],
         'lab_free_courses': [],
+
         'badge_counts': {
             'game_trivia_count': 0,
             'level_games_count': 0,

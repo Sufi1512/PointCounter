@@ -1,0 +1,198 @@
+<!-- JavaScript for Mobile Menu and Theme Toggle -->
+<script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const menuClose = document.getElementById('menu-close');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const overlay = document.getElementById('overlay');
+
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.remove('mobile-menu-hidden');
+        overlay.classList.add('overlay-active');
+    });
+
+    menuClose.addEventListener('click', () => {
+        mobileMenu.classList.add('mobile-menu-hidden');
+        overlay
+
+System: .classList.remove('overlay-active');
+    });
+
+    overlay.addEventListener('click', () => {
+        mobileMenu.classList.add('mobile-menu-hidden');
+        overlay.classList.remove('overlay-active');
+    });
+
+    const themeToggleCheckbox = document.getElementById('theme-toggle-checkbox');
+    const htmlElement = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'light') {
+        htmlElement.classList.remove('dark');
+        themeToggleCheckbox.checked = false;
+    } else {
+        htmlElement.classList.add('dark');
+        themeToggleCheckbox.checked = true;
+    }
+
+    themeToggleCheckbox.addEventListener('change', () => {
+        if (themeToggleCheckbox.checked) {
+            htmlElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            htmlElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        }
+    });
+</script>
+
+<!-- Chart.js Script for Badges Over Time -->
+{% if data.game_trivia or data.level_games or data.skill_badges or data.flash_games or data.lab_free_courses %}
+<script>
+    // Combine all badge data
+    const badgeCategories = {
+        game_trivia: {{ data.game_trivia | tojson | safe }},
+        level_games: {{ data.level_games | tojson | safe }},
+        skill_badges: {{ data.skill_badges | tojson | safe }},
+        flash_games: {{ data.flash_games | tojson | safe }},
+        lab_free_courses: {{ data.lab_free_courses | tojson | safe }}
+    };
+
+    // Get unique dates across all badges
+    const allDates = [];
+    Object.values(badgeCategories).forEach(category => {
+        category.forEach(badge => {
+            try {
+                const date = new Date(badge.date.replace('Earned ', ''));
+                if (!isNaN(date)) {
+                    allDates.push(date.toISOString().split('T')[0]);
+                }
+            } catch (e) {
+                // Skip invalid dates
+            }
+        });
+    });
+    const uniqueDates = [...new Set(allDates)].sort();
+
+    // Count badges per category per date
+    const datasets = [
+        {
+            label: 'Game Trivia',
+            data: uniqueDates.map(date => badgeCategories.game_trivia.filter(b => {
+                try {
+                    return new Date(b.date.replace('Earned ', '')).toISOString().split('T')[0] === date;
+                } catch (e) {
+                    return false;
+                }
+            }).length),
+            backgroundColor: '#2DD4BF', // Teal
+            borderColor: '#26A69A',
+            borderWidth: 1
+        },
+        {
+            label: 'Level Games',
+            data: uniqueDates.map(date => badgeCategories.level_games.filter(b => {
+                try {
+                    return new Date(b.date.replace('Earned ', '')).toISOString().split('T')[0] === date;
+                } catch (e) {
+                    return false;
+                }
+            }).length),
+            backgroundColor: '#F472B6', // Pink
+            borderColor: '#DB2777',
+            borderWidth: 1
+        },
+        {
+            label: 'Skill Badges',
+            data: uniqueDates.map(date => badgeCategories.skill_badges.filter(b => {
+                try {
+                    return new Date(b.date.replace('Earned ', '')).toISOString().split('T')[0] === date;
+                } catch (e) {
+                    return false;
+                }
+            }).length),
+            backgroundColor: '#818CF8', // Indigo
+            borderColor: '#6366F1',
+            borderWidth: 1
+        },
+        {
+            label: 'Flash Games',
+            data: uniqueDates.map(date => badgeCategories.flash_games.filter(b => {
+                try {
+                    return new Date(b.date.replace('Earned ', '')).toISOString().split('T')[0] === date;
+                } catch (e) {
+                    return false;
+                }
+            }).length),
+            backgroundColor: '#F59E0B', // Yellow
+            borderColor: '#D97706',
+            borderWidth: 1
+        },
+        {
+            label: 'Lab & Free Courses',
+            data: uniqueDates.map(date => badgeCategories.lab_free_courses.filter(b => {
+                try {
+                    return new Date(b.date.replace('Earned ', '')).toISOString().split('T')[0] === date;
+                } catch (e) {
+                    return false;
+                }
+            }).length),
+            backgroundColor: '#10B981', // Green
+            borderColor: '#059669',
+            borderWidth: 1
+        }
+    ];
+
+    const ctx = document.getElementById('badgesChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: uniqueDates,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date',
+                        color: '#1E293B'
+                    },
+                    ticks: {
+                        color: '#1E293B'
+                    },
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Badges',
+                        color: '#1E293B'
+                    },
+                    ticks: {
+                        color: '#1E293B'
+                    },
+                    grid: {
+                        color: 'rgba(100, 116, 139, 0.1)'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#1E293B'
+                    }
+                },
+                tooltip: {
+                    backgroundColor: '#1E293B',
+                    titleColor: '#FFFFFF',
+                    bodyColor: '#FFFFFF'
+                }
+            }
+        }
+    });
+</script>
+{% endif %}
