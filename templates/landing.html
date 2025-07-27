@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Cloud Arcade Facilitator '25 - Welcome</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+    <link
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -175,13 +181,15 @@
             pointer-events: auto;
         }
         .theme-toggle {
+            position: relative;
             width: 52px;
             height: 28px;
             background: var(--accent-gradient);
             border-radius: 9999px;
             cursor: pointer;
-            position: relative;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            padding: 2px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .theme-toggle input {
             display: none;
@@ -194,14 +202,54 @@
             height: 24px;
             background: white;
             border-radius: 50%;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-size: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         .theme-toggle input:checked + .slider {
             transform: translateX(24px);
+            background: #1a1a1a;
+        }
+        .theme-toggle .slider i {
+            position: absolute;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .theme-toggle .slider i.fa-sun {
+            opacity: 1;
+            color: #fbbf24;
+        }
+        .theme-toggle .slider i.fa-moon {
+            opacity: 0;
+            color: #e2e8f0;
+            transform: rotate(-90deg);
+        }
+        .theme-toggle input:checked + .slider i.fa-sun {
+            opacity: 0;
+            transform: rotate(90deg);
+        }
+        .theme-toggle input:checked + .slider i.fa-moon {
+            opacity: 1;
+            transform: rotate(0);
+        }
+        .theme-toggle:hover .slider {
+            transform: scale(1.05);
+        }
+        .theme-toggle input:checked:hover + .slider {
+            transform: scale(1.05) translateX(24px);
+        }
+        /* Sun and Moon icons styling */
+        .theme-toggle .slider i {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        .theme-toggle .slider i.fa-sun {
+            color: #fbbf24;
+        }
+        .theme-toggle .slider i.fa-moon {
+            color: #6b7280;
         }
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-20px); }
@@ -232,6 +280,7 @@
                 padding: 0.625rem 2rem;
             }
         }
+        
     </style>
 </head>
 <body>
@@ -242,18 +291,19 @@
             Google Cloud Arcade
         </a>
         <div class="flex items-center space-x-6">
+            <!-- Updated theme toggle HTML -->
             <label for="theme-toggle-checkbox" class="theme-toggle">
                 <input type="checkbox" id="theme-toggle-checkbox">
                 <span class="slider">
-                    <i class="fas fa-sun text-yellow-400 dark:hidden"></i>
-                    <i class="fas fa-moon text-gray-600 hidden dark:block"></i>
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
                 </span>
             </label>
             <button id="menu-toggle" class="sm:hidden text-[var(--text-color)] hover:text-[var(--accent-primary)] focus:outline-none" aria-label="Open menu">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
             <div class="hidden sm:flex space-x-8">
-                <a href="https://www.sufiyankhan.tech/" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-primary)] font-medium">About</a>
+                <a href="https://gcafterna.netlify.app/about" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-primary)] font-medium">About</a>
                 <a href="https://chat.whatsapp.com/GDVnuFfVCcR7h5XBbAb1VX" target="_blank" class="text-[var(--secondary-text)] hover:text-[var(--accent-primary)] font-medium">Community</a>
             </div>
         </div>
