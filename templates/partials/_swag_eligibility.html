@@ -1,7 +1,6 @@
-<!-- Swag Eligibility -->
 {% set total_points = data.points.total_points %}
-{% set tiers = [20, 40, 65, 75, 85] %}
-{% set names = ['Arcade Novice', 'Arcade Trooper', 'Arcade Ranger', 'Arcade Champion', 'Arcade Legend'] %}
+{% set tiers = [20, 36, 51, 71, 85] %}
+{% set names = ['Tier 1', 'Tier 2', 'Tier 3', 'Tier 4', 'Tier 5'] %}
 {% set ns = namespace(highest_tier = -1) %}
 
 {% for i in range(tiers | length) %}

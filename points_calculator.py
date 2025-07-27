@@ -1,9 +1,11 @@
 from datetime import datetime
 
-# Define date ranges for the new cohort
-DATE_RANGE = (datetime(2024, 1, 1).date(), datetime(2025, 6, 30).date())  # Widened for testing
-FACILITATOR_DATE_RANGE = (datetime(2024, 1, 1).date(), datetime(2025, 6, 30).date())
-SPECIAL_DATE_RANGE = (datetime(2024, 1, 1).date(), datetime(2024, 1, 15).date())
+# Define date ranges for the new cohort (July-December 2025)
+DATE_RANGE = (datetime(2025, 7, 1).date(), datetime(2025, 12, 31).date())
+FACILITATOR_DATE_RANGE = (datetime(2025, 8, 4).date(),
+                          datetime(2025, 10, 6).date())
+SPECIAL_DATE_RANGE = (datetime(2025, 7, 1).date(),
+                      datetime(2025, 7, 15).date())
 
 # Lab-free courses list
 LAB_FREE_COURSES = [
@@ -27,15 +29,17 @@ LAB_FREE_COURSES = [
     'Trust and Security with Google Cloud'
 ]
 
+
 def parse_date(date_str):
     if date_str is None:
         return None
     try:
-        date_str = date_str.replace('Earned ', '').replace(' EDT', '').replace(' EST', '')
+        date_str = date_str.replace('Earned ', '').replace(
+            ' EDT', '').replace(' EST', '')
         return datetime.strptime(date_str, '%b %d, %Y').date()
     except ValueError:
         print(f"Failed to parse date: {date_str}")
-        return None
+
 
 def filter_badges_by_date(badges, date_range):
     start_date, end_date = date_range
@@ -88,12 +92,12 @@ def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_fr
         else:
             game_points += 1
 
-    # Milestone criteria
+    # Updated milestone criteria for July-December 2025 cohort
     milestones = [
-        {"milestone": "Ultimate Milestone", "bonus": 25, "level_games": 10, "game_trivia": 8, "skill_badges": 44, "lab_free": 16},
-        {"milestone": "Milestone 3", "bonus": 15, "level_games": 8, "game_trivia": 7, "skill_badges": 30, "lab_free": 12},
-        {"milestone": "Milestone 2", "bonus": 8, "level_games": 6, "game_trivia": 6, "skill_badges": 20, "lab_free": 8},
-        {"milestone": "Milestone 1", "bonus": 2, "level_games": 4, "game_trivia": 4, "skill_badges": 10, "lab_free": 4},
+        {"milestone": "Ultimate Milestone", "bonus": 25, "level_games": 12, "game_trivia": 8, "skill_badges": 52, "lab_free": 24},
+        {"milestone": "Milestone 3", "bonus": 15, "level_games": 10, "game_trivia": 7, "skill_badges": 38, "lab_free": 18},
+        {"milestone": "Milestone 2", "bonus": 8, "level_games": 8, "game_trivia": 6, "skill_badges": 28, "lab_free": 12},
+        {"milestone": "Milestone 1", "bonus": 2, "level_games": 6, "game_trivia": 5, "skill_badges": 14, "lab_free": 6},
     ]
 
     milestone = "No Milestone Achieved"
@@ -118,7 +122,7 @@ def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_fr
     if is_facilitator:
         total_points += facilitator_bonus
     else:
-        total_points += facilitator_bonus
+        total_points += milestone_bonus  # Fixed: was using facilitator_bonus for both
 
     return {
         'game_points': game_points,
