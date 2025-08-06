@@ -86,8 +86,22 @@ def fetch_data(url, is_facilitator=False):
             app.logger.debug(
                 f"Processing badge: {title} (normalized: {normalized_title})")
 
-            # Broaden trivia badge matching
-            if any(keyword in normalized_title for keyword in ["trivia", "the arcade trivia", "arcade trivia", "trivia game", "trivia challenge"]):
+            # Special games (2 points each)
+            if any(keyword in normalized_title for keyword in [
+                "extraskillestrial",  # New special game
+                "arcade techcare",
+                "arcade networskills",
+                "arcade explorers",
+                "trick-or-skills",
+                "diwali in the arcade",
+                "arcade snowdown"
+            ]):
+                badge_info['points'] = 2
+                categories['flash_games'].append(badge_info)
+                app.logger.debug(
+                    f"Categorized as flash_games (special game, 2 points): {title}")
+            # Regular categories
+            elif any(keyword in normalized_title for keyword in ["trivia", "the arcade trivia", "arcade trivia", "trivia game", "trivia challenge"]):
                 badge_info['points'] = 1
                 categories['game_trivia'].append(badge_info)
                 app.logger.debug(f"Categorized as game_trivia: {title}")
@@ -104,11 +118,6 @@ def fetch_data(url, is_facilitator=False):
                 badge_info['points'] = 0
                 categories['lab_free_courses'].append(badge_info)
                 app.logger.debug(f"Categorized as lab_free_courses: {title}")
-            elif any(keyword in normalized_title for keyword in ["arcade techcare", "arcade networskills", "arcade explorers", "trick-or-skills", "diwali in the arcade", "arcade snowdown"]):
-                badge_info['points'] = 2
-                categories['flash_games'].append(badge_info)
-                app.logger.debug(
-                    f"Categorized as flash_games (special): {title}")
             elif "arcade certification zone" in normalized_title:
                 badge_info['points'] = 1
                 categories['flash_games'].append(badge_info)

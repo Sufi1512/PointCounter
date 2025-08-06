@@ -86,20 +86,28 @@ def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_fr
 
     # Calculate game points
     for badge in all_games:
-        title = badge.get('title').lower()
-        if any(keyword in title for keyword in [
+        title = badge.get('title', '')
+        print(f"Processing game: {title}")  # Debug log
+
+        # Special games that award 2 points
+        special_games = [
             "the arcade-athon",
-            "arcade networskills",
+            "arcade networkskills",
             "arcade explorers",
             "trick-or-skills",
             "diwali in the arcade",
             "arcade snowdown",
             "techcare",
-            "arcade extraskillestrail july"  # Added new special game
-        ]):
+            "ExtraSkillestrial!",  # Exact match with exclamation
+        ]
+
+        # Case-insensitive check for special games
+        if any(keyword.lower() == title.lower() or keyword.lower() in title.lower() for keyword in special_games):
+            print(f"Found special game: {title}")  # Debug log
             game_points += 2
             special_game_count += 1
         else:
+            print(f"Regular game: {title}")  # Debug log
             game_points += 1
 
     # Updated milestone criteria for July-December 2025 cohort

@@ -355,16 +355,18 @@
                 <p class="text-[var(--secondary-text)] mb-6">Join the Google Cloud Arcade Facilitator program and help others learn cloud skills</p>
                 <div class="inline-block bg-[var(--card-bg)] rounded-lg p-4 mb-12 relative group">
                     <p class="text-sm font-medium mb-2">Use Referral Code:</p>
-                    <div class="flex items-center gap-2">
+                    <div class="flex items-center justify-center gap-3">
                         <code id="referralCode" class="text-lg font-mono font-bold text-[var(--accent-primary)]">GCAF25C2-IN-A6F-69V</code>
-                        <button onclick="copyReferralCode()" class="text-[var(--secondary-text)] hover:text-[var(--accent-primary)] transition-colors p-2">
+                        <button onclick="copyReferralCode()" 
+                                class="text-[var(--secondary-text)] hover:text-[var(--accent-primary)] transition-colors p-2 rounded-full hover:bg-[var(--accent-primary)]/10">
                             <i class="fas fa-copy"></i>
                         </button>
                     </div>
                     <div id="copyMessage" 
-                         class="absolute left-1/2 -translate-x-1/2 mt-2 bg-[var(--card-bg)] px-3 py-3 rounded-full text-sm text-[var(--accent-primary)] opacity-0 transition-all duration-300 shadow-lg"
-                         style="top: 50%;">
-                        Copied
+                         class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[var(--accent-primary)] px-4 py-2 rounded-lg text-white text-sm opacity-0 transition-all duration-300 shadow-lg flex items-center gap-2"
+                         style="top: 50%; z-index: 60; pointer-events: none;">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Code copied!</span>
                     </div>
                 </div>
                 <div>
@@ -431,7 +433,7 @@
         <p class="text-sm">
             Built by Sufiyan Khan | 
             <a href="https://www.linkedin.com/in/sufiyankhan15" target="_blank" class="text-[var(--accent-primary)] hover:text-[var(--accent-secondary)]">LinkedIn</a> | 
-            <a href="https://github.com/sufi1512" target="_blank" class="text-[var(--accent-primary)] hover:text-[var(--accent-secondary)]">GitHub</a>
+            <a href="https://github.com/sufi1512" target="_blank" class="text-[var(--accent-primary)] hover:text-[var(--accent-secondary]">GitHub</a>
         </p>
         <p class="text-sm">
             & Moinuddin Quazi | 
