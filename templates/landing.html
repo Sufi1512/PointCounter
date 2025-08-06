@@ -351,19 +351,21 @@
         <!-- Facilitator Registration Section -->
         <section class="card bg-gradient-to-br from-[#4285F4]/10 to-[#34A853]/10">
             <div class="text-center mb-8">
-                <h2 class="text-2xl md:text-3xl font-bold mb-4">Facilitator Program is Live</h2>
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">Google cloud Arcade Facilitator Program is Live</h2>
                 <p class="text-[var(--secondary-text)] mb-6">Join the Google Cloud Arcade Facilitator program and help others learn cloud skills</p>
-                <div class="inline-block bg-[var(--card-bg)] rounded-lg p-4 mb-6 relative group">
+                <div class="inline-block bg-[var(--card-bg)] rounded-lg p-4 mb-12 relative group">
                     <p class="text-sm font-medium mb-2">Use Referral Code:</p>
                     <div class="flex items-center gap-2">
                         <code id="referralCode" class="text-lg font-mono font-bold text-[var(--accent-primary)]">GCAF25C2-IN-A6F-69V</code>
-                        <button onclick="copyReferralCode()" class="text-[var(--secondary-text)] hover:text-[var(--accent-primary)] transition-colors">
+                        <button onclick="copyReferralCode()" class="text-[var(--secondary-text)] hover:text-[var(--accent-primary)] transition-colors p-2">
                             <i class="fas fa-copy"></i>
                         </button>
                     </div>
-                    <span id="copyMessage" class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm text-[var(--accent-primary)] opacity-0 transition-opacity duration-300">
-                        Copied!
-                    </span>
+                    <div id="copyMessage" 
+                         class="absolute left-1/2 -translate-x-1/2 mt-2 bg-[var(--card-bg)] px-3 py-3 rounded-full text-sm text-[var(--accent-primary)] opacity-0 transition-all duration-300 shadow-lg"
+                         style="top: 50%;">
+                        Copied
+                    </div>
                 </div>
                 <div>
                     <a href="https://forms.gle/FGVyCSoaGJTffD5a9" 
@@ -420,7 +422,7 @@
                 <button type="submit" class="btn-primary">View Dashboard</button>
             </form>
             <p class="text-sm text-[var(--secondary-text)] mt-4">
-                e.g., <span class="text-[var(--accent-primary)]">https://www.cloudskillsboost.google/public_profiles/your-profile</span>
+                e.g., <span class="text-[var(--accent-primary)] break-all">https://www.cloudskillsboost.google/public_profiles/your-profile</span>
             </p>
         </section>
     </main>
