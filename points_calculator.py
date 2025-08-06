@@ -50,6 +50,7 @@ def filter_badges_by_date(badges, date_range):
             filtered_badges.append(badge)
     return filtered_badges
 
+
 def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_free_courses, is_facilitator=False):
     # Filter badges by cohort date range
     skill_badges = filter_badges_by_date(skill_badges, DATE_RANGE)
@@ -86,7 +87,16 @@ def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_fr
     # Calculate game points
     for badge in all_games:
         title = badge.get('title').lower()
-        if any(keyword in title for keyword in ["the arcade-athon","arcade networskills", "arcade explorers", "trick-or-skills", "diwali in the arcade", "arcade snowdown","techcare"]):
+        if any(keyword in title for keyword in [
+            "the arcade-athon",
+            "arcade networskills",
+            "arcade explorers",
+            "trick-or-skills",
+            "diwali in the arcade",
+            "arcade snowdown",
+            "techcare",
+            "arcade extraskillestrail july"  # Added new special game
+        ]):
             game_points += 2
             special_game_count += 1
         else:
@@ -94,10 +104,14 @@ def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_fr
 
     # Updated milestone criteria for July-December 2025 cohort
     milestones = [
-        {"milestone": "Ultimate Milestone", "bonus": 25, "level_games": 12, "game_trivia": 8, "skill_badges": 52, "lab_free": 24},
-        {"milestone": "Milestone 3", "bonus": 15, "level_games": 10, "game_trivia": 7, "skill_badges": 38, "lab_free": 18},
-        {"milestone": "Milestone 2", "bonus": 8, "level_games": 8, "game_trivia": 6, "skill_badges": 28, "lab_free": 12},
-        {"milestone": "Milestone 1", "bonus": 2, "level_games": 6, "game_trivia": 5, "skill_badges": 14, "lab_free": 6},
+        {"milestone": "Ultimate Milestone", "bonus": 25, "level_games": 12,
+            "game_trivia": 8, "skill_badges": 52, "lab_free": 24},
+        {"milestone": "Milestone 3", "bonus": 15, "level_games": 10,
+            "game_trivia": 7, "skill_badges": 38, "lab_free": 18},
+        {"milestone": "Milestone 2", "bonus": 8, "level_games": 8,
+            "game_trivia": 6, "skill_badges": 28, "lab_free": 12},
+        {"milestone": "Milestone 1", "bonus": 2, "level_games": 6,
+            "game_trivia": 5, "skill_badges": 14, "lab_free": 6},
     ]
 
     milestone = "No Milestone Achieved"
@@ -109,7 +123,7 @@ def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_fr
         if (len(all_games) >= m["level_games"] and
             len(game_trivia) >= m["game_trivia"] and
             len(skill_badges) >= m["skill_badges"] and
-            len(lab_free_courses) >= m["lab_free"]):
+                len(lab_free_courses) >= m["lab_free"]):
             milestone = m["milestone"]
             if is_facilitator:
                 facilitator_bonus = m["bonus"]
