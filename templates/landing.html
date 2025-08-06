@@ -348,6 +348,35 @@
     </header>
 
     <main class="container mx-auto px-4 sm:px-6 py-12 space-y-16">
+        <!-- Facilitator Registration Section -->
+        <section class="card bg-gradient-to-br from-[#4285F4]/10 to-[#34A853]/10">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">Facilitator Program is Live</h2>
+                <p class="text-[var(--secondary-text)] mb-6">Join the Google Cloud Arcade Facilitator program and help others learn cloud skills</p>
+                <div class="inline-block bg-[var(--card-bg)] rounded-lg p-4 mb-6 relative group">
+                    <p class="text-sm font-medium mb-2">Use Referral Code:</p>
+                    <div class="flex items-center gap-2">
+                        <code id="referralCode" class="text-lg font-mono font-bold text-[var(--accent-primary)]">GCAF25C2-IN-A6F-69V</code>
+                        <button onclick="copyReferralCode()" class="text-[var(--secondary-text)] hover:text-[var(--accent-primary)] transition-colors">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <span id="copyMessage" class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm text-[var(--accent-primary)] opacity-0 transition-opacity duration-300">
+                        Copied!
+                    </span>
+                </div>
+                <div>
+                    <a href="https://forms.gle/FGVyCSoaGJTffD5a9" 
+                       target="_blank"
+                       rel="noopener noreferrer" 
+                       class="btn-primary inline-flex items-center">
+                        <i class="fas fa-user-plus mr-2"></i>
+                        Register in Facilitator Program
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- Features Section -->
         <section class="text-center">
             <h2 class="text-3xl font-bold mb-10">Why Join the Arcade?</h2>
@@ -458,6 +487,17 @@
                 console.log('Button clicked:', button.textContent, 'Navigating to:', button.href);
             });
         });
+
+        function copyReferralCode() {
+            const referralCode = document.getElementById('referralCode').textContent;
+            navigator.clipboard.writeText(referralCode).then(() => {
+                const message = document.getElementById('copyMessage');
+                message.style.opacity = '1';
+                setTimeout(() => {
+                    message.style.opacity = '0';
+                }, 2000);
+            });
+        }
     </script>
 </body>
 </html>
