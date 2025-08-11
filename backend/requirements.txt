@@ -1,0 +1,13 @@
+# Core FastAPI and server
+fastapi
+uvicorn
+
+# HTTP client for profile scraping
+requests
+
+# HTML parsing for profile data
+beautifulsoup4
+lxml
+
+# Date and time handling
+python-dateutil
