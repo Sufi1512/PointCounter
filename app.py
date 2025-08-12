@@ -88,13 +88,14 @@ def fetch_data(url, is_facilitator=False):
 
             # Special games (2 points each)
             if any(keyword in normalized_title for keyword in [
-                "extraskillestrial",  # New special game
+                "extraskillestrial",
                 "arcade techcare",
                 "arcade networskills",
                 "arcade explorers",
                 "trick-or-skills",
                 "diwali in the arcade",
-                "arcade snowdown"
+                "arcade snowdown",
+                "the skills boost arcade future ready skills"  # Added new special game
             ]):
                 badge_info['points'] = 2
                 categories['flash_games'].append(badge_info)

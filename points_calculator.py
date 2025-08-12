@@ -98,7 +98,8 @@ def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_fr
             "diwali in the arcade",
             "arcade snowdown",
             "techcare",
-            "ExtraSkillestrial!",  # Exact match with exclamation
+            "extraskillestrial",
+            "the skills boost arcade future ready skills"  # Added new special game
         ]
 
         # Case-insensitive check for special games
