@@ -2,6 +2,7 @@
 
 # List of specific skill badges
 SKILL_BADGES_LIST = [
+    'Implementing Cloud Load Balancing for Compute Engine',
     'Analyze BigQuery Data in Connected Sheets',
     'Analyze Images with the Cloud Vision API',
     'Analyze Sentiment with Natural Language API',
