@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Query, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from calculation import calculate_points, DATE_RANGE, SPECIAL_DATE_RANGE
+from calculation import DATE_RANGE, SPECIAL_DATE_RANGE
 from badges import SKILL_BADGES_LIST
 from scraper import scrape_profile
 
@@ -50,19 +50,10 @@ def fetch_info(profile_url: str = Query(..., description="Public SkillBoost prof
     try:
         scraped = scrape_profile(profile_url, is_facilitator)
 
-        # Calculate points using your existing function
-        points_data = calculate_points(
-            scraped['badges']['skill_badge'],
-            scraped['badges']['trivia_game'],
-            scraped['badges']['level_game'],
-            [],  # flash_games - handled in scraper
-            [],  # lab_free_courses - handled in scraper
-            is_facilitator
-        )
-
+        # Points are already calculated in the scraper
         return JSONResponse(content={
             "user_information": scraped["user_information"],
-            "points_data": points_data,
+            "points_data": scraped["points_data"],
             "badges": scraped["badges"],
             "special_badges_1_point": scraped.get("special_badges_1_point", []),
             "special_badges_2_points": scraped.get("special_badges_2_points", []),

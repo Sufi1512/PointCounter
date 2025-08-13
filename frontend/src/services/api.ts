@@ -36,6 +36,8 @@ export interface Badges {
   level_game: Badge[]
   trivia_game: Badge[]
   skill_badge: Badge[]
+  flash_games: Badge[]
+  lab_free_courses: Badge[]
   special_badges_1_point: Badge[]
   special_badges_2_points: Badge[]
 }

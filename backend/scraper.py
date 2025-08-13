@@ -112,17 +112,19 @@ def scrape_profile(url, is_facilitator=False):
 
             if any(k in normalized_title for k in ["trivia", "arcade trivia"]):
                 categories["game_trivia"].append(badge_info)
+            elif any(keyword in normalized_title for keyword in ["arcade certification zone", "arcade extraskillestrail", "arcade-athon", "arcade networkskills", "arcade explorers", "trick-or-skills", "diwali in the arcade", "arcade snowdown", "techcare", "extraskillestrial", "extraskillestrial!", "skills boost arcade certification zone", "extraskillestrial", "future ready skills"]):
+                categories["flash_games"].append(badge_info)
             elif any(k in normalized_title for k in ["level", "base camp"]):
                 categories["level_games"].append(badge_info)
             elif title in SKILL_BADGES_LIST:
                 categories["skill_badges"].append(badge_info)
             elif title in LAB_FREE_COURSES:
                 categories["lab_free_courses"].append(badge_info)
-            elif "arcade certification zone" in normalized_title:
-                categories["flash_games"].append(badge_info)
 
         for cat in categories:
             categories[cat] = filter_badges_by_date(categories[cat], DATE_RANGE)
+
+
 
         points = calculate_points(categories["skill_badges"], categories["game_trivia"], categories["level_games"], categories["flash_games"], categories["lab_free_courses"], is_facilitator)
 
@@ -207,10 +209,12 @@ def scrape_profile(url, is_facilitator=False):
             "badges": {
                 "level_game": categories["level_games"],
                 "trivia_game": categories["game_trivia"],
-                "skill_badge": categories["skill_badges"]
+                "skill_badge": categories["skill_badges"],
+                "flash_games": categories["flash_games"],
+                "lab_free_courses": categories["lab_free_courses"]
             },
-            "special_badges_1_point": [b["title"] for b in categories["skill_badges"] if points["special_skill_badges_points"]],
-            "special_badges_2_points": [b["title"] for b in categories["flash_games"] if points["special_game_count"] > 0],
+            "special_badges_1_point": [b for b in categories["skill_badges"] if points["special_skill_badges_points"]] + [b for b in categories["flash_games"] if any(special_game in b["title"].lower() for special_game in ["arcade networkskills", "arcade explorers", "trick-or-skills", "diwali in the arcade", "arcade snowdown", "techcare", "arcade certification zone", "skills boost arcade certification zone"])],
+            "special_badges_2_points": [b for b in categories["flash_games"] if any(special_game in b["title"].lower() for special_game in ["the arcade-athon", "extraskillestrail", "extraskillestrial", "extraskillestrial!", "future ready skills"])],
             "facilitator_milestone": facilitator_milestone
         }
         

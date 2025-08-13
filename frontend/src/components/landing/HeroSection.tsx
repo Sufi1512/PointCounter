@@ -30,10 +30,41 @@ export const HeroSection: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6"
         >
-          Track Your
-          <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+          <motion.span
+            className="block"
+            animate={{
+              textShadow: [
+                "0 0 20px rgba(59, 130, 246, 0.3)",
+                "0 0 40px rgba(59, 130, 246, 0.5)",
+                "0 0 20px rgba(59, 130, 246, 0.3)"
+              ]
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            Track Your
+          </motion.span>
+          <motion.span 
+            className="block bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent"
+            animate={{
+              textShadow: [
+                "0 0 20px rgba(139, 92, 246, 0.3)",
+                "0 0 40px rgba(139, 92, 246, 0.5)",
+                "0 0 20px rgba(139, 92, 246, 0.3)"
+              ]
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1
+            }}
+          >
             Arcade Progress
-          </span>
+          </motion.span>
         </motion.h1>
 
         <motion.p
@@ -51,12 +82,34 @@ export const HeroSection: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
-          <button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
-            Get Started
-          </button>
-          <button className="px-8 py-4 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:border-blue-500 hover:text-blue-500 transition-all duration-200">
-            Learn More
-          </button>
+          <motion.button 
+            className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg relative overflow-hidden group"
+            whileHover={{ 
+              scale: 1.05,
+              y: -5,
+              boxShadow: "0 20px 40px rgba(59, 130, 246, 0.4)"
+            }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-purple-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            <span className="relative z-10">Get Started</span>
+          </motion.button>
+          
+          <motion.button 
+            className="px-8 py-4 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl relative overflow-hidden group"
+            whileHover={{ 
+              scale: 1.05,
+              y: -5,
+              borderColor: "#3B82F6",
+              color: "#3B82F6"
+            }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="absolute inset-0 bg-blue-50 dark:bg-blue-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            <span className="relative z-10">Learn More</span>
+          </motion.button>
         </motion.div>
 
         {/* Stats Preview */}
@@ -66,18 +119,94 @@ export const HeroSection: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8"
         >
-          <div className="text-center">
-            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">1,000+</div>
+          <motion.div 
+            className="text-center p-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20"
+            whileHover={{ 
+              scale: 1.05,
+              y: -10,
+              boxShadow: "0 20px 40px rgba(59, 130, 246, 0.2)"
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            <motion.div 
+              className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2"
+              animate={{
+                textShadow: [
+                  "0 0 10px rgba(59, 130, 246, 0.3)",
+                  "0 0 20px rgba(59, 130, 246, 0.5)",
+                  "0 0 10px rgba(59, 130, 246, 0.3)"
+                ]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              1,000+
+            </motion.div>
             <div className="text-gray-600 dark:text-gray-400">Users Tracked</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">50+</div>
+          </motion.div>
+          
+          <motion.div 
+            className="text-center p-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20"
+            whileHover={{ 
+              scale: 1.05,
+              y: -10,
+              boxShadow: "0 20px 40px rgba(139, 92, 246, 0.2)"
+            }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+          >
+            <motion.div 
+              className="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2"
+              animate={{
+                textShadow: [
+                  "0 0 10px rgba(139, 92, 246, 0.3)",
+                  "0 0 20px rgba(139, 92, 246, 0.5)",
+                  "0 0 10px rgba(139, 92, 246, 0.3)"
+                ]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 0.5
+              }}
+            >
+              50+
+            </motion.div>
             <div className="text-gray-600 dark:text-gray-400">Skill Badges</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">25+</div>
+          </motion.div>
+          
+          <motion.div 
+            className="text-center p-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20"
+            whileHover={{ 
+              scale: 1.05,
+              y: -10,
+              boxShadow: "0 20px 40px rgba(99, 102, 241, 0.2)"
+            }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+          >
+            <motion.div 
+              className="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-2"
+              animate={{
+                textShadow: [
+                  "0 0 10px rgba(99, 102, 241, 0.3)",
+                  "0 0 20px rgba(99, 102, 241, 0.5)",
+                  "0 0 10px rgba(99, 102, 241, 0.3)"
+                ]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1
+              }}
+            >
+              25+
+            </motion.div>
             <div className="text-gray-600 dark:text-gray-400">Milestones</div>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

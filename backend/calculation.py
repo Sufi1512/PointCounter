@@ -45,6 +45,7 @@ def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_fr
     special_skill_badges_points = normal_skill_badges_points = 0
     special_skill_badges_count = normal_skill_badges_count = 0
     game_points = special_game_count = 0
+    flash_game_points = 0
 
     for badge in skill_badges:
         earned_date = parse_date(badge.get('date'))
@@ -58,16 +59,35 @@ def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_fr
 
     skill_badges_points = special_skill_badges_points + normal_skill_badges_points
 
-    special_games = [
-        "the arcade-athon", "arcade networkskills", "arcade explorers",
-        "trick-or-skills", "diwali in the arcade", "arcade snowdown", "techcare", "ExtraSkillestrial!"
+    # Games worth 1 point
+    one_point_games = [
+        "arcade networkskills", "arcade explorers", "trick-or-skills", 
+        "diwali in the arcade", "arcade snowdown", "techcare", "arcade certification zone", "skills boost arcade certification zone"
     ]
+ 
+    
+    # Games worth 2 points (special games)
+    two_point_games = [
+        "the arcade-athon", "extraskillestrail", "extraskillestrial", "extraskillestrial!","future ready skills",
+    ]
+    
+    # Combine all special games for checking
+    special_games = one_point_games + two_point_games
 
     for badge in all_games:
         title = badge.get('title', '')
-        if any(keyword.lower() == title.lower() or keyword.lower() in title.lower() for keyword in special_games):
+        title_lower = title.lower()
+        
+        # Check for 2-point games first
+        if any(keyword.lower() == title_lower or keyword.lower() in title_lower for keyword in two_point_games):
             game_points += 2
             special_game_count += 1
+            flash_game_points += 2
+        # Check for 1-point games
+        elif any(keyword.lower() == title_lower or keyword.lower() in title_lower for keyword in one_point_games):
+            game_points += 1
+            special_game_count += 1
+            flash_game_points += 1
         else:
             game_points += 1
 
@@ -104,6 +124,7 @@ def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_fr
         'normal_skill_badges_count': normal_skill_badges_count,
         'lab_free_count': len(lab_free_courses),
         'special_game_count': special_game_count,
+        'flash_game_points': flash_game_points,
         'milestone': milestone,
         'milestone_bonus': milestone_bonus,
         'facilitator_bonus': facilitator_bonus,

@@ -112,6 +112,49 @@ html {
   }
 }
 
+/* 3D Animation Keyframes */
+@keyframes float-3d {
+  0%, 100% {
+    transform: translateY(0px) translateZ(0px) rotateX(0deg) rotateY(0deg);
+  }
+  25% {
+    transform: translateY(-20px) translateZ(10px) rotateX(5deg) rotateY(5deg);
+  }
+  50% {
+    transform: translateY(-10px) translateZ(20px) rotateX(10deg) rotateY(10deg);
+  }
+  75% {
+    transform: translateY(-15px) translateZ(15px) rotateX(7deg) rotateY(7deg);
+  }
+}
+
+@keyframes rotate-3d {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.6), 0 0 60px rgba(59, 130, 246, 0.3);
+  }
+}
+
+@keyframes depth-float {
+  0%, 100% {
+    transform: perspective(1000px) translateZ(0px) rotateX(0deg);
+  }
+  50% {
+    transform: perspective(1000px) translateZ(50px) rotateX(10deg);
+  }
+}
+
 .animate-pulse-slow {
   animation: pulse-slow 3s ease-in-out infinite;
 }
@@ -244,6 +287,36 @@ html {
 .animate-delay-200 { animation-delay: 0.2s; }
 .animate-delay-300 { animation-delay: 0.3s; }
 .animate-delay-500 { animation-delay: 0.5s; }
+
+/* 3D Animation Utility Classes */
+.animate-float-3d {
+  animation: float-3d 6s ease-in-out infinite;
+}
+
+.animate-rotate-3d {
+  animation: rotate-3d 20s linear infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.animate-depth-float {
+  animation: depth-float 8s ease-in-out infinite;
+}
+
+/* 3D Transform Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
 
 /* Responsive text */
 .text-responsive {
