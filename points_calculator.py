@@ -99,7 +99,7 @@ def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_fr
             "arcade snowdown",
             "techcare",
             "extraskillestrial",
-            "the skills boost arcade future ready skills"  # Added new special game
+            "future ready skills",  # Added new special game
         ]
 
         # Case-insensitive check for special games
