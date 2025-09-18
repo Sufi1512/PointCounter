@@ -100,6 +100,7 @@ def calculate_points(skill_badges, game_trivia, level_games, flash_games, lab_fr
             "techcare",
             "extraskillestrial",
             "future ready skills",  # Added new special game
+            "skills scribble",
         ]
 
         # Case-insensitive check for special games
