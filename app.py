@@ -95,7 +95,7 @@ def fetch_data(url, is_facilitator=False):
                 "trick-or-skills",
                 "diwali in the arcade",
                 "arcade snowdown",
-                "future ready skills"  # Added new special game
+                "future ready skills",  # Added new special game
                 "skills scribble",
             ]):
                 badge_info['points'] = 2

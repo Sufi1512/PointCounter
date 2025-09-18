@@ -26,6 +26,14 @@ LAB_FREE_COURSES = [
     'Infrastructure and Application Modernization with Google Cloud',
     'Scaling with Google Cloud Operations',
     'Innovating with Google Cloud Artificial Intelligence',
+    'Modernize Infrastructure and Applications with Google Cloud',
+    'Gen AI: Beyond the Chatbot',
+    'Gen AI: Unlock Foundational Concepts',
+    'Gen AI: Navigate the Landscape',
+    'Gen AI Apps: Transform Your Work',
+    'Gen AI Agents: Transform Your Organization',
+    'AI Infrastructure: Introduction to AI Hypercomputer',
+    'Introduction to Large Language Models',
     'Trust and Security with Google Cloud'
 ]
 
